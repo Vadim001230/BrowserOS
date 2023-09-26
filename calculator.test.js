@@ -16,6 +16,9 @@ describe('Калькулятор', () => {
   test('Нецелые числа', () => {
     expect(calculator('5.3 + 4.5 - 2.1')).toBeCloseTo(7.7, 2);
   });
+  test('Отрицательные числа', () => {
+    expect(calculator('-5 + 4 + -10')).toBe(-11);
+  });
   test('Несколько математических операций', () => {
     expect(calculator('2 + 3 * 4')).toBe(14);
   });
