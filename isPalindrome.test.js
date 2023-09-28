@@ -2,7 +2,10 @@ const isPalindrome = require('./isPalindrome');
 
 describe('Проверка на палиндром', () => {
   test('Не палиндром', () => {
-    expect(isPalindrome('test')).toBeFalsy();
+    expect(isPalindrome('Test')).toBeFalsy();
+  });
+  test('Не палиндром кириллица', () => {
+    expect(isPalindrome('Тест')).toBeFalsy();
   });
   test('Не палиндром', () => {
     expect(isPalindrome('123')).toBeFalsy();
@@ -24,5 +27,8 @@ describe('Проверка на палиндром', () => {
   });
   test('Палиндром', () => {
     expect(isPalindrome('  Madam, in Eden, I"m Adam.')).toBeTruthy();
+  });
+  test('Палиндром кириллица', () => {
+    expect(isPalindrome('Идем, молод, долом меди.')).toBeTruthy();
   });
 });
