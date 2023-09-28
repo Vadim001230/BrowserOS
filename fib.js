@@ -1,9 +1,8 @@
 const fibonacci = document.querySelector('.fibonacci');
 const prevBtn = document.querySelector('.prev-btn');
 const nextBtn = document.querySelector('.next-btn');
-let nomberOfFib = 1;
+let namberOfFib = 1;
 let fib = 0;
-
 
 function findFib(n) {
   if (n === 1) return 0;
@@ -17,20 +16,14 @@ function findFib(n) {
   return next;
 }
 
-function nextFib() {
-  nomberOfFib++;
-  fib = findFib(nomberOfFib);
-  fibonacci.innerHTML = fib.toString();
-}
-
-function prevFib() {
-  nomberOfFib--;
-  if (nomberOfFib <= 1) {
-    nomberOfFib = 1;
+function getFib(type) {
+  type === 'next' ? namberOfFib++ : namberOfFib--;
+  if (namberOfFib <= 1) {
+    namberOfFib = 1;
   }
-  fib = findFib(nomberOfFib);
-  fibonacci.innerHTML = fib;
+  fib = findFib(namberOfFib);
+  fibonacci.textContent = fib.toString();
 }
 
-nextBtn.addEventListener('click', nextFib);
-prevBtn.addEventListener('click', prevFib);
+nextBtn.addEventListener('click', () => getFib('next'));
+prevBtn.addEventListener('click', () => getFib('prev'));
