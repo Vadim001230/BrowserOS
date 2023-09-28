@@ -1,6 +1,17 @@
 function findPreMaxNum(...args) {
-  const sortNumbers = args.sort((a, b) => a - b);
-  return sortNumbers[args.length - 2];
+  let max = -Infinity;
+  let preMax = -Infinity;
+
+  for (let arg of args) {
+    if (arg > max) {
+      preMax = max;
+      max = arg;
+    } else if (arg > preMax && arg < max) {
+      preMax = arg;
+    }
+  }
+
+  return preMax;
 }
 
 module.exports = findPreMaxNum;
