@@ -17,26 +17,32 @@ html, body {
 .container {
   margin: 3rem;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 400px;
 }
 
-.fibonacci {
+.fibonacci1,
+.fibonacci2 {
   color: rgb(31, 31, 79);
   font-size: 40px;
   font-weight: bold;
+  display: inline;
 }
 
-.prev-btn,
-.next-btn {
+.fibonacci-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 150px;
+}
+
+.btn1,
+.btn2 {
   cursor: pointer;
   padding: 0.5rem 1rem;
   border-radius: 5px;
   background-color: rgb(201, 196, 196);
 }
 
-.prev-btn {
-  margin-right: 3rem;
-}

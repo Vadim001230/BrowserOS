@@ -1,29 +1,27 @@
-const fibonacci = document.querySelector('.fibonacci');
-const prevBtn = document.querySelector('.prev-btn');
-const nextBtn = document.querySelector('.next-btn');
-let namberOfFib = 1;
-let fib = 0;
+const fibonacci1 = document.querySelector('.fibonacci1');
+const fibonacci2 = document.querySelector('.fibonacci2');
+const btn1 = document.querySelector('.btn1');
+const btn2 = document.querySelector('.btn2');
 
-function findFib(n) {
-  if (n === 1) return 0;
+function createFibonacciFinder() {
   let prev = 0;
   let next = 1;
-  for (let i = 3; i <= n; i++) {
-    let current = prev + next;
-    prev = next;
-    next = current;
+
+  return function() {
+      const current = prev + next;
+      prev = next;
+      next = current;
+      return prev;
   }
-  return next;
 }
 
-function getFib(type) {
-  type === 'next' ? namberOfFib++ : namberOfFib--;
-  if (namberOfFib <= 1) {
-    namberOfFib = 1;
-  }
-  fib = findFib(namberOfFib);
-  fibonacci.textContent = fib.toString();
-}
+const findFib1 = createFibonacciFinder();
+const findFib2 = createFibonacciFinder();
 
-nextBtn.addEventListener('click', () => getFib('next'));
-prevBtn.addEventListener('click', () => getFib('prev'));
+btn1.addEventListener('click', () => {
+  fibonacci1.textContent = findFib1();
+});
+
+btn2.addEventListener('click', () => {
+  fibonacci2.textContent = findFib2();
+});
