@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest getRandomNum.test.js"
+    "test": "jest getRandomUniqueNumberFromRange.test.js"
   },
   "keywords": [],
   "author": "",
