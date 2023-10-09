@@ -1,50 +1,70 @@
 class Shape {
-  constructor(area) {
-    this.area = area;
-  }
+  constructor() {}
 }
 
 class Circle extends Shape {
   constructor(radius) {
     super();
-    this.area = Math.PI * Math.pow(radius, 2);
+    this.radius = radius;  
+  }
+
+  getArea() {
+    return Math.PI * Math.pow(this.radius, 2);
   }
 }
 
 class Rectangle extends Shape {
   constructor(width, height) {
     super();
-    this.area = width * height;
+    this.width = width;
+    this.height = height;
+  }
+
+  getArea() {
+    return this.width * this.height;
   }
 }
 
-class Square extends Shape {
+class Square extends Rectangle {
   constructor(side) {
-    super();
-    this.area = Math.pow(side, 2);
+    super(side, side);
   }
 }
 
 class Triangle extends Shape {
-  constructor(a, b, c) {
+  constructor(sideA, sideB, sideC) {
     super();
-    this.p = (a + b + c) / 2;
-    this.area = Math.sqrt(this.p * (this.p - a) * (this.p - b) * (this.p - c));
+    this.sideA = sideA;
+    this.sideB = sideB;
+    this.sideC = sideC;
+  }
+
+  getHalfPerimeter() {
+    return (this.sideA + this.sideB + this.sideC) / 2;
+  }
+
+  getArea() {
+    const halfPerimeter = this.getHalfPerimeter();
+    return Math.sqrt(halfPerimeter * (halfPerimeter - this.sideA) * (halfPerimeter - this.sideB) * (halfPerimeter - this.sideC));
   }
 }
 
 class AreaCalculator {
   constructor(shapes) {
-    this.totalArea = shapes.map((shape) => shape.area);
+    this.shapes = shapes;
   }
 
   calculateArea() {
-    return this.totalArea.reduce((a, b) => a + b);
+    return this.shapes.reduce((acc, item) => {
+      return acc + item.getArea();
+    }, 0);
   }
 }
 
-module.exports.Circle = Circle;
-module.exports.Rectangle = Rectangle;
-module.exports.Square = Square;
-module.exports.Triangle = Triangle;
-module.exports.AreaCalculator = AreaCalculator;
+module.exports = {
+  Circle, 
+  Rectangle, 
+  Square, 
+  Triangle, 
+  AreaCalculator
+}
