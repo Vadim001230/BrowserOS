@@ -1,4 +1,4 @@
-const isUpperCase = require('./utils/isUpperCase');
+const isUpperCase = require('../../utils/isUpperCase');
 
 function getCapitalLatters(str) {
   let result = ''
