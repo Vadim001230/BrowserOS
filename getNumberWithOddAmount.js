@@ -1,4 +1,4 @@
-function getNumberWithOddAmount(array) {
+function getNumbersWithOddAmount(array) {
   const result = [];
   const objCounter = {};
   
@@ -16,7 +16,7 @@ function getNumberWithOddAmount(array) {
     }
   }
 
-  return result.length === 1 ? result[0] : result;
+  return result;
 }
 
-module.exports = getNumberWithOddAmount;
+module.exports = getNumbersWithOddAmount;
