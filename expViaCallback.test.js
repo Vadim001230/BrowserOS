@@ -5,13 +5,10 @@ function foo(number, callback) {
 }
 
 describe('Возведение в 4 степень', () => {
-  test('Тест 1', () => {
-    expect(expViaCallback(2, foo)).toBe(Math.pow(2, 4));
-  });
-  test('Тест 2', () => {
+  test('Проверка однозначного числа', () => {
     expect(expViaCallback(3, foo)).toBe(Math.pow(3, 4));
   });
-  test('Тест 3', () => {
-    expect(expViaCallback(18, foo)).toBe(Math.pow(18, 4));
+  test('Проверка большого числа', () => {
+    expect(expViaCallback(18843, foo)).toBe(Math.pow(18843, 4));
   });
 });
