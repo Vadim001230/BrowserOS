@@ -1,7 +1,5 @@
 function findMaxPalindrome(str) {
-  str = str.replace(/\W/g, '')
-           .replace(/\s/g, '')
-           .toLowerCase();
+  str = str.toLowerCase().replace(/\s/g, '');
 
   let longestPalindrome = str[0];
   
