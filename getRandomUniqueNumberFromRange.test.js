@@ -1,10 +1,8 @@
 const createUniqueRandomNumberFromRangeGenerator = require('./getRandomUniqueNumberFromRange');
-const min = 1;
-const max = 100;
 
 describe('Получить рандомное число от 1 до 100', () => {
   test('Все значения в находятся в границах заданного промежутка. Каждое число уникально', () => {
-    const getUniqueRandomNumberFromRange = createUniqueRandomNumberFromRangeGenerator(min, max);
+    const getUniqueRandomNumberFromRange = createUniqueRandomNumberFromRangeGenerator();
     const resultArr = [];
     for (let i = 1; i <= 100; i++) {
       const random = getUniqueRandomNumberFromRange();

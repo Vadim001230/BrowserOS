@@ -1,25 +1,24 @@
-function createUniqueRandomNumberFromRangeGenerator(min, max) {
+const getRandomNumberFromRange = require('./utils/number');
+
+function createUniqueRandomNumberFromRangeGenerator(min = 1, max = 100) {
   if (max <= min || typeof min !== 'number' || typeof max !== 'number') {
     throw new Error('Invalid values');
   }
   const pastNumbers = new Set();
 
   return function() {
+    let random = getRandomNumberFromRange (min, max);
     if (pastNumbers.size === (max - min + 1)) {
-      throw new Error('All numbers in the given range were returned');
+      return random;
     }
-    let random = getRandomInRange(min, max);
+    
     while(pastNumbers.has(random)) {
-      random = getRandomInRange(min, max);
+      random = getRandomNumberFromRange (min, max);
     }
     pastNumbers.add(random);
 
     return random;
   }
-}
-
-function getRandomInRange(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min; 
 }
 
 module.exports = createUniqueRandomNumberFromRangeGenerator;
