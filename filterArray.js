@@ -1,13 +1,13 @@
 function filterArray(array, predicate) {
-  const result = []
+  let result = [];
 
   for (let i = 0; i <= array.length; i++) {
     if (predicate(array[i])) {
-      result.push(array[i])
+      result = [...result, array[i]];
     }
   }
 
-  return result
+  return result;
 }
 
 module.exports = filterArray;
