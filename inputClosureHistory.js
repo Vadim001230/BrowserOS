@@ -1,44 +1,43 @@
-function inputClosureHistory(inputId) {
-  const inputElement = document.getElementById(inputId);
-  const history = [''];
+function  createInputHistoryComponent(node, initValue = '') {
+  const inputElement = node.querySelector('.history-input_field');
+  const prevBtn = node.querySelector('.history-input_prev-btn');
+  const nextBtn = node.querySelector('.history-input_next-btn');
+  const history = [initValue];
   let currentIndex = 0;
 
-  function addToHistory(value) {
+  function inputHandler(value) {
     history.splice(currentIndex + 1);
     history.push(value);
     currentIndex = history.length - 1;
   }
+  
+  const setInputValue = (value) => inputElement.value = value;
 
-  inputElement.addEventListener('change', function(event) {
-    addToHistory(event.target.value);
-  });
-
-  function prevChange() {
-    if (currentIndex > 0) {
-      currentIndex--;
-      inputElement.value = history[currentIndex];
-    }
-  }
-
-  function nextChange() {
+  function nextBtnHandler() {
     if (currentIndex < history.length - 1) {
       currentIndex++;
-      inputElement.value = history[currentIndex];
+      setInputValue(history[currentIndex]);
     }
   }
 
-  return { prevChange, nextChange };
+  function prevBtnHandler() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      setInputValue(history[currentIndex]);
+    }
+  }
+
+  function init() {
+    inputElement.value = history[0];
+    inputElement.addEventListener('change', function(event) {
+      inputHandler(event.target.value);
+    });
+    prevBtn.addEventListener('click', prevBtnHandler);
+    nextBtn.addEventListener('click', nextBtnHandler);
+  }
+
+  init()
 }
 
-const prevBtn1 = document.querySelector('.prevBtn1');
-const nextBtn1 = document.querySelector('.nextBtn1');
-const prevBtn2 = document.querySelector('.prevBtn2');
-const nextBtn2 = document.querySelector('.nextBtn2');
-
-const input1 = inputClosureHistory('input1');
-const input2 = inputClosureHistory('input2');
-
-prevBtn1.onclick = () => input1.prevChange();
-nextBtn1.onclick = () => input1.nextChange();
-prevBtn2.onclick = () => input2.prevChange();
-nextBtn2.onclick = () => input2.nextChange();
+const historyInputComponentsList = document.querySelectorAll('.history-input'); 
+historyInputComponentsList.forEach((node) => createInputHistoryComponent(node))

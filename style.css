@@ -14,8 +14,8 @@ html, body {
   overflow-x: hidden;
 }
 
-.container {
-  margin: 3rem;
+.history-input {
+  margin: 1rem;
 }
 
 input {
