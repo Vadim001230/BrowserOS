@@ -1,4 +1,4 @@
-const getRandomNumberFromRange = require('./utils/number');
+const getRandomNumberFromRange = require('../../utils/number');
 
 function createUniqueRandomNumberFromRangeGenerator(min = 1, max = 100) {
   if (max <= min || typeof min !== 'number' || typeof max !== 'number') {
