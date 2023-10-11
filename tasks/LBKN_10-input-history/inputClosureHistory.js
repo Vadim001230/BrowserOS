@@ -5,30 +5,31 @@ function  createInputHistoryComponent(node, initValue = '') {
   const history = [initValue];
   let currentIndex = 0;
 
-  function inputHandler(value) {
-    history.splice(currentIndex + 1);
-    history.push(value);
-    currentIndex = history.length - 1;
-  }
-  
+  const updateHistory = () => history.splice(currentIndex + 1);
   const setInputValue = (value) => inputElement.value = value;
+  const setCurrentIndex = (value) => currentIndex = value;
+
+  function inputHandler(value) {
+    updateHistory();
+    history.push(value);
+    setCurrentIndex(history.length - 1);
+  }
 
   function nextBtnHandler() {
     if (currentIndex < history.length - 1) {
-      currentIndex++;
+      setCurrentIndex(currentIndex + 1);
       setInputValue(history[currentIndex]);
     }
   }
 
   function prevBtnHandler() {
     if (currentIndex > 0) {
-      currentIndex--;
+      setCurrentIndex(currentIndex - 1);
       setInputValue(history[currentIndex]);
     }
   }
 
-  function init() {
-    inputElement.value = history[0];
+  function initListeners() {
     inputElement.addEventListener('change', function(event) {
       inputHandler(event.target.value);
     });
@@ -36,6 +37,11 @@ function  createInputHistoryComponent(node, initValue = '') {
     nextBtn.addEventListener('click', nextBtnHandler);
   }
 
+  function init() {
+    inputElement.value = history[0];
+    initListeners();
+  }
+  
   init()
 }
 
