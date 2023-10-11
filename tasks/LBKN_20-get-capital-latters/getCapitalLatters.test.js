@@ -1,7 +1,7 @@
 const getCapitalLatters = require('./getCapitalLatters');
 
 describe('Вернуть заглавные буквы', () => {
-  test('Латиница, кириллица', () => {
+  test('Латиница, кириллица, цифры', () => {
     expect(getCapitalLatters('Get Заглавные Latters 234')).toBe('GЗL');
   });
   test('Разные символы', () => {
