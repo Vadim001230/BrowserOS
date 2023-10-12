@@ -1,5 +1,5 @@
-function isUpperCase(char) {
+function isLatter(char) {
   return char.toLowerCase() !== char.toUpperCase();
 }
 
-module.exports = isUpperCase;
+module.exports = isLatter;
