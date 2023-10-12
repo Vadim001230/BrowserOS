@@ -1,5 +1,4 @@
-const isLatter = require('../../utils/isLatter');
-const isCapital = require('../../utils/isCapital');
+const { isLatter, isCapital } = require('../../utils/string');
 
 function getCapitalLatters(str) {
   let result = '';
