@@ -1,8 +1,7 @@
-function getValueBetween(str, start, end) {
-  const startIndex = str.indexOf(start);
-  const endIndex = end ? str.indexOf(end) : str.length;
-  if (startIndex === -1 || endIndex === -1) {
-    return '';
-  }
-  return str.substring(startIndex + start.length, endIndex);
+function getValueBetween(str, prefix, suffix) {
+  const prefixIndex = str.indexOf(prefix);
+  if (prefixIndex === -1) return '';
+  str = str.substring(prefixIndex + prefix.length);
+  const suffixIndex = suffix ? str.indexOf(suffix) : str.length;
+  return suffixIndex === -1 ? '' : str.substring(0, suffixIndex);
 }
