@@ -1,5 +1,9 @@
 function getSumOfValues(obj) {
-  const values = Object.values(obj);
-  const sum = values.reduce((acc, val) => (typeof val === 'number' ? acc + val : acc), 0);
+  let sum = 0;
+  for (let key in obj) {
+    if (typeof obj[key] === 'number' && !isNaN(obj[key])) {
+      sum += obj[key];
+    }
+  }
   return sum;
 }
