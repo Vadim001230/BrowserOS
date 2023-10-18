@@ -1,9 +1,5 @@
 function getValuesExcept(obj, ...exceptions) {
-  const result = {};
-  for (let key in obj) {
-    if (!exceptions.includes(key)) {
-      result[key] = obj[key];
-    }
-  }
+  const result = { ...obj };
+  exceptions.forEach((exception) => delete result[exception]);
   return result;
 }
