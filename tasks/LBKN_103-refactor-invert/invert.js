@@ -1,8 +1,7 @@
 const invert = (arr) => {
   const result = [];
-  arr.forEach((_, index) => {
-    const lastElem = arr[arr.length - index - 1];
-    result.push(lastElem);
-  });
+  arr.reduceRight((_, item) => {
+    result.push(item);
+  }, null);
   return result;
 };
