@@ -1,52 +1,39 @@
-class OldApi {
-  request() {
-    return [
-      {
-        id: 1,
-        userName: 'Александр',
-        email: 'sanya@sanya.com',
-      },
-      {
-        ID: 2,
-        userName: 'Петр',
-        email: 'petya@petya.com',
-      },
-    ]
-  }
+function api() {
+  return [
+    {
+      id: 1,
+      user_name: 'Александр',
+      email_address: 'sanya@sanya.com',
+      user_role_admin: true,
+    },
+    {
+      id: 2,
+      user_name: 'Петр',
+      email_address: 'petya@petya.com',
+      user_role_admin: false,
+    },
+  ]
 }
 
-class NewApi {
-  newRequest() {
-    return [
-      {
-        ID: 1,
-        user_name: 'Александр',
-        email_address: 'sanya@sanya.com',
-      },
-      {
-        ID: 2,
-        user_name: 'Петр',
-        email_address: 'petya@petya.com',
-      },
-    ]
-  }
+function ApiAdapter(response) {
+  const transformResponse = response.map((item) => {
+    const transformedItem = {};
+    for (const key in item) {
+      if (item.hasOwnProperty(key)) {
+        const words = key.split('_');
+        const camelCaseKey = words[0] +
+          words
+            .slice(1)
+            .map((word) => word[0].toUpperCase() + word.slice(1))
+            .join('');
+        transformedItem[camelCaseKey] = item[key];
+      }
+    }
+    return transformedItem;
+  });
+
+  return transformResponse;
 }
 
-class ApiAdapter extends OldApi {
-  constructor(api) {
-    super();
-    this.api = api;
-  }
-
-  request() {
-    const response = this.api.newRequest();
-    return response.map((el) => ({
-      id: el.ID,
-      userName: el.user_name,
-      email: el.email_address,
-    }))
-  }
-}
-
-const apiAdapter = new ApiAdapter(new NewApi);
-console.log(apiAdapter.request());
+const response = api();
+console.log(ApiAdapter(response));
