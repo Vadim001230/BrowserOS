@@ -1,8 +1,11 @@
 function exchangeKeysForValues(obj) {
-  const rusult = {};
+  const result = {};
   for (let key in obj) {
-    rusult[obj[key]] = key;
+    if (typeof obj[key] !== 'object' && typeof obj[key] !== 'function') {
+      result[obj[key]] = key;
+    }
+    result[key] = obj[key];
   }
 
-  return rusult;
+  return result;
 }
