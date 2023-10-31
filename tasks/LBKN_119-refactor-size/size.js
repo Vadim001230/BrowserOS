@@ -1,4 +1,4 @@
-function convertBytes(bytes) {
+function humanizeFileSize(bytes) {
   const sizes = ['byte', 'kb', 'mb', 'gb'];
 
   function convert(units, exp = 0) {
