@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./style.css">
+  <title>Feedback</title>
+</head>
+
+<body>
+  <div id="feedback">
+    <form action="" class="feedback__form">
+      <div class="top-container">
+        <h3 class="feedback__title">The Rating overview is in beta. Did you find it useful? Let us know!</h3>
+        <div class="btns-container">
+          <button class="feedback__like" title="Useful"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#A7ACB2"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4" d="M8 10v10m0-10H4v10h4m0-10 5.196-6.062a2 2 0 0 1 2.003-.638l.048.012a2 2 0 0 1 1.179 3.05L14 10h4.56a2 2 0 0 1 1.962 2.392l-1.2 6A2 2 0 0 1 17.36 20H8"/></svg></button>
+          <button class="feedback__dislike" title="Not useful"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#A7ACB2"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4" d="M8 14V4m0 10H4V4h4m0 10 5.196 6.061a2 2 0 0 0 2.003.64l.048-.013a2 2 0 0 0 1.179-3.05L14 14h4.56a2 2 0 0 0 1.962-2.392l-1.2-6A2 2 0 0 0 17.36 4H8"/></svg></button>
+        </div>
+      </div>
+      <div class="bottom-container">
+        <p>Why did you selected useful?</p>
+        <textarea type="text" class="feedback__text" placeholder="Your feedback..." required></textarea>
+        <button class="feedback__send-btn">Submit</button>
+      </div>
+    </form>
+  </div>
+  <script type="module" src="./index.js"></script>
+</body>
+
+</html>

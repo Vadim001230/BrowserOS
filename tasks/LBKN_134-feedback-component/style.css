@@ -1,0 +1,128 @@
+:root {
+  --main-color: #32383F;
+  --second-color: #A7ACB2;
+}
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+#feedback {
+  margin: 2rem;
+  padding: 1.5rem 1rem;
+  border: 1px solid var(--second-color);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.2);
+  font-family: sans-serif, -apple-system, 'Open Sans', BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+}
+
+.top-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  flex-wrap: nowrap;
+}
+
+.feedback__title {
+  color: var(--main-color);
+}
+
+.btns-container {
+  margin-left: 1rem;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-self: start;
+}
+
+.feedback__like,
+.feedback__dislike {
+  background: none;
+  cursor: pointer;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-right: 0.5rem;
+}
+
+.feedback__like {
+  background: url(./icons/like.svg) center no-repeat;
+}
+
+.feedback__dislike {
+  background: url(./icons/dislike.svg) center no-repeat;
+}
+
+.feedback__like svg,
+.feedback__dislike svg {
+  transition: stroke 0.2s;
+}
+
+.feedback__dislike:hover svg {
+  stroke: #db4949;
+}
+
+.feedback__like:hover svg {
+  stroke: #3fce7a;
+}
+
+.bottom-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.feedback__send-btn {
+  background-color: var(--main-color);
+  border-radius: 5px;
+  padding: 0.6rem 1.8rem;
+  color: white;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: background-color .2s;
+}
+
+.feedback__send-btn:hover {
+  background-color: black;
+}
+
+.feedback__text {
+  display: block;
+  resize: none;
+  overflow: hidden;
+  border-radius: 5px;
+  border: 1px solid var(--second-color);
+  padding: 0.2rem 0.5rem;
+  width: 100%;
+  margin: 1rem 0;
+  min-height: 4rem;
+  outline-color: var(--main-color);
+}
+
+.feedback__text::placeholder {
+  color: var(--second-color);
+}
+
+@media (max-width: 500px) {
+  #feedback {
+    margin: 1rem;
+  }
+
+  .top-container {
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .feedback__title {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .btns-container {
+    margin: 0;
+  }
+}
