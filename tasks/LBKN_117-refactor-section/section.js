@@ -1,7 +1,11 @@
 function splitStrBySeparotor(str, separator) {
-  if (separator === '') {
+  const indexOfSeparator = str.indexOf(separator);
+  if (indexOfSeparator === -1 || separator === '') {
     return [str, ''];
   }
-  const [first, ...rest] = str.split(separator);
-  return [first, rest.join(separator)];
+
+  return [
+    str.slice(0, indexOfSeparator),
+    str.slice(indexOfSeparator + separator.length),
+  ];
 }
