@@ -22,7 +22,7 @@
   font-family: sans-serif, -apple-system, 'Open Sans', BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
 }
 
-.top-container {
+.reaction-container {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
@@ -33,7 +33,7 @@
   color: var(--main-color);
 }
 
-.btns-container {
+.reaction-btns {
   margin-left: 1rem;
   display: flex;
   flex-wrap: nowrap;
@@ -70,7 +70,7 @@
   stroke: #3fce7a;
 }
 
-.bottom-container {
+.comment-container {
   display: flex;
   flex-direction: column;
 }
@@ -83,6 +83,12 @@
   cursor: pointer;
   align-self: flex-end;
   transition: background-color .2s;
+}
+
+.feedback__send-btn.disabled {
+  opacity: 0.3;
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
 .feedback__send-btn:hover {
@@ -111,7 +117,7 @@
     margin: 1rem;
   }
 
-  .top-container {
+  .reaction-container {
     flex-wrap: wrap;
     justify-content: center;
     flex-direction: column;
@@ -122,7 +128,7 @@
     margin-bottom: 1rem;
   }
   
-  .btns-container {
+  .reaction-btns {
     margin: 0;
   }
 }
