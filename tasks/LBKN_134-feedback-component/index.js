@@ -5,12 +5,17 @@ const feedback = document.getElementById('feedback');
 
 const feedbackComponent = FeedbackComponent({
   title: 'The Rating overview is in beta. Did you find it useful? Let us know!',
-  onSubmit: async (e, form) => {
+  onSubmit: (e, form) => {
     e.preventDefault();
     const formData = new FormData(form);
     for (let key of formData.keys()) {
       console.log(`${key}: ${formData.get(key)}`);
     }
+    return fetch('url', {
+      method: 'POST',
+      body: new FormData(form)
+    }).then((response) => response.json())
+      .then(() => form.remove());
   },
   controls: [
     {

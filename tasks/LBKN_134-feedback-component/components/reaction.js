@@ -7,7 +7,7 @@ export default function ReactionComponent(controls) {
   const reactionBtnsContainer = document.createElement('div');
   reactionBtnsContainer.className = 'reaction-btns';
   reactionContainer.append(reactionBtnsContainer);
-  
+
   const reactionValue = document.createElement('input');
   reactionValue.setAttribute('name', 'value');
   reactionValue.style.display = 'none';
@@ -23,10 +23,10 @@ export default function ReactionComponent(controls) {
     const reactionBtns = reactionBtn.parentNode.childNodes;
     reactionBtns.forEach((btn) => btn.classList.remove('checked'));
     reactionBtn.classList.add('checked');
-    
+
     const submitBtn = reactionBtn.form.submit;
     submitBtn.classList.add('block');
-    submitBtn.removeAttribute('disabled')
+    submitBtn.removeAttribute('disabled');
     
     if (!commentOptions && !comment) return;
     if (comment) comment.remove();
