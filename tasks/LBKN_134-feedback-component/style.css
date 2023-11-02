@@ -22,11 +22,19 @@
   font-family: sans-serif, -apple-system, 'Open Sans', BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
 }
 
+.feedback__form {
+  display: flex;
+  flex-direction: column;
+}
+
 .reaction-container {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
   flex-wrap: nowrap;
+}
+
+.comment-container {
+  margin-top: 1rem;
 }
 
 .feedback__title {
@@ -49,33 +57,23 @@
   margin-right: 0.5rem;
 }
 
-.feedback__like {
-  background: url(./icons/like.svg) center no-repeat;
-}
-
-.feedback__dislike {
-  background: url(./icons/dislike.svg) center no-repeat;
-}
-
 .feedback__like svg,
 .feedback__dislike svg {
   transition: stroke 0.2s;
 }
 
-.feedback__dislike:hover svg {
+.feedback__dislike:hover svg,
+.feedback__dislike.checked svg {
   stroke: #db4949;
 }
 
-.feedback__like:hover svg {
+.feedback__like:hover svg,
+.feedback__like.checked svg {
   stroke: #3fce7a;
 }
 
-.comment-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.feedback__send-btn {
+.feedback__submit-btn {
+  display: none;
   background-color: var(--main-color);
   border-radius: 5px;
   padding: 0.6rem 1.8rem;
@@ -83,15 +81,16 @@
   cursor: pointer;
   align-self: flex-end;
   transition: background-color .2s;
+  margin-top: 1rem;
 }
 
-.feedback__send-btn.disabled {
+.feedback__submit-btn:disabled {
   opacity: 0.3;
   pointer-events: none;
   cursor: not-allowed;
 }
 
-.feedback__send-btn:hover {
+.feedback__submit-btn:hover {
   background-color: black;
 }
 
@@ -103,7 +102,7 @@
   border: 1px solid var(--second-color);
   padding: 0.2rem 0.5rem;
   width: 100%;
-  margin: 1rem 0;
+  margin-top: 1rem;
   min-height: 4rem;
   outline-color: var(--main-color);
 }
