@@ -1,5 +1,5 @@
-import likeIcon from '../icons/likeIcon.js';
-import dislikeIcon from '../icons/dislikeIcon.js';
+import likeIcon from './icons/likeIcon.js';
+import dislikeIcon from './icons/dislikeIcon.js';
 
 export default function UIButton(value) {
   const btn = document.createElement('button');

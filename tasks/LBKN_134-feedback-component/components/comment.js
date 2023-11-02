@@ -6,26 +6,24 @@ export default function CommentComponent(options) {
   subtitle.textContent = options.subtitle;
   commentContainer.append(subtitle);
 
+  const handleFeedbackText = (e) => {
+    feedbackText.style.height = feedbackText.scrollTop > 0 ? feedbackText.scrollHeight + 'px' : 'auto';
+    
+    const submitBtn = e.target.form.submit;
+    if (e.target.value.length === 0) {
+      submitBtn.setAttribute('disabled', true);
+    } else {
+      submitBtn.removeAttribute('disabled');
+    }
+  };
+
   const feedbackText = document.createElement('textarea');
   feedbackText.className = 'feedback__text';
   feedbackText.setAttribute('type', 'text');
   feedbackText.setAttribute('placeholder', options.placeholder);
   feedbackText.setAttribute('required', options.required);
-  
-  feedbackText.addEventListener('keyup', (e) => {
-    const submitBtn = e.target.form.submit;
-    if (feedbackText.scrollTop > 0) {
-      feedbackText.style.height = feedbackText.scrollHeight + 'px';
-    } else {
-      feedbackText.style.height = 'auto';
-    }
 
-    if (e.target.value.length !== 0) {
-      submitBtn.removeAttribute('disabled');
-    } else {
-      submitBtn.setAttribute('disabled', true);
-    }
-  });
+  feedbackText.addEventListener('keyup', handleFeedbackText);
   
   commentContainer.append(feedbackText);
 

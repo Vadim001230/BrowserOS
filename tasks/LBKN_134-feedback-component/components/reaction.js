@@ -4,19 +4,19 @@ export default function ReactionComponent(controls) {
   const reactionContainer = document.createElement('div');
   reactionContainer.className = 'reaction-container';
 
-  const reactionBtns = document.createElement('div');
-  reactionBtns.className = 'reaction-btns';
-  reactionContainer.append(reactionBtns);
+  const reactionBtnsContainer = document.createElement('div');
+  reactionBtnsContainer.className = 'reaction-btns';
+  reactionContainer.append(reactionBtnsContainer);
 
   let comment;
-  function handleButton(commentOptions, e) {
+  const handleReactionButton = (e, commentOptions) => {
     const reactionBtn = e.currentTarget;
     const reactionBtns = reactionBtn.parentNode.childNodes;
     reactionBtns.forEach((btn) => btn.classList.remove('checked'));
     reactionBtn.classList.add('checked');
 
     const submitBtn = reactionBtn.form.submit;
-    submitBtn.style.display = 'block';
+    submitBtn.classList.add('block');
     submitBtn.removeAttribute('disabled')
 
     if (!commentOptions && !comment) return;
@@ -31,9 +31,9 @@ export default function ReactionComponent(controls) {
   controls.forEach((control) => {
     const button = control.btn;
     button.setAttribute('type', 'button');
-    button.addEventListener('click', (e) => handleButton(control.commentOptions, e));
+    button.addEventListener('click', (e) => handleReactionButton(e, control.commentOptions));
 
-    reactionBtns.append(button);
+    reactionBtnsContainer.append(button);
   })
 
   return reactionContainer;

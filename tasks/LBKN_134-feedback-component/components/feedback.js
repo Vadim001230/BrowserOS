@@ -4,7 +4,6 @@ import SubmitButton from './submitButton.js';
 export default function FeedbackComponent ({ title, onSubmit, controls }) {
   const feedbackForm = document.createElement('form');
   feedbackForm.className = 'feedback__form';
-  // feedbackForm.setAttribute('action', '')
 
   const reactionContainer = ReactionComponent(controls);
 
