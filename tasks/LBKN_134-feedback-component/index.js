@@ -5,10 +5,19 @@ const feedback = document.getElementById('feedback');
 
 const feedbackComponent = FeedbackComponent({
   title: 'The Rating overview is in beta. Did you find it useful? Let us know!',
-  onSubmit: () => console.log('submit!'),
+  onSubmit: async (e, form) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    for (let key of formData.keys()) {
+      console.log(`${key}: ${formData.get(key)}`);
+    }
+  },
   controls: [
     {
-      btn: UIButton('like'),
+      btn: {
+        element: UIButton('like'),
+        value: 'like',
+      },
       commentOptions: {
         required: true,
         subtitle: 'Why did you selected useful?',
@@ -16,7 +25,10 @@ const feedbackComponent = FeedbackComponent({
       },
     },
     {
-      btn: UIButton('dislike'),
+      btn: {
+        element: UIButton('dislike'),
+        value: 'dislike',
+      },
       commentOptions: {
         required: false,
         subtitle: 'Why did you selected not useful?',

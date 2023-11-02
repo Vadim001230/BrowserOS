@@ -20,6 +20,7 @@ export default function CommentComponent(options) {
   const feedbackText = document.createElement('textarea');
   feedbackText.className = 'feedback__text';
   feedbackText.setAttribute('type', 'text');
+  feedbackText.setAttribute('name', 'text');
   feedbackText.setAttribute('placeholder', options.placeholder);
   feedbackText.setAttribute('required', options.required);
 
