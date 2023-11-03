@@ -1,10 +1,10 @@
 function exchangeKeysForValues(obj) {
   const result = {};
   for (let key in obj) {
-    if (typeof obj[key] !== 'object' && typeof obj[key] !== 'function') {
-      result[obj[key]] = key;
+    if (typeof obj[key] === 'object' || typeof obj[key] === 'function') {
+      result[JSON.stringify(obj[key])] = key;
     }
-    result[key] = obj[key];
+    result[obj[key]] = key;
   }
 
   return result;
