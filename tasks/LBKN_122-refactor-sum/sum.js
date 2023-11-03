@@ -1,9 +1,1 @@
-function sumOfArr(arr) {
-  let sum = 0;
-  for (const value of arr) {
-    if (typeof value === 'number') {
-      sum += value;
-    }
-  }
-  return sum;
-}
+const sumOfArr = (arr) => arr.reduce((acc, val) => typeof val === 'number' ? acc + val : acc, 0);
