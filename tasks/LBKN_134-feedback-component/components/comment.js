@@ -21,8 +21,8 @@ export default function CommentComponent(options) {
   feedbackText.className = 'feedback__text';
   feedbackText.setAttribute('type', 'text');
   feedbackText.setAttribute('name', 'text');
-  feedbackText.setAttribute('placeholder', options.placeholder);
-  feedbackText.setAttribute('required', options.required);
+  feedbackText.setAttribute('placeholder', options.placeholder || '');
+  feedbackText.setAttribute('required', options.required || false);
 
   feedbackText.addEventListener('keyup', handleFeedbackText);
   

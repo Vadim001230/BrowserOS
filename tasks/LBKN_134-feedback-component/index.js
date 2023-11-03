@@ -7,15 +7,17 @@ const feedbackComponent = FeedbackComponent({
   title: 'The Rating overview is in beta. Did you find it useful? Let us know!',
   onSubmit: (e, form) => {
     e.preventDefault();
-    const formData = new FormData(form);
-    for (let key of formData.keys()) {
-      console.log(`${key}: ${formData.get(key)}`);
-    }
     return fetch('url', {
       method: 'POST',
       body: new FormData(form)
     }).then((response) => response.json())
-      .then(() => form.remove());
+      .then(() => {
+        const span = document.createElement('span');
+        span.textContent = 'Feedback sent successfully!'
+        span.style.color = 'green';
+        form.after(span);
+        form.remove();
+      });
   },
   controls: [
     {
