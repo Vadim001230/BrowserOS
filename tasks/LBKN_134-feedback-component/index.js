@@ -13,7 +13,7 @@ const feedbackComponent = FeedbackComponent({
     }).then((response) => response.json())
       .then(() => {
         const span = document.createElement('span');
-        span.textContent = 'Feedback sent successfully!'
+        span.textContent = 'Feedback sent successfully!';
         span.style.color = 'green';
         form.after(span);
         form.remove();
