@@ -123,16 +123,14 @@ onSubmit: (e, form) => {
 
 ### Примеры поведения компонента
 
-<p style='display: flex; flex-direction: row; flex-wrap: nowrap; overflow: hidden; text-align: center'>
-  <span style='display: block; width: 33%'>Комментарий опционален (required: false)</span>
-  <span style='display: block; width: 33%'>Комментарий опционален (required: true)</span>
-  <span style='display: block; width: 33%'>Без блока комментария</span>
-</p>
-<p style='display: flex; flex-direction: row; flex-wrap: nowrap; gap: 5px; height: 180px; overflow: hidden;'>
-  <img width="33%" src="docs/optional.gif" alt="optional" />
-  <img width="33%" src="docs/required.gif" alt="required" />
-  <img width="33%" src="docs/disabled.gif" alt="disabled" />
-  </p>
+  <p>Комментарий опционален (required: false):</p>
+  <img src="docs/optional.gif" alt="optional" />
+
+  <p>Комментарий обязательный (required: true):</p>
+  <img src="docs/required.gif" alt="required" />
+
+  <p>Без блока комментария:</p>
+  <img src="docs/disabled.gif" alt="disabled" />
 
 ---
 
