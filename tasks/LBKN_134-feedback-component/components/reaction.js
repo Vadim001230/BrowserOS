@@ -1,4 +1,4 @@
-import CommentComponent from './comment.js';
+import TextField from './comment.js';
 
 export default function ReactionComponent(controls) {
   const reactionContainer = document.createElement('div');
@@ -32,7 +32,7 @@ export default function ReactionComponent(controls) {
     if (comment) comment.remove();
     if (commentOptions) {
       commentOptions.required ? submitBtn.setAttribute('disabled', true) : null;
-      comment = CommentComponent(commentOptions);
+      comment = TextField(commentOptions);
       reactionContainer.after(comment);
     } 
   }

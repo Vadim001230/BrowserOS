@@ -1,4 +1,4 @@
-export default function CommentComponent(options) {
+export default function TextField(options) {
   const commentContainer = document.createElement('div');
   commentContainer.className = 'comment-container';
 
@@ -6,9 +6,10 @@ export default function CommentComponent(options) {
   subtitle.textContent = options.subtitle;
   commentContainer.append(subtitle);
 
-  const handleFeedbackText = (e) => {
-    feedbackText.style.height = feedbackText.scrollTop > 0 ? feedbackText.scrollHeight + 'px' : 'auto';
-    
+  const autoChangeHeight = () => textarea.style.height = textarea.scrollTop > 0 ? textarea.scrollHeight + 'px' : 'auto';
+
+  const handleTextarea = (e) => {
+    autoChangeHeight()
     const submitBtn = e.target.form.submit;
     if (e.target.value.length === 0) {
       submitBtn.setAttribute('disabled', true);
@@ -17,16 +18,16 @@ export default function CommentComponent(options) {
     }
   };
 
-  const feedbackText = document.createElement('textarea');
-  feedbackText.className = 'feedback__text';
-  feedbackText.setAttribute('type', 'text');
-  feedbackText.setAttribute('name', 'text');
-  feedbackText.setAttribute('placeholder', options.placeholder || '');
-  feedbackText.setAttribute('required', options.required || false);
+  const textarea = document.createElement('textarea');
+  textarea.className = 'feedback__text';
+  textarea.setAttribute('type', 'text');
+  textarea.setAttribute('name', 'text');
+  textarea.setAttribute('placeholder', options.placeholder || '');
+  textarea.setAttribute('required',  Boolean(options.required) || false);
 
-  feedbackText.addEventListener('keyup', handleFeedbackText);
+  textarea.addEventListener('input', handleTextarea);
   
-  commentContainer.append(feedbackText);
+  commentContainer.append(textarea);
 
   return commentContainer;
 }

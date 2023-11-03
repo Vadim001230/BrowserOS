@@ -1,5 +1,6 @@
 import FeedbackComponent from './components/feedback.js'
-import UIButton from './UI/button.js';
+import DislikeButton from './UI/dislikeButton.js';
+import LikeButton from './UI/likeButton.js';
 
 const feedback = document.getElementById('feedback');
 
@@ -22,7 +23,7 @@ const feedbackComponent = FeedbackComponent({
   controls: [
     {
       btn: {
-        element: UIButton('like'),
+        element: LikeButton(),
         value: 'like',
       },
       commentOptions: {
@@ -33,7 +34,7 @@ const feedbackComponent = FeedbackComponent({
     },
     {
       btn: {
-        element: UIButton('dislike'),
+        element: DislikeButton(),
         value: 'dislike',
       },
       commentOptions: {
