@@ -52,24 +52,22 @@
 .feedback__dislike {
   background: none;
   cursor: pointer;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.7rem;
+  height: 2.7rem;
   margin-right: 0.5rem;
+  border-radius: 50%;
+  padding: 3px;
+  transition: box-shadow 0.3s;
 }
 
-.feedback__like svg,
-.feedback__dislike svg {
-  transition: stroke 0.2s;
+.feedback__dislike:hover,
+.feedback__dislike.checked {
+  box-shadow: inset 0 0 5px 20px rgba(219, 72, 72, 0.2);
 }
 
-.feedback__dislike:hover svg,
-.feedback__dislike.checked svg {
-  stroke: #db4949;
-}
-
-.feedback__like:hover svg,
-.feedback__like.checked svg {
-  stroke: #3fce7a;
+.feedback__like:hover ,
+.feedback__like.checked {
+  box-shadow: inset 0 0 5px 20px rgba(64, 206, 123, 0.2);
 }
 
 .feedback__submit-btn {
@@ -98,7 +96,7 @@
   background-color: black;
 }
 
-.feedback__text {
+.textarea {
   display: block;
   resize: none;
   overflow: hidden;
@@ -111,7 +109,7 @@
   outline-color: var(--main-color);
 }
 
-.feedback__text::placeholder {
+.textarea::placeholder {
   color: var(--second-color);
 }
 

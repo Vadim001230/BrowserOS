@@ -1,12 +1,12 @@
 import TextField from './comment.js';
 
-export default function ReactionComponent(controls) {
+export default function ReactionComponent(controls, initBtn, setDisableBtn) {
   const reactionContainer = document.createElement('div');
   reactionContainer.className = 'reaction-container';
 
-  const reactionBtnsContainer = document.createElement('div');
-  reactionBtnsContainer.className = 'reaction-btns';
-  reactionContainer.append(reactionBtnsContainer);
+  const reactionBtns = document.createElement('div');
+  reactionBtns.className = 'reaction-btns';
+  reactionContainer.append(reactionBtns);
 
   const reactionValue = document.createElement('input');
   reactionValue.setAttribute('name', 'value');
@@ -14,25 +14,24 @@ export default function ReactionComponent(controls) {
   reactionContainer.append(reactionValue);
 
   let comment;
-  const handleReactionButton = (e, commentOptions, value) => {
+  const handleReactionButton = (e, options, value) => {
+    initBtn();
+    
     const reactionBtn = e.currentTarget;
 
     reactionValue.setAttribute('name', 'value');
     reactionValue.value = value;
 
-    const reactionBtns = reactionBtn.parentNode.childNodes;
-    reactionBtns.forEach((btn) => btn.classList.remove('checked'));
+    reactionBtns.childNodes.forEach((btn) => btn.classList.remove('checked'));
     reactionBtn.classList.add('checked');
 
-    const submitBtn = reactionBtn.form.submit;
-    submitBtn.classList.add('block');
-    submitBtn.removeAttribute('disabled');
-    
-    if (!commentOptions && !comment) return;
+    if (!options && !comment) return;
     if (comment) comment.remove();
-    if (commentOptions) {
-      commentOptions.required ? submitBtn.setAttribute('disabled', true) : null;
-      comment = TextField(commentOptions);
+    if (options) {
+      setDisableBtn(options.required);
+      const isEmptyTextLength = (isEmpty) => setDisableBtn(isEmpty && options.required);
+      comment = TextField(options, isEmptyTextLength);
+      
       reactionContainer.after(comment);
     } 
   }
@@ -42,7 +41,7 @@ export default function ReactionComponent(controls) {
     button.setAttribute('type', 'button');
     button.addEventListener('click', (e) => handleReactionButton(e, control.commentOptions, control.btn.value));
 
-    reactionBtnsContainer.append(button);
+    reactionBtns.append(button);
   })
 
   return reactionContainer;

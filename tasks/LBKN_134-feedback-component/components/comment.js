@@ -1,4 +1,4 @@
-export default function TextField(options) {
+export default function TextField(options, isEmptyTextLength) {
   const commentContainer = document.createElement('div');
   commentContainer.className = 'comment-container';
 
@@ -6,24 +6,25 @@ export default function TextField(options) {
   subtitle.textContent = options.subtitle;
   commentContainer.append(subtitle);
 
-  const autoChangeHeight = () => textarea.style.height = textarea.scrollTop > 0 ? textarea.scrollHeight + 'px' : 'auto';
-
-  const handleTextarea = (e) => {
-    autoChangeHeight()
-    const submitBtn = e.target.form.submit;
-    if (e.target.value.length === 0) {
-      submitBtn.setAttribute('disabled', true);
-    } else {
-      submitBtn.removeAttribute('disabled');
-    }
+  const textarea = document.createElement('textarea');
+  textarea.className = 'textarea';
+  const attributes = {
+    type: 'text',
+    name: 'text',
+    placeholder: options.placeholder || '',
+    required: Boolean(options.required),
   };
 
-  const textarea = document.createElement('textarea');
-  textarea.className = 'feedback__text';
-  textarea.setAttribute('type', 'text');
-  textarea.setAttribute('name', 'text');
-  textarea.setAttribute('placeholder', options.placeholder || '');
-  textarea.setAttribute('required',  Boolean(options.required) || false);
+  for (const attr in attributes) {
+    textarea.setAttribute(attr, attributes[attr]);
+  }
+
+  const setElementHeight = (element) => element.style.height = element.scrollTop > 0 ? element.scrollHeight + 'px' : 'auto';
+    
+  const handleTextarea = (e) => {
+    setElementHeight(textarea);
+    isEmptyTextLength(e.target.value.length === 0);
+  };
 
   textarea.addEventListener('input', handleTextarea);
   
