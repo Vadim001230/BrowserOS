@@ -13,3 +13,4 @@ function parseIp(ip) {
 
   return partsOfIp;
 }
+
