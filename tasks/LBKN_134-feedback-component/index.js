@@ -1,4 +1,4 @@
-import initialFeedback from './initFeedback.js';
+import SimpleFeedback from './widgets/simpleFeedback.js';
 
 const feedback = document.getElementById('feedback');
-feedback.append(initialFeedback);
+feedback.append(SimpleFeedback);

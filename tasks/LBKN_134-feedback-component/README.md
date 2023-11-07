@@ -19,9 +19,7 @@
 | [`title`](#)           | `string`     |              | Заголовок компонента.                                           |
 | [`onSubmit`](#)        | `function`   |              | Функция обработки отправления данных из компонента на сервер. Функция должна возвращать промис.  |
 | [`controls`](#)        | `array`      |              | Массив с объектами настроек кнопок и комментариев. Количество кнопок не ограничено.|
-| [`btn`](#)             | `object`     |              | Объект настроек кнопки. Принимает `element` и `value`.          |
-| [`element`](#)         | `HTMLElement`|              | Внешний вид кнопки.                                             |
-| [`value`](#)           | `string`     |              | Значение кнопки реакции, которое отправится на сервер при его выборе. |
+| [`btn`](#)             | `function`   |              | Функция создания кнопки реакции.          |
 | [`commentOptions`](#)  | `object`     |              | Объект настройки комментария. Принимает `required`, `subtitle`, `placeholder`.  Если объект не передан, блок комментария не будет появляться.|
 | [`required`](#)        | `boolean`    | `false`      | Значение определяющие обязательный ли комментарий.              |
 | [`subtitle`](#)        | `string`     |              | Заголовок комментария.                                          |
@@ -32,11 +30,10 @@
 ### Пример использования
 
 ```js
-import UIButton from './UI/button.js';
+import FeedbackComponent from '../components/feedback.js'
+import { LikeButton, DislikeButton }from '../UI/reactionButtons.js';
 
-const feedback = document.getElementById('feedback');
-
-const feedbackComponent = FeedbackComponent({
+const SimpleFeedback = FeedbackComponent({
   title: 'The Rating overview is in beta. Did you find it useful? Let us know!',
   onSubmit: (e, form) => {
     e.preventDefault();
@@ -44,14 +41,17 @@ const feedbackComponent = FeedbackComponent({
       method: 'POST',
       body: new FormData(form)
     }).then((response) => response.json())
-      .then(() => form.remove());
+      .then(() => {
+        const span = document.createElement('span');
+        span.textContent = 'Feedback sent successfully!';
+        span.style.color = 'green';
+        form.after(span);
+        form.remove();
+      });
   },
   controls: [
     {
-      btn: {
-        element: UIButton('like'),
-        value: 'like',
-      },
+      btn: LikeButton,
       commentOptions: {
         required: true,
         subtitle: 'Why did you selected useful?',
@@ -59,21 +59,48 @@ const feedbackComponent = FeedbackComponent({
       },
     },
     {
-      btn: {
-        element: UIButton('dislike'),
-        value: 'dislike',
-      },
+      btn: DislikeButton,
       commentOptions: {
-        required: false,
         subtitle: 'Why did you selected not useful?',
-        placeholder: '...',
+        placeholder: 'Write here...',
       },
     },
   ]
 })
 
-feedback.append(feedbackComponent);
+export default SimpleFeedback;
+
 ```
+
+---
+### Создание кнопок реакции
+
+Для создания кнопки необходимо создать функцию, которая принимает handler (функцию-обработчик) в качестве параметра и возвращает результат вызова функции конструктора `UIComponent`. `UIComponent` - это функция, которая создает DOM-элемент на основе переданных параметров:
+
+```js
+import UIComponent from './UIComponent.js';
+
+const LikeButton = (handler) => {
+  return UIComponent({
+    tag: 'button',
+    children: [
+      UIComponent({
+        tag: 'img',
+        attributes: { src: './UI/icons/like.svg', alt: 'like' },
+      }),
+    ],
+    listeners: { click: (e) => handler(e) },
+    attributes: { class: 'feedback__like', type: 'button', name: 'like' },
+  });
+};
+```
+
+| Опции                  | Тип          |  Описание                                                        |
+| -----------------------| ------------ |  --------------------------------------------------------------- |
+| [`tag`](#)             | `string`     | Тег HTML-элемента.                                               |
+| [`children`](#)        | `array`      | Массив дочерних элементов (HTMLElement или строк).               |
+| [`listeners`](#)       | `object`     | Объект событий и их обработчиков.                                |
+| [`attributes`](#)      | `object`     | Атрибуты элемента. Аттрибут `name` обязательный, в него передается значение которое отправится на сервер, если оно будет выбрано |
 
 ---
 ### Передача onSubmit

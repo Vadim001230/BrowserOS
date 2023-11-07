@@ -1,8 +1,7 @@
-import FeedbackComponent from './components/feedback.js'
-import DislikeButton from './UI/dislikeButton.js';
-import LikeButton from './UI/likeButton.js';
+import FeedbackComponent from '../components/feedback.js'
+import { LikeButton, DislikeButton }from '../UI/reactionButtons.js';
 
-const initialFeedback = FeedbackComponent({
+const SimpleFeedback = FeedbackComponent({
   title: 'The Rating overview is in beta. Did you find it useful? Let us know!',
   onSubmit: (e, form) => {
     e.preventDefault();
@@ -20,10 +19,7 @@ const initialFeedback = FeedbackComponent({
   },
   controls: [
     {
-      btn: {
-        element: LikeButton(),
-        value: 'like',
-      },
+      btn: LikeButton,
       commentOptions: {
         required: true,
         subtitle: 'Why did you selected useful?',
@@ -31,10 +27,7 @@ const initialFeedback = FeedbackComponent({
       },
     },
     {
-      btn: {
-        element: DislikeButton(),
-        value: 'dislike',
-      },
+      btn: DislikeButton,
       commentOptions: {
         subtitle: 'Why did you selected not useful?',
         placeholder: 'Write here...',
@@ -43,4 +36,4 @@ const initialFeedback = FeedbackComponent({
   ]
 })
 
-export default initialFeedback;
+export default SimpleFeedback;
