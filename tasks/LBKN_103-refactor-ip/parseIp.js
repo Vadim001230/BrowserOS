@@ -1,15 +1,15 @@
 function parseIp(ip) {
-  const numbersOfIp = ip.split('.');
-  if (numbersOfIp.length != 4) {
+  const partsOfIp = ip.split('.');
+  if (partsOfIp.length !== 4) {
     return;
   }
 
-  for (let i = 0; i < numbersOfIp.length; i++) {
-    numbersOfIp[i] = +numbersOfIp[i];
-    if (isNaN(numbersOfIp[i])) {
+  for (let i = 0; i < partsOfIp.length; i++) {
+    partsOfIp[i] = +partsOfIp[i];
+    if (isNaN(partsOfIp[i])) {
       return;
     }
   }
 
-  return numbersOfIp;
+  return partsOfIp;
 }
