@@ -1,4 +1,5 @@
 import ReactionComponent from './reaction.js';
+import TextField from './comment.js';
 
 export default function FeedbackComponent ({ title, onSubmit, controls }) {
   const feedbackForm = document.createElement('form');
@@ -31,8 +32,16 @@ export default function FeedbackComponent ({ title, onSubmit, controls }) {
       submitBtn.before(textError);
     });
   });
-  
-  const reactionContainer = ReactionComponent(controls, initSubmitBtn, setDisableSubmitBtn);
+
+  let comment;
+  const addTextField = (options, isEmptyTextLength) => {
+    if (!options && !comment) return;
+    if (comment) comment.remove();
+    comment = TextField(options, isEmptyTextLength);
+    submitBtn.before(comment);
+  }
+
+  const reactionContainer = ReactionComponent(controls, initSubmitBtn, setDisableSubmitBtn, addTextField);
   
   feedbackForm.append(reactionContainer);
   feedbackForm.append(submitBtn);

@@ -1,6 +1,4 @@
-import TextField from './comment.js';
-
-export default function ReactionComponent(controls, initBtn, setDisableBtn) {
+export default function ReactionComponent(controls, initBtn, setDisableBtn, addTextField) {
   const reactionContainer = document.createElement('div');
   reactionContainer.className = 'reaction-container';
 
@@ -13,7 +11,6 @@ export default function ReactionComponent(controls, initBtn, setDisableBtn) {
   reactionValue.style.display = 'none';
   reactionContainer.append(reactionValue);
 
-  let comment;
   const handleReactionButton = (e, options) => {
     initBtn();
     const value = e.currentTarget.name;
@@ -21,14 +18,10 @@ export default function ReactionComponent(controls, initBtn, setDisableBtn) {
     reactionBtns.childNodes.forEach((btn) => btn.classList.remove('checked'));
     e.currentTarget.classList.add('checked');
 
-    if (!options && !comment) return;
-    if (comment) comment.remove();
     if (options) {
       setDisableBtn(options.required);
       const isEmptyTextLength = (isEmpty) => setDisableBtn(isEmpty && options.required);
-      comment = TextField(options, isEmptyTextLength);
-      
-      reactionContainer.after(comment);
+      addTextField(options, isEmptyTextLength);
     } 
   }
 
