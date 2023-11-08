@@ -38,7 +38,7 @@ export default function FeedbackComponent ({ title, onSubmit, controls }) {
     if (!options && !comment) return;
     if (comment) comment.remove();
     comment = TextField(options, isEmptyTextLength);
-    submitBtn.before(comment);
+    reactionContainer.after(comment);
   }
 
   const reactionContainer = ReactionComponent(controls, initSubmitBtn, setDisableSubmitBtn, addTextField);
@@ -47,6 +47,6 @@ export default function FeedbackComponent ({ title, onSubmit, controls }) {
   feedbackForm.append(submitBtn);
 
   reactionContainer.prepend(titleEl);
-  
+
   return feedbackForm;
 }

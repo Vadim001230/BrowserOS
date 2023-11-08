@@ -10,16 +10,15 @@ export default function TextField(options, isEmptyTextLength) {
 
   const textarea = document.createElement('textarea');
   textarea.className = 'textarea';
-  const attributes = {
-    type: 'text',
-    name: 'text',
-    placeholder: options.placeholder || '',
-    required: Boolean(options.required),
-  };
-
-  for (const attr in attributes) {
-    textarea.setAttribute(attr, attributes[attr]);
+  textarea.setAttribute('type', 'text');
+  textarea.setAttribute('name', 'text');
+  textarea.setAttribute('placeholder', options.placeholder || '');
+  if (Boolean(options.required)) {
+    textarea.setAttribute('required', true);
+  } else {
+    textarea.removeAttribute('required');
   }
+
 
   const handleTextarea = (e) => {
     changeElementHeight(textarea);

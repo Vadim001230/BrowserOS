@@ -29,6 +29,7 @@ const SimpleFeedback = FeedbackComponent({
     {
       btn: DislikeButton,
       commentOptions: {
+        required: false,
         subtitle: 'Why did you selected not useful?',
         placeholder: 'Write here...',
       },
