@@ -1,3 +1,5 @@
+import changeElementHeight from '../utils/elementHeight.js'
+
 export default function TextField(options, isEmptyTextLength) {
   const commentContainer = document.createElement('div');
   commentContainer.className = 'comment-container';
@@ -19,10 +21,8 @@ export default function TextField(options, isEmptyTextLength) {
     textarea.setAttribute(attr, attributes[attr]);
   }
 
-  const setElementHeight = (element) => element.style.height = element.scrollTop > 0 ? element.scrollHeight + 'px' : 'auto';
-    
   const handleTextarea = (e) => {
-    setElementHeight(textarea);
+    changeElementHeight(textarea);
     isEmptyTextLength(e.target.value.length === 0);
   };
 
