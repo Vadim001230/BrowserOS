@@ -1,15 +1,17 @@
-function isValidate1(fullname) {
-  if (fullname.length === 0 || typeof fullname !== 'string' || !fullname.includes(' ')) {
+function isValidateFullname(fullname) {
+  let isValidName = fullname.length > 0 && typeof fullname === 'string' && fullname.includes(' ');
+
+  if (!isValidName) {
     return false;
   }
 
   const loverFullname = fullname.toLowerCase();
   for (const char of loverFullname) {
-    if (char === ' ') continue;
-    if (!(char >= 'a' && char <= 'z')) {
-      return false;
+    if (!((char >= 'a' && char <= 'z') || char === ' ')) {
+      isValidName = false;
+      break;
     }
   }
 
-  return true;
+  return isValidName;
 }
