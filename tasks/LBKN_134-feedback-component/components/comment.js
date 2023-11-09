@@ -1,33 +1,31 @@
-import changeElementHeight from '../utils/elementHeight.js'
+import fixTextareaHeight from '../utils/textarea.js'
+import UIComponent from '../UI/UIComponent.js';
 
 export default function TextField(options, isEmptyTextLength) {
-  const commentContainer = document.createElement('div');
-  commentContainer.className = 'comment-container';
-
-  const subtitle = document.createElement('p');
-  subtitle.textContent = options.subtitle;
-  commentContainer.append(subtitle);
-
-  const textarea = document.createElement('textarea');
-  textarea.className = 'textarea';
-  textarea.setAttribute('type', 'text');
-  textarea.setAttribute('name', 'text');
-  textarea.setAttribute('placeholder', options.placeholder || '');
-  if (Boolean(options.required)) {
-    textarea.setAttribute('required', true);
-  } else {
-    textarea.removeAttribute('required');
-  }
-
-
   const handleTextarea = (e) => {
-    changeElementHeight(textarea);
+    fixTextareaHeight(e.target);
     isEmptyTextLength(e.target.value.length === 0);
   };
 
-  textarea.addEventListener('input', handleTextarea);
-  
-  commentContainer.append(textarea);
+  const commentContainer = UIComponent({
+    tag: 'div',
+    class: 'comment-container',
+    children: [
+      UIComponent({
+        tag: 'p',
+        children: [options.subtitle],
+      }),
+      UIComponent({
+        tag: 'textarea',
+        listeners: { input: handleTextarea },
+        class: 'textarea',
+        type: 'text',
+        name: 'text',
+        placeholder: options.placeholder || '',
+        ...(options.required && {required: Boolean(options.required)}),
+      }),
+    ]
+  });
 
   return commentContainer;
 }

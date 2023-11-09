@@ -1,5 +1,5 @@
 import FeedbackComponent from '../components/feedback.js';
-import { LikeButton }from '../UI/reactionButtons.js';
+import LikeButton from '../components/likeButton.js';
 
 describe('Тестирование компонента Feedback', () => {
   describe('Комментарий обязателен', () => {

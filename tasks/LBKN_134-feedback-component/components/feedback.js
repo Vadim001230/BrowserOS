@@ -3,7 +3,7 @@ import TextField from './comment.js';
 
 export default function FeedbackComponent ({ title, onSubmit, controls }) {
   const feedbackForm = document.createElement('form');
-  feedbackForm.className = 'feedback__form';
+  feedbackForm.className = 'feedback';
 
   const titleEl = document.createElement('h3');
   titleEl.className = 'feedback__title';

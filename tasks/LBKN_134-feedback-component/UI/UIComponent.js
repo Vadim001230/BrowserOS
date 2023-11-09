@@ -1,5 +1,5 @@
 export default function UIComponent(options) {
-  const { tag, children, listeners, attributes } = options;
+  const { tag, children, listeners, ...attributes } = options;
   const el = document.createElement(tag);
 
   children?.forEach((child) => {
@@ -12,15 +12,17 @@ export default function UIComponent(options) {
     }
   });
 
-  listeners &&
+  if (listeners) {
     Object.entries(listeners).forEach(([event, handler]) =>
       el.addEventListener(event, handler)
     );
+  }
 
-  attributes &&
+  if (attributes) {
     Object.entries(attributes).forEach(([attr, value]) => {
       el.setAttribute(attr, value);
     });
+  }
 
   return el;
 };

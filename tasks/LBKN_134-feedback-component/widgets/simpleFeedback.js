@@ -1,5 +1,6 @@
 import FeedbackComponent from '../components/feedback.js'
-import { LikeButton, DislikeButton }from '../UI/reactionButtons.js';
+import LikeButton from '../components/likeButton.js';
+import DislikeButton from '../components/dislikeButton.js';
 
 const SimpleFeedback = FeedbackComponent({
   title: 'The Rating overview is in beta. Did you find it useful? Let us know!',
