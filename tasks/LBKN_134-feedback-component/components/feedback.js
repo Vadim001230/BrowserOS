@@ -3,8 +3,8 @@ import UIComponent from '../UI/UIComponent.js';
 import UIButton from '../UI/UIButton.js';
 
 export default function FeedbackComponent ({ title, onSubmit, controls }) {
-  const reactionBtns = controls.map((control) =>
-    control.btn({ click: (e) => handleReactionButton(e, control.commentOptions) })
+  const reactionElements = controls.map((control) =>
+    control.element({ click: (e) => handleReactionButton(e, control.commentOptions) })
   );
 
   const feedback = UIComponent({
@@ -22,7 +22,7 @@ export default function FeedbackComponent ({ title, onSubmit, controls }) {
           }),
           UIComponent({
             tag: 'div',
-            children: reactionBtns,
+            children: reactionElements,
             class: 'reaction-btns',
           }),
         ],
