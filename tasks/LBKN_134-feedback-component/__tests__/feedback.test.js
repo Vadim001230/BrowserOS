@@ -95,7 +95,7 @@ describe('Тестирование компонента Feedback', () => {
   describe('Поле комментария отсутсвует', () => {
     const title = 'Test Title';
     const onSubmit = jest.fn().mockRejectedValue(new Error('Async error message'));
-    const controls = [{ btn: LikeButton }];
+    const controls = [{ element: LikeButton }];
 
     const component = FeedbackComponent({ title, onSubmit, controls });
 

@@ -19,7 +19,7 @@
 | [`title`](#)           | `string`     |              | Заголовок компонента.                                           |
 | [`onSubmit`](#)        | `function`   |              | Функция обработки отправления данных из компонента на сервер. Функция должна возвращать промис.  |
 | [`controls`](#)        | `array`      |              | Массив с объектами настроек кнопок и комментариев. Количество кнопок не ограничено.|
-| [`btn`](#)             | `function`   |              | Функция создания кнопки реакции.          |
+| [`element`](#)         | `function`   |              | Функция создания кнопки реакции.          |
 | [`commentOptions`](#)  | `object`     |              | Объект настройки комментария. Принимает `required`, `subtitle`, `placeholder`.  Если объект не передан, блок комментария не будет появляться.|
 | [`required`](#)        | `boolean`    | `false`      | Значение определяющие обязательный ли комментарий.              |
 | [`subtitle`](#)        | `string`     |              | Заголовок комментария.                                          |
@@ -31,27 +31,19 @@
 
 ```js
 import FeedbackComponent from '../components/feedback.js'
-import { LikeButton, DislikeButton }from '../UI/reactionButtons.js';
+import LikeButton from '../components/likeButton.js';
+import DislikeButton from '../components/dislikeButton.js';
+import UIComponent from '../UI/UIComponent.js';
 
-const SimpleFeedback = FeedbackComponent({
+const SimpleFeedback = (handleSubmit, resolve) => FeedbackComponent({
   title: 'The Rating overview is in beta. Did you find it useful? Let us know!',
-  onSubmit: (e, form) => {
-    e.preventDefault();
-    return fetch('url', {
-      method: 'POST',
-      body: new FormData(form)
-    }).then((response) => response.json())
-      .then(() => {
-        const span = document.createElement('span');
-        span.textContent = 'Feedback sent successfully!';
-        span.style.color = 'green';
-        form.after(span);
-        form.remove();
-      });
+  onSubmit: async (e, data) => {
+    await handleSubmit(e, data);
+    resolve(e);
   },
   controls: [
     {
-      btn: LikeButton,
+      element: LikeButton,
       commentOptions: {
         required: true,
         subtitle: 'Why did you selected useful?',
@@ -59,8 +51,9 @@ const SimpleFeedback = FeedbackComponent({
       },
     },
     {
-      btn: DislikeButton,
+      element: DislikeButton,
       commentOptions: {
+        required: false,
         subtitle: 'Why did you selected not useful?',
         placeholder: 'Write here...',
       },
@@ -68,8 +61,29 @@ const SimpleFeedback = FeedbackComponent({
   ]
 })
 
-export default SimpleFeedback;
+const handleSubmit = async (e, data) => {
+  e.preventDefault();
+  const response = await fetch('url', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+  await response.json();
+}
 
+const createSuccessElement = (e) => {
+  const form = e.target.form;
+  const successElement = UIComponent({
+    tag: 'span',
+    children: ['Feedback sent successfully!'],
+    style: 'color: green',
+  })
+  form.after(successElement);
+  form.remove();
+}
+
+const SimpleFeedbackComponent = SimpleFeedback(handleSubmit, createSuccessElement);
+
+export default SimpleFeedbackComponent;
 ```
 
 ---
@@ -78,21 +92,24 @@ export default SimpleFeedback;
 Для создания кнопки необходимо создать функцию, которая принимает handler (функцию-обработчик) в качестве параметра и возвращает результат вызова функции конструктора `UIComponent`. `UIComponent` - это функция, которая создает DOM-элемент на основе переданных параметров:
 
 ```js
-import UIComponent from './UIComponent.js';
+import UIButton from '../UI/UIButton.js';
+import UIComponent from '../UI/UIComponent.js';
 
-const LikeButton = (handler) => {
-  return UIComponent({
-    tag: 'button',
+const LikeButton = (listeners) => {
+  return UIButton({
     children: [
       UIComponent({
         tag: 'img',
-        attributes: { src: './UI/icons/like.svg', alt: 'like' },
+        src: './UI/icons/like.svg', 
+        alt: 'like',
       }),
     ],
-    listeners: { click: (e) => handler(e) },
-    attributes: { class: 'feedback__like', type: 'button', name: 'like' },
+    listeners,
+    class: 'feedback__like', 
+    name: 'like',
   });
 };
+
 ```
 
 | Опции                  | Тип          |  Описание                                                        |
@@ -108,33 +125,33 @@ const LikeButton = (handler) => {
 В `onSubmit` вы можете обрабатывать поведение компонента после успешной его отправки на сервер. Например удалить его:
 
 ```js
-onSubmit: (e, form) => {
-    e.preventDefault();
-    return fetch('url', {
-      method: 'POST',
-      body: new FormData(form)
-    }).then((response) => response.json())
-      .then(() => form.remove());
-  },
+onSubmit: async (e, data) => {
+  e.preventDefault();
+  const response = await fetch('url', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+  await response.json();
+  return form.remove();
+}
 ```
 
 Или показать сообщение что фидбэк успешно отправлен:
 
 ```js
-  onSubmit: (e, form) => {
-    e.preventDefault();
-    return fetch('url', {
-      method: 'POST',
-      body: new FormData(form)
-    }).then((response) => response.json())
-      .then(() => {
-        const span = document.createElement('span');
-        span.textContent = 'Feedback sent successfully!'
-        span.style.color = 'green';
-        form.after(span);
-        form.remove();
-      });
-  },
+onSubmit: async (e, data) => {
+  e.preventDefault();
+  const response = await fetch('url', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+  await response.json();
+  const span = document.createElement('span');
+  span.textContent = 'Feedback sent successfully!';
+  span.style.color = 'green';
+  form.after(span);
+  form.remove();
+}
 ```
 ---
 
@@ -165,7 +182,7 @@ onSubmit: (e, form) => {
 
   - Кнопок может быть разное количество. Вы сами выбираете их UI и данными которые отправятся при ее выборе.
   - Кнопка может быть выбрана только одна. При переключении между кнопками ранее введенные данные из блока комментария удаляются.
-  - Форма уже содержит данные выбраной пользователем кнопки и комментария. Для отправки данных на сервер достаточно использовать  `new FormData(form)`, где `form` – элемент формы. Переданное значение на сервер будет формата `{ reaction: string, comment: string }`, где `reaction` – значение выбранной кнопки, `comment` – текст комментария.
+  - При срабатывании события submit, в `onSubmit` передается объект `data`, который сдержит данные формата `{ reaction: string, comment: string }`, где `reaction` – значение выбранной кнопки реакции, `comment` – текст комментария. Этот объект необходимо использовать для отправки данных на сервер.
 
 
 ### Назначение зависимостей в проекте 

@@ -1,6 +1,6 @@
 import TextField from './comment.js';
 import UIComponent from '../UI/UIComponent.js';
-import UIButton from '../UI/UIButton.js';
+import FeedbackConstructor from './feedbackConstructor.js';
 
 export default function FeedbackComponent ({ title, onSubmit, controls }) {
   const state = {
@@ -9,13 +9,29 @@ export default function FeedbackComponent ({ title, onSubmit, controls }) {
   }
   const reactionElements = [];
   const feedbackOptions = {};
-  let comment;
+  let commentField;
 
   controls.forEach((control, index) => {
     reactionElements.push(control.element({ click: (e) => handleReactionElement(e) }));
     const reaction = reactionElements[index].name;
     feedbackOptions[reaction] = control.commentOptions || null;
   });
+
+  const textError = UIComponent({
+    tag: 'span',
+    children: ['An error has occurred. Try again'],
+    style: 'color: red',
+  });
+
+  const handleSubmit = (e) => {
+    onSubmit(e, state).catch(() => {
+      textError && textError.remove();
+      feedback.append(textError);
+    });
+  }
+
+  const feedback = FeedbackConstructor(title, reactionElements, handleSubmit);
+  const submitBtn = feedback.submit;
 
   const setState = (value) => Object.keys(value).forEach((key) => proxyState[key] = value[key]);
 
@@ -41,11 +57,11 @@ export default function FeedbackComponent ({ title, onSubmit, controls }) {
         );
 
         const options = feedbackOptions[value];
-        if (comment) comment.remove();
+        if (commentField) commentField.remove();
         if (options) {
           setDisableSubmitBtn(options.required);
-          comment = TextField(options, handleComment);
-          submitBtn.before(comment);
+          commentField = TextField(options, handleComment);
+          submitBtn.before(commentField);
         }
       }
 
@@ -55,51 +71,6 @@ export default function FeedbackComponent ({ title, onSubmit, controls }) {
   }
 
   const proxyState = new Proxy(state, stateHandlerConfig);
- 
-  const feedback = UIComponent({
-    tag: 'form',
-    class: 'feedback',
-    children: [
-      UIComponent({
-        tag: 'div',
-        class: 'reaction',
-        children: [
-          UIComponent({
-            tag: 'h3',
-            children: [title],
-            class: 'feedback__title',
-          }),
-          UIComponent({
-            tag: 'div',
-            children: reactionElements,
-            class: 'reaction-btns',
-          }),
-        ],
-      }),
-      UIButton({
-        children: ['Submit'],
-        class: 'feedback__submit-btn',
-        name: 'submit',
-        type: 'submit',
-      }),
-    ],
-  });
-
-  const textError = UIComponent({
-    tag: 'span',
-    children: ['An error has occurred. Try again'],
-    style: 'color: red',
-  });
-
-  const handleSubmit = (e) => {
-    onSubmit(e, state).catch(() => {
-      textError && textError.remove();
-      feedback.append(textError);
-    });
-  }
-
-  const submitBtn = feedback.submit;
-  submitBtn.addEventListener('click', (e) => handleSubmit(e));
 
   return feedback;
 }
