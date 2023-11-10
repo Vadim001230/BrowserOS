@@ -1,7 +1,7 @@
 import UIButton from '../UI/UIButton.js';
 import UIComponent from '../UI/UIComponent.js';
 
-const LikeButton = (handler) => {
+const LikeButton = (listeners) => {
   return UIButton({
     children: [
       UIComponent({
@@ -10,7 +10,7 @@ const LikeButton = (handler) => {
         alt: 'like',
       }),
     ],
-    listeners: { click: (e) => handler(e) },
+    listeners,
     class: 'feedback__like', 
     name: 'like',
   });

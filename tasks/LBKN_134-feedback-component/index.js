@@ -1,4 +1,4 @@
 import SimpleFeedback from './widgets/simpleFeedback.js';
 
-const feedback = document.getElementById('feedback-root');
+const feedback = document.querySelector('.feedback-root');
 feedback.append(SimpleFeedback);

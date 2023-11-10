@@ -4,11 +4,11 @@ import DislikeButton from '../components/dislikeButton.js';
 
 const SimpleFeedback = FeedbackComponent({
   title: 'The Rating overview is in beta. Did you find it useful? Let us know!',
-  onSubmit: (e, form) => {
+  onSubmit: (e) => {
     e.preventDefault();
     return fetch('url', {
       method: 'POST',
-      body: new FormData(form)
+      body: new FormData(e.target.form)
     }).then((response) => response.json())
       .then(() => {
         const span = document.createElement('span');

@@ -13,7 +13,7 @@
   font-family: inherit;
 }
 
-#feedback-root {
+.feedback-root {
   margin: 2rem;
   padding: 1.5rem 1rem;
   border: 1px solid var(--second-color);
@@ -27,7 +27,7 @@
   flex-direction: column;
 }
 
-.reaction-container {
+.reaction {
   display: flex;
   justify-content: space-between;
   flex-wrap: nowrap;
@@ -114,11 +114,11 @@
 }
 
 @media (max-width: 500px) {
-  #feedback {
+  .feedback-root {
     margin: 1rem;
   }
 
-  .reaction-container {
+  .reaction {
     flex-wrap: wrap;
     justify-content: center;
     flex-direction: column;

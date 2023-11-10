@@ -1,4 +1,4 @@
-import fixTextareaHeight from '../utils/textarea.js'
+import { fixTextareaHeight } from '../utils/textarea.js'
 import UIComponent from '../UI/UIComponent.js';
 
 export default function TextField(options, isEmptyTextLength) {
@@ -20,7 +20,7 @@ export default function TextField(options, isEmptyTextLength) {
         listeners: { input: handleTextarea },
         class: 'textarea',
         type: 'text',
-        name: 'text',
+        name: 'comment',
         placeholder: options.placeholder || '',
         ...(options.required && {required: Boolean(options.required)}),
       }),

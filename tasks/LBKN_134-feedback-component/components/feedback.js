@@ -1,19 +1,56 @@
-import ReactionComponent from './reaction.js';
 import TextField from './comment.js';
+import UIComponent from '../UI/UIComponent.js';
+import UIButton from '../UI/UIButton.js';
 
 export default function FeedbackComponent ({ title, onSubmit, controls }) {
-  const feedbackForm = document.createElement('form');
-  feedbackForm.className = 'feedback';
+  const reactionBtns = controls.map((control) =>
+    control.btn({ click: (e) => handleReactionButton(e, control.commentOptions) })
+  );
 
-  const titleEl = document.createElement('h3');
-  titleEl.className = 'feedback__title';
-  titleEl.textContent = title;
+  const feedback = UIComponent({
+    tag: 'form',
+    class: 'feedback',
+    children: [
+      UIComponent({
+        tag: 'div',
+        class: 'reaction',
+        children: [
+          UIComponent({
+            tag: 'h3',
+            children: [title],
+            class: 'feedback__title',
+          }),
+          UIComponent({
+            tag: 'div',
+            children: reactionBtns,
+            class: 'reaction-btns',
+          }),
+        ],
+      }),
+      UIButton({
+        children: ['Submit'],
+        class: 'feedback__submit-btn',
+        name: 'submit',
+        type: 'submit',
+      }),
+    ],
+  });
 
-  const submitBtn = document.createElement('button');
-  submitBtn.className = 'feedback__submit-btn';
-  submitBtn.textContent = 'Submit';
-  submitBtn.setAttribute('name', 'submit');
-  
+  const submitBtn = feedback.submit;
+
+  function handleReactionButton (e, options) {
+    initSubmitBtn();
+    const reactionBtns = e.currentTarget.parentNode;
+    reactionBtns.childNodes.forEach((btn) => btn.classList.remove('checked'));
+    e.currentTarget.classList.add('checked');
+
+    if (options) {
+      setDisableSubmitBtn(options.required);
+      const isEmptyTextLength = (isEmpty) => setDisableSubmitBtn(isEmpty && options.required);
+      addTextField(options, isEmptyTextLength);
+    } 
+  }
+
   const initSubmitBtn = () => {
     submitBtn.classList.add('block');
     submitBtn.removeAttribute('disabled');
@@ -23,13 +60,16 @@ export default function FeedbackComponent ({ title, onSubmit, controls }) {
     isDisabled ? submitBtn.setAttribute('disabled', true) : submitBtn.removeAttribute('disabled');
   }
 
-  const textError = document.createElement('span');
+  const textError = UIComponent({
+    tag: 'span',
+    children: ['An error has occurred. Try again'],
+    style: 'color: red',
+  });
+
   submitBtn.addEventListener('click', (e) =>  {
-    onSubmit(e, submitBtn.form).catch(() => {
-      textError.remove();
-      textError.style.color = 'red';
-      textError.textContent = 'An error has occurred. Try again';
-      submitBtn.before(textError);
+    onSubmit(e).catch(() => {
+      textError && textError.remove();
+      feedback.append(textError);
     });
   });
 
@@ -38,15 +78,8 @@ export default function FeedbackComponent ({ title, onSubmit, controls }) {
     if (!options && !comment) return;
     if (comment) comment.remove();
     comment = TextField(options, isEmptyTextLength);
-    reactionContainer.after(comment);
+    submitBtn.before(comment);
   }
 
-  const reactionContainer = ReactionComponent(controls, initSubmitBtn, setDisableSubmitBtn, addTextField);
-  
-  feedbackForm.append(reactionContainer);
-  feedbackForm.append(submitBtn);
-
-  reactionContainer.prepend(titleEl);
-
-  return feedbackForm;
+  return feedback;
 }
