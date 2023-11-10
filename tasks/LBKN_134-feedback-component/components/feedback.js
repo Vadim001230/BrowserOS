@@ -3,10 +3,59 @@ import UIComponent from '../UI/UIComponent.js';
 import UIButton from '../UI/UIButton.js';
 
 export default function FeedbackComponent ({ title, onSubmit, controls }) {
-  const reactionElements = controls.map((control) =>
-    control.element({ click: (e) => handleReactionButton(e, control.commentOptions) })
-  );
+  const state = {
+    comment: '',
+    reaction: ''
+  }
+  const reactionElements = [];
+  const feedbackOptions = {};
+  let comment;
 
+  controls.forEach((control, index) => {
+    reactionElements.push(control.element({ click: (e) => handleReactionElement(e) }));
+    const reaction = reactionElements[index].name;
+    feedbackOptions[reaction] = control.commentOptions || null;
+  });
+
+  const setState = (value) => Object.keys(value).forEach((key) => proxyState[key] = value[key]);
+
+  const handleComment = (e) => setState({ comment : e.target.value });
+  const handleReactionElement = (e) => setState({ reaction : e.currentTarget.name });
+
+  const setDisableSubmitBtn = (isDisabled) => {
+    isDisabled ? submitBtn.setAttribute('disabled', true) : submitBtn.removeAttribute('disabled');
+  }
+
+  const stateHandlerConfig = {
+    set(target, prop, value) {
+      if (prop === 'comment') {
+        const isCommentRequired = feedbackOptions[state.reaction].required;
+        setDisableSubmitBtn(value.length === 0 && isCommentRequired);
+      }
+
+      if (prop === 'reaction') {
+        submitBtn.classList.add('block');
+        submitBtn.removeAttribute('disabled');
+        reactionElements.forEach((el) => 
+          el.name === value ? el.classList.add('checked') : el.classList.remove('checked')
+        );
+
+        const options = feedbackOptions[value];
+        if (comment) comment.remove();
+        if (options) {
+          setDisableSubmitBtn(options.required);
+          comment = TextField(options, handleComment);
+          submitBtn.before(comment);
+        }
+      }
+
+      target[prop] = value;
+      return true;
+    }
+  }
+
+  const proxyState = new Proxy(state, stateHandlerConfig);
+ 
   const feedback = UIComponent({
     tag: 'form',
     class: 'feedback',
@@ -36,50 +85,21 @@ export default function FeedbackComponent ({ title, onSubmit, controls }) {
     ],
   });
 
-  const submitBtn = feedback.submit;
-
-  function handleReactionButton (e, options) {
-    initSubmitBtn();
-    const reactionBtns = e.currentTarget.parentNode;
-    reactionBtns.childNodes.forEach((btn) => btn.classList.remove('checked'));
-    e.currentTarget.classList.add('checked');
-
-    if (options) {
-      setDisableSubmitBtn(options.required);
-      const isEmptyTextLength = (isEmpty) => setDisableSubmitBtn(isEmpty && options.required);
-      addTextField(options, isEmptyTextLength);
-    } 
-  }
-
-  const initSubmitBtn = () => {
-    submitBtn.classList.add('block');
-    submitBtn.removeAttribute('disabled');
-  }
-
-  const setDisableSubmitBtn = (isDisabled) => {
-    isDisabled ? submitBtn.setAttribute('disabled', true) : submitBtn.removeAttribute('disabled');
-  }
-
   const textError = UIComponent({
     tag: 'span',
     children: ['An error has occurred. Try again'],
     style: 'color: red',
   });
 
-  submitBtn.addEventListener('click', (e) =>  {
-    onSubmit(e).catch(() => {
+  const handleSubmit = (e) => {
+    onSubmit(e, state).catch(() => {
       textError && textError.remove();
       feedback.append(textError);
     });
-  });
-
-  let comment;
-  const addTextField = (options, isEmptyTextLength) => {
-    if (!options && !comment) return;
-    if (comment) comment.remove();
-    comment = TextField(options, isEmptyTextLength);
-    submitBtn.before(comment);
   }
+
+  const submitBtn = feedback.submit;
+  submitBtn.addEventListener('click', (e) => handleSubmit(e));
 
   return feedback;
 }

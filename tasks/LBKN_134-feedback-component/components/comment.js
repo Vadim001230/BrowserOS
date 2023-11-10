@@ -1,10 +1,10 @@
 import { fixTextareaHeight } from '../utils/textarea.js'
 import UIComponent from '../UI/UIComponent.js';
 
-export default function TextField(options, isEmptyTextLength) {
+export default function TextField(options, handleComment) {
   const handleTextarea = (e) => {
     fixTextareaHeight(e.target);
-    isEmptyTextLength(e.target.value.length === 0);
+    handleComment(e);
   };
 
   const commentContainer = UIComponent({

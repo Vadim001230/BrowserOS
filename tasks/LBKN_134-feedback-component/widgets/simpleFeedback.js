@@ -5,8 +5,8 @@ import UIComponent from '../UI/UIComponent.js';
 
 const SimpleFeedback = (handleSubmit, resolve) => FeedbackComponent({
   title: 'The Rating overview is in beta. Did you find it useful? Let us know!',
-  onSubmit: async (e) => {
-    await handleSubmit(e);
+  onSubmit: async (e, data) => {
+    await handleSubmit(e, data);
     resolve(e);
   },
   controls: [
@@ -29,11 +29,11 @@ const SimpleFeedback = (handleSubmit, resolve) => FeedbackComponent({
   ]
 })
 
-const handleSubmit = async (e) => {
+const handleSubmit = async (e, data) => {
   e.preventDefault();
   const response = await fetch('url', {
     method: 'POST',
-    body: new FormData(e.target.form),
+    body: JSON.stringify(data),
   });
   await response.json();
 }

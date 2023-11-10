@@ -12,7 +12,7 @@ describe('Тестирование компонента Feedback', () => {
     }
     const controls = [
       {
-        btn: LikeButton,
+        element: LikeButton,
         commentOptions: options,
       },
     ];
@@ -72,7 +72,7 @@ describe('Тестирование компонента Feedback', () => {
     }
     const controls = [
       {
-        btn: LikeButton,
+        element: LikeButton,
         commentOptions: options,
       },
     ];
