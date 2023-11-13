@@ -1,22 +1,31 @@
 import TextField from './comment.js';
 import UIComponent from '../UI/UIComponent.js';
-import FeedbackConstructor from './feedbackConstructor.js';
+import UIButton from '../UI/UIButton.js';
 
-export default function FeedbackComponent ({ title, onSubmit, controls }) {
+export default function FeedbackComponent({ title, onSubmit, controls }) {
   const state = {
     comment: '',
-    reaction: ''
+    reaction: '',
   }
   const reactionElements = [];
   const feedbackOptions = {};
-  let commentField;
+  const commentField = TextField();
+
+  const setState = (value) => Object.keys(value).forEach((key) => proxyState[key] = value[key]);
+
+  const handleClickReactionElement = (e) => setState({ reaction: e.currentTarget.name });
+  const handleInputComment = (e) => setState({ comment: e.target.value });
 
   controls.forEach((control, index) => {
-    reactionElements.push(control.element({ click: (e) => handleReactionElement(e) }));
+    const reactionElement = control.element({ click: handleClickReactionElement });
+    reactionElement.update = ((value) => {
+      reactionElement.name === value ? reactionElement.classList.add('checked') : reactionElement.classList.remove('checked');
+    });
+    reactionElements.push(reactionElement);
     const reaction = reactionElements[index].name;
     feedbackOptions[reaction] = control.commentOptions || null;
   });
-
+  
   const textError = UIComponent({
     tag: 'span',
     children: ['An error has occurred. Try again'],
@@ -30,47 +39,76 @@ export default function FeedbackComponent ({ title, onSubmit, controls }) {
     });
   }
 
-  const feedback = FeedbackConstructor(title, reactionElements, handleSubmit);
-  const submitBtn = feedback.submit;
+  const createSubmitBtn = (options) => UIButton({
+    children: ['Submit'],
+    class: `feedback__submit-btn`,
+    name: 'submit',
+    type: 'submit',
+    listeners: { click: handleSubmit },
+    style: `display: ${options?.isVisible ? 'block' : 'none'}`,
+    ...(options?.isDisabled && { disabled: 'disabled' }),
+  });
 
-  const setState = (value) => Object.keys(value).forEach((key) => proxyState[key] = value[key]);
+  let submitBtn = createSubmitBtn();
+  submitBtn.update = ((options) => {
+    const newBtn = createSubmitBtn(options);
+    submitBtn.replaceWith(newBtn);
+    newBtn.update = submitBtn.update;
+    submitBtn = newBtn;
+  });
 
-  const handleComment = (e) => setState({ comment : e.target.value });
-  const handleReactionElement = (e) => setState({ reaction : e.currentTarget.name });
+  const feedbackHandler = {
+    comment: (value) => {
+      const isCommentRequired = feedbackOptions[state.reaction].required;
+      submitBtn.update({ isVisible: true, isDisabled: value.length === 0 && isCommentRequired });
+    },
 
-  const setDisableSubmitBtn = (isDisabled) => {
-    isDisabled ? submitBtn.setAttribute('disabled', true) : submitBtn.removeAttribute('disabled');
+    reaction: (value) => {
+      reactionElements.forEach((el) => el.update(value));
+      const options = feedbackOptions[value];
+      if (options) {
+        options.onInput = handleInputComment;
+        commentField.update(options);
+        submitBtn.update({isVisible: true, isDisabled: options.required});
+      } else {
+        commentField.update(options);
+        submitBtn.update({isVisible: true, isDisabled: false});
+      }
+    },
   }
 
-  const stateHandlerConfig = {
+  const feedback = UIComponent({
+    tag: 'form',
+    class: 'feedback',
+    children: [
+      UIComponent({
+        tag: 'div',
+        class: 'reaction',
+        children: [
+          UIComponent({
+            tag: 'h3',
+            children: [title],
+            class: 'feedback__title',
+          }),
+          UIComponent({
+            tag: 'div',
+            children: reactionElements,
+            class: 'reaction-btns',
+          }),
+        ],
+      }),
+      commentField,
+      submitBtn,
+    ],
+  });
+
+  const proxyState = new Proxy(state, {
     set(target, prop, value) {
-      if (prop === 'comment') {
-        const isCommentRequired = feedbackOptions[state.reaction].required;
-        setDisableSubmitBtn(value.length === 0 && isCommentRequired);
-      }
-
-      if (prop === 'reaction') {
-        submitBtn.classList.add('block');
-        submitBtn.removeAttribute('disabled');
-        reactionElements.forEach((el) => 
-          el.name === value ? el.classList.add('checked') : el.classList.remove('checked')
-        );
-
-        const options = feedbackOptions[value];
-        if (commentField) commentField.remove();
-        if (options) {
-          setDisableSubmitBtn(options.required);
-          commentField = TextField(options, handleComment);
-          submitBtn.before(commentField);
-        }
-      }
-
+      feedbackHandler[prop](value);
       target[prop] = value;
       return true;
     }
-  }
-
-  const proxyState = new Proxy(state, stateHandlerConfig);
+  });
 
   return feedback;
 }
