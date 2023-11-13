@@ -47,9 +47,10 @@ describe('Тестирование компонента Feedback', () => {
     describe('Проверка состояния элемента после ввода комментария', () => {
       test('Кнопка submit доступна', () => {
         const textarea = component.querySelector('.textarea');
-        const submitButton = component.querySelector('.feedback__submit-btn');
+        let submitButton = component.querySelector('.feedback__submit-btn');
         textarea.value = 'test text';
         textarea.dispatchEvent(new Event('input'));
+        submitButton = component.querySelector('.feedback__submit-btn');
         expect(submitButton.disabled).toBe(false);
       });
 
@@ -106,8 +107,8 @@ describe('Тестирование компонента Feedback', () => {
       const submitButton = component.querySelector('.feedback__submit-btn');
       expect(submitButton.disabled).toBe(false);
 
-      const textarea = component.querySelector('.textarea');
-      expect(textarea).toBeNull();
+      const comment = component.querySelector('.comment-container');
+      expect(comment.style.display).toBe('none');
     });
   });
 
