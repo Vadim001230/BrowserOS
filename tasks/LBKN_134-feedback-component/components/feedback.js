@@ -1,6 +1,6 @@
 import TextField from './comment.js';
+import SubmitBtn from './submitBtn.js';
 import UIComponent from '../UI/UIComponent.js';
-import UIButton from '../UI/UIButton.js';
 
 export default function FeedbackComponent({ title, onSubmit, controls }) {
   const state = {
@@ -9,23 +9,12 @@ export default function FeedbackComponent({ title, onSubmit, controls }) {
   }
   const reactionElements = [];
   const feedbackOptions = {};
-  const commentField = TextField();
 
   const setState = (value) => Object.keys(value).forEach((key) => proxyState[key] = value[key]);
 
-  const handleClickReactionElement = (e) => setState({ reaction: e.currentTarget.name });
+  const handleClickReactionElement = (e) => setState({ reaction: e.currentTarget.name, comment: '' });
   const handleInputComment = (e) => setState({ comment: e.target.value });
 
-  controls.forEach((control, index) => {
-    const reactionElement = control.element({ click: handleClickReactionElement });
-    reactionElement.update = ((value) => {
-      reactionElement.name === value ? reactionElement.classList.add('checked') : reactionElement.classList.remove('checked');
-    });
-    reactionElements.push(reactionElement);
-    const reaction = reactionElements[index].name;
-    feedbackOptions[reaction] = control.commentOptions || null;
-  });
-  
   const textError = UIComponent({
     tag: 'span',
     children: ['An error has occurred. Try again'],
@@ -37,43 +26,45 @@ export default function FeedbackComponent({ title, onSubmit, controls }) {
       textError && textError.remove();
       feedback.append(textError);
     });
-  }
+  };
 
-  const createSubmitBtn = (options) => UIButton({
-    children: ['Submit'],
-    class: `feedback__submit-btn`,
-    name: 'submit',
-    type: 'submit',
-    listeners: { click: handleSubmit },
-    style: `display: ${options?.isVisible ? 'block' : 'none'}`,
-    ...(options?.isDisabled && { disabled: 'disabled' }),
-  });
+  const submitBtn = SubmitBtn();
+  const commentField = TextField();
 
-  let submitBtn = createSubmitBtn();
-  submitBtn.update = ((options) => {
-    const newBtn = createSubmitBtn(options);
-    submitBtn.replaceWith(newBtn);
-    newBtn.update = submitBtn.update;
-    submitBtn = newBtn;
+  controls.forEach((control, index) => {
+    const reactionElement = control.element({ click: handleClickReactionElement });
+    reactionElements.push(reactionElement);
+    const reaction = reactionElements[index].name;
+    feedbackOptions[reaction] = control.commentOptions || null;
   });
 
   const feedbackHandler = {
     comment: (value) => {
-      const isCommentRequired = feedbackOptions[state.reaction].required;
-      submitBtn.update({ isVisible: true, isDisabled: value.length === 0 && isCommentRequired });
+      const isCommentRequired = feedbackOptions[state.reaction]?.required;
+      const isDisabled = value.length === 0 && isCommentRequired;
+      submitBtn.update({
+        onSubmit: handleSubmit, 
+        isVisible: true, 
+        isDisabled: isDisabled
+      });
+      textError.remove();
     },
 
     reaction: (value) => {
+      commentField.style.display = 'block';
       reactionElements.forEach((el) => el.update(value));
       const options = feedbackOptions[value];
+      textError.remove();
       if (options) {
         options.onInput = handleInputComment;
-        commentField.update(options);
-        submitBtn.update({isVisible: true, isDisabled: options.required});
-      } else {
-        commentField.update(options);
-        submitBtn.update({isVisible: true, isDisabled: false});
       }
+      
+      commentField.update(options);
+      submitBtn.update({
+        onSubmit: handleSubmit, 
+        isVisible: true, 
+        isDisabled: options?.required
+      });
     },
   }
 
@@ -102,6 +93,8 @@ export default function FeedbackComponent({ title, onSubmit, controls }) {
     ],
   });
 
+  commentField.style.display = 'none';
+
   const proxyState = new Proxy(state, {
     set(target, prop, value) {
       feedbackHandler[prop](value);
@@ -109,6 +102,7 @@ export default function FeedbackComponent({ title, onSubmit, controls }) {
       return true;
     }
   });
+
 
   return feedback;
 }

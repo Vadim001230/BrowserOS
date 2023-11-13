@@ -20,9 +20,9 @@
 | [`onSubmit`](#)        | `function`   |              | Функция обработки отправления данных из компонента на сервер. Функция должна возвращать промис.  |
 | [`controls`](#)        | `array`      |              | Массив с объектами настроек кнопок и комментариев. Количество кнопок не ограничено.|
 | [`element`](#)         | `function`   |              | Функция создания кнопки реакции.          |
-| [`commentOptions`](#)  | `object`     |              | Объект настройки комментария. Принимает `required`, `subtitle`, `placeholder`.  Если объект не передан, блок комментария не будет появляться.|
+| [`commentOptions`](#)  | `object`     |              | Объект настройки комментария. Принимает `required`, `title`, `placeholder`.  Если объект не передан, блок комментария не будет появляться.|
 | [`required`](#)        | `boolean`    | `false`      | Значение определяющие обязательный ли комментарий.              |
-| [`subtitle`](#)        | `string`     |              | Заголовок комментария.                                          |
+| [`title`](#)           | `string`     |              | Заголовок комментария.                                          |
 | [`placeholder`](#)     | `string`     | `''`         | Placeholder внутри элемента комментария.                        |
 
 ---
@@ -46,7 +46,7 @@ const SimpleFeedback = (handleSubmit, resolve) => FeedbackComponent({
       element: LikeButton,
       commentOptions: {
         required: true,
-        subtitle: 'Why did you selected useful?',
+        title: 'Why did you selected useful?',
         placeholder: 'Your feedback...',
       },
     },
@@ -54,7 +54,7 @@ const SimpleFeedback = (handleSubmit, resolve) => FeedbackComponent({
       element: DislikeButton,
       commentOptions: {
         required: false,
-        subtitle: 'Why did you selected not useful?',
+        title: 'Why did you selected not useful?',
         placeholder: 'Write here...',
       },
     },

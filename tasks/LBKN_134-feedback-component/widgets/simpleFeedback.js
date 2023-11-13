@@ -14,7 +14,7 @@ const SimpleFeedback = (handleSubmit, resolve) => FeedbackComponent({
       element: LikeButton,
       commentOptions: {
         required: true,
-        subtitle: 'Why did you selected useful?',
+        title: 'Why did you selected useful?',
         placeholder: 'Your feedback...',
       },
     },
@@ -22,7 +22,7 @@ const SimpleFeedback = (handleSubmit, resolve) => FeedbackComponent({
       element: DislikeButton,
       commentOptions: {
         required: false,
-        subtitle: 'Why did you selected not useful?',
+        title: 'Why did you selected not useful?',
         placeholder: 'Write here...',
       },
     },

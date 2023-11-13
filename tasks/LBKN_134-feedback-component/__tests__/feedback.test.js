@@ -7,7 +7,7 @@ describe('Тестирование компонента Feedback', () => {
     const onSubmit = jest.fn().mockRejectedValue(new Error('Async error message'));
     const options = {
       required: true,
-      subtitle: 'Test subtitle',
+      title: 'Test subtitle',
       placeholder: 'Test placeholder',
     }
     const controls = [
@@ -33,7 +33,7 @@ describe('Тестирование компонента Feedback', () => {
       likeButton.dispatchEvent(new Event('click'));
 
       const subtitle = component.querySelector('p');
-      expect(subtitle.textContent).toBe(options.subtitle);
+      expect(subtitle.textContent).toBe(options.title);
 
       const submitButton = component.querySelector('.feedback__submit-btn');
       expect(submitButton.disabled).toBe(true);
@@ -68,7 +68,7 @@ describe('Тестирование компонента Feedback', () => {
     const onSubmit = jest.fn().mockRejectedValue(new Error('Async error message'));
     const options = {
       required: false,
-      subtitle: 'Test subtitle',
+      title: 'Test subtitle',
       placeholder: 'Test placeholder',
     }
     const controls = [
@@ -107,8 +107,8 @@ describe('Тестирование компонента Feedback', () => {
       const submitButton = component.querySelector('.feedback__submit-btn');
       expect(submitButton.disabled).toBe(false);
 
-      const comment = component.querySelector('.comment-container');
-      expect(comment.style.display).toBe('none');
+      const textarea = component.querySelector('.textarea');
+      expect(textarea).toBeNull();
     });
   });
 
