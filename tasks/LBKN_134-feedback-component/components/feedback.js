@@ -5,12 +5,13 @@ import UIComponent from '../UI/UIComponent.js';
 export default function FeedbackComponent({ title, onSubmit, controls }) {
   const state = {
     comment: '',
-    reaction: '',
+    reaction: '', 
+    // options, get reaction, get isCommentValid...
   }
   const reactionElements = [];
   const feedbackOptions = {};
 
-  const setState = (value) => Object.keys(value).forEach((key) => proxyState[key] = value[key]);
+  const setState = (value) => Object.keys(value).forEach((key) => proxyState[key] = value[key]); //не нужен
 
   const handleClickReactionElement = (e) => setState({ reaction: e.currentTarget.name, comment: '' });
   const handleInputComment = (e) => setState({ comment: e.target.value });
@@ -102,7 +103,6 @@ export default function FeedbackComponent({ title, onSubmit, controls }) {
       return true;
     }
   });
-
 
   return feedback;
 }

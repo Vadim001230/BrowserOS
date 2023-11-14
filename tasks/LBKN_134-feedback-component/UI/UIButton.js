@@ -7,7 +7,7 @@ export default function UIButton(options) {
     ...options
   });
 
-  btn.update = (value) => btn.name === value ? btn.classList.add('checked') : btn.classList.remove('checked');
+  btn.update = (value) => btn.name === value ? btn.classList.add('feedback__reaction-btn_checked') : btn.classList.remove('feedback__reaction-btn_checked');
   
   return btn;
 }

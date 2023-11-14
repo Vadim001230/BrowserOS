@@ -11,7 +11,7 @@ const LikeButton = (listeners) => {
       }),
     ],
     listeners,
-    class: 'feedback__like', 
+    class: 'feedback__reaction-btn feedback__like', 
     name: 'like',
   });
 };

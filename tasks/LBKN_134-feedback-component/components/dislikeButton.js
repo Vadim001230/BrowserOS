@@ -11,7 +11,7 @@ const DislikeButton = (listeners) => {
       }),
     ],
     listeners,
-    class: 'feedback__dislike', 
+    class: 'feedback__reaction-btn feedback__dislike', 
     name: 'dislike',
   });
 };

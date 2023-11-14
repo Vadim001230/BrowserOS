@@ -2,7 +2,7 @@ import FeedbackComponent from '../components/feedback.js';
 import LikeButton from '../components/likeButton.js';
 
 describe('Тестирование компонента Feedback', () => {
-  describe('Комментарий обязателен', () => {
+  describe('Проверка корректно ли создан компонент', () => {
     const title = 'Test Title';
     const onSubmit = jest.fn().mockRejectedValue(new Error('Async error message'));
     const options = {
@@ -27,6 +27,24 @@ describe('Тестирование компонента Feedback', () => {
       const titleEl = component.querySelector('.feedback__title');
       expect(titleEl.textContent).toBe(title);
     });
+  });
+
+  describe('Поведение компонента когда комментарий обязателен', () => {
+    const title = 'Test Title';
+    const onSubmit = jest.fn().mockRejectedValue(new Error('Async error message'));
+    const options = {
+      required: true,
+      title: 'Test subtitle',
+      placeholder: 'Test placeholder',
+    }
+    const controls = [
+      {
+        element: LikeButton,
+        commentOptions: options,
+      },
+    ];
+
+    const component = FeedbackComponent({ title, onSubmit, controls });
 
     test('Проверка состояния элемента после клика на кнопку реакции', () => {
       const likeButton = component.querySelector('.feedback__like');
@@ -63,7 +81,7 @@ describe('Тестирование компонента Feedback', () => {
     });
   });
 
-  describe('Комментарий опционален', () => {
+  describe('Поведение компонента когда комментарий опционален', () => {
     const title = 'Test Title';
     const onSubmit = jest.fn().mockRejectedValue(new Error('Async error message'));
     const options = {
@@ -93,7 +111,7 @@ describe('Тестирование компонента Feedback', () => {
     });
   });
 
-  describe('Поле комментария отсутсвует', () => {
+  describe('Поведение компонента когда поле комментария отсутсвует', () => {
     const title = 'Test Title';
     const onSubmit = jest.fn().mockRejectedValue(new Error('Async error message'));
     const controls = [{ element: LikeButton }];
