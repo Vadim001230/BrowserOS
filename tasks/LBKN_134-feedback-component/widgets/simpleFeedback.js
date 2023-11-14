@@ -1,4 +1,4 @@
-import FeedbackComponent from '../components/feedback.js'
+import { FeedbackComponent } from '../components/feedback.js'
 import LikeButton from '../components/likeButton.js';
 import DislikeButton from '../components/dislikeButton.js';
 import UIComponent from '../UI/UIComponent.js';
@@ -11,6 +11,7 @@ const SimpleFeedback = (handleSubmit, resolve) => FeedbackComponent({
   },
   controls: [
     {
+      id: 'like',
       element: LikeButton,
       commentOptions: {
         required: true,
@@ -19,6 +20,7 @@ const SimpleFeedback = (handleSubmit, resolve) => FeedbackComponent({
       },
     },
     {
+      id: 'dislike',
       element: DislikeButton,
       commentOptions: {
         required: false,
