@@ -1,4 +1,4 @@
-import FeedbackComponent from '../components/feedback.js';
+import { FeedbackComponent } from '../components/feedback.js';
 import LikeButton from '../components/likeButton.js';
 
 describe('Тестирование компонента Feedback', () => {
@@ -12,6 +12,7 @@ describe('Тестирование компонента Feedback', () => {
     }
     const controls = [
       {
+        id: 'like',
         element: LikeButton,
         commentOptions: options,
       },
@@ -39,6 +40,7 @@ describe('Тестирование компонента Feedback', () => {
     }
     const controls = [
       {
+        id: 'like',
         element: LikeButton,
         commentOptions: options,
       },
@@ -91,14 +93,15 @@ describe('Тестирование компонента Feedback', () => {
     }
     const controls = [
       {
+        id: 'like',
         element: LikeButton,
         commentOptions: options,
       },
     ];
 
-    const component = FeedbackComponent({ title, onSubmit, controls });
-
     test('Проверка состояния элемента после клика на кнопку реакции', () => {
+      const component = FeedbackComponent({ title, onSubmit, controls });
+
       const likeButton = component.querySelector('.feedback__like');
       likeButton.dispatchEvent(new Event('click'));
 
@@ -114,20 +117,21 @@ describe('Тестирование компонента Feedback', () => {
   describe('Поведение компонента когда поле комментария отсутсвует', () => {
     const title = 'Test Title';
     const onSubmit = jest.fn().mockRejectedValue(new Error('Async error message'));
-    const controls = [{ element: LikeButton }];
-
-    const component = FeedbackComponent({ title, onSubmit, controls });
-
+    const controls = [{ id: 'like', element: LikeButton }];
+    
     test('Проверка состояния элемента после клика на кнопку реакции', () => {
+      const component = FeedbackComponent({ title, onSubmit, controls });
+  
       const likeButton = component.querySelector('.feedback__like');
       likeButton.dispatchEvent(new Event('click'));
-
       const submitButton = component.querySelector('.feedback__submit-btn');
       expect(submitButton.disabled).toBe(false);
-
+  
       const textarea = component.querySelector('.textarea');
       expect(textarea).toBeNull();
     });
   });
-
 });
+
+
+    
