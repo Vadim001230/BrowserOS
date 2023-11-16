@@ -19,7 +19,8 @@
 | [`title`](#)           | `string`     |              | Заголовок компонента.                                           |
 | [`onSubmit`](#)        | `function`   |              | Функция обработки отправления данных из компонента на сервер. Функция должна возвращать промис.  |
 | [`controls`](#)        | `array`      |              | Массив с объектами настроек кнопок и комментариев. Количество кнопок не ограничено.|
-| [`element`](#)         | `function`   |              | Функция создания кнопки реакции.          |
+| [`id`](#)              | `string`     |              | Значение элемента, которое отправится на сервер, при его выборе.|
+| [`element`](#)         | `function`   |              | Функция создания кнопки реакции.                                |
 | [`commentOptions`](#)  | `object`     |              | Объект настройки комментария. Принимает `required`, `title`, `placeholder`.  Если объект не передан, блок комментария не будет появляться.|
 | [`required`](#)        | `boolean`    | `false`      | Значение определяющие обязательный ли комментарий.              |
 | [`title`](#)           | `string`     |              | Заголовок комментария.                                          |
@@ -30,7 +31,7 @@
 ### Пример использования
 
 ```js
-import FeedbackComponent from '../components/feedback.js'
+import { FeedbackComponent } from '../components/feedback.js'
 import LikeButton from '../components/likeButton.js';
 import DislikeButton from '../components/dislikeButton.js';
 import UIComponent from '../UI/UIComponent.js';
@@ -43,6 +44,7 @@ const SimpleFeedback = (handleSubmit, resolve) => FeedbackComponent({
   },
   controls: [
     {
+      id: 'like',
       element: LikeButton,
       commentOptions: {
         required: true,
@@ -51,6 +53,7 @@ const SimpleFeedback = (handleSubmit, resolve) => FeedbackComponent({
       },
     },
     {
+      id: 'dislike',
       element: DislikeButton,
       commentOptions: {
         required: false,
@@ -117,7 +120,7 @@ const LikeButton = (listeners) => {
 | [`tag`](#)             | `string`     | Тег HTML-элемента.                                               |
 | [`children`](#)        | `array`      | Массив дочерних элементов (HTMLElement или строк).               |
 | [`listeners`](#)       | `object`     | Объект событий и их обработчиков.                                |
-| [`attributes`](#)      | `object`     | Атрибуты элемента. Аттрибут `name` обязательный, в него передается значение которое отправится на сервер, если оно будет выбрано |
+| [`attributes`](#)      | `object`     | Атрибуты элемента. Аттрибут `name` обязательный, в него передается значение которое отправится на сервер, если оно будет выбрано. |
 
 ---
 ### Передача onSubmit
