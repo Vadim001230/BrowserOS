@@ -34,6 +34,8 @@ export default function UIComponent(options) {
     setListeners();
     setChildren();
     setAttributes();
+    el.show = () => el.style.display = 'block';
+    el.hide = () => el.style.display = 'none';
   }
 
   init();

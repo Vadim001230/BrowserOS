@@ -7,7 +7,6 @@ const SubmitBtn = (options) => {
     name: 'submit',
     type: 'submit',
     listeners: { click: options?.onSubmit },
-    style: `display: ${options?.isVisible ? 'block' : 'none'}`,
     ...(options?.isDisabled && { disabled: 'disabled' }),
   });
 
@@ -17,6 +16,7 @@ const SubmitBtn = (options) => {
     const parent = submitBtn.parentNode;
     submitBtn.remove();
     submitBtn = createSubmitBtn(options);
+    options?.isVisible ? submitBtn.show() : submitBtn.hide();
     parent.append(submitBtn);
   });
 

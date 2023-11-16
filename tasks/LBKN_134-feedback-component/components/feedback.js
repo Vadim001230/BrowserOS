@@ -1,4 +1,4 @@
-import TextField from './comment.js';
+import { TextField } from './comment.js';
 import SubmitBtn from './submitBtn.js';
 import UIComponent from '../UI/UIComponent.js';
 
@@ -8,43 +8,34 @@ const textError = UIComponent({
   style: 'color: red',
 });
 
-const createCommentField = () => {
-  const el = TextField();
-  el.show = () => el.style.display = 'block';
-  el.hide = () => el.style.display = 'none';
-
-  return el;
-};
-
 const submitBtn = SubmitBtn();
-const commentField = createCommentField();
+const commentField = TextField();
 
 export function FeedbackComponent({ title, onSubmit, controls }) {
   const state = {
     comment: '',
     reaction: '',
     reactionElements: [],
-    feedbackOptions: {},
+    сommentsOptions: {},
 
-    get currentOptions() {
-      return this.feedbackOptions[this.reaction];
+    get currentCommentOptions() {
+      return this.сommentsOptions[this.reaction];
     },
 
     get isCommentValid() {
-      return this.comment.length > 0 && !!this.reaction;
+      return (
+        (this.comment.length > 0 && this.currentCommentOptions?.required) ||
+        !this.currentCommentOptions?.required
+      );
     },
-
-    get isSubmitDisabled() {
-      return !this.isCommentValid && this.currentOptions?.required;
-    }
   };
 
-  const handleClickReaction = (e) => {
-    proxyState.reaction = e.currentTarget.name; 
+  const handleReactionClick = (id) => {
+    proxyState.reaction = id; 
     proxyState.comment = '';
   }
 
-  const handleInputComment = (e) => proxyState.comment = e.target.value;
+  const handleCommentInput = (e) => proxyState.comment = e.target.value;
 
   const handleSubmit = (e) => {
     onSubmit(e, { reaction: state.reaction, comment: state.comment }).catch(() => {
@@ -54,15 +45,15 @@ export function FeedbackComponent({ title, onSubmit, controls }) {
   };
 
   controls.forEach((control) => {
-    state.reactionElements.push(control.element({ click: handleClickReaction }));
-    state.feedbackOptions[control.id] = control.commentOptions || null;
+    state.reactionElements.push(control.element({ click: () => handleReactionClick(control.id) }));
+    state.сommentsOptions[control.id] = control.commentOptions || null;
   });
 
   const onCommentChange = () => {
     submitBtn.update({
       onSubmit: handleSubmit, 
       isVisible: !!state.reaction, 
-      isDisabled: state.isSubmitDisabled,
+      isDisabled: !state.isCommentValid,
     });
 
     textError.remove();
@@ -74,15 +65,15 @@ export function FeedbackComponent({ title, onSubmit, controls }) {
 
     state.reactionElements.forEach((el) => el.update(el.name === state.reaction));
 
-    if (state.currentOptions) {
-      state.currentOptions.onInput = handleInputComment;
+    if (state.currentCommentOptions) {
+      state.currentCommentOptions.onInput = handleCommentInput;
     }
     
-    commentField.update(state.currentOptions);
+    commentField.update(state.currentCommentOptions);
     submitBtn.update({
       onSubmit: handleSubmit, 
       isVisible: !!state.reaction, 
-      isDisabled: state.isSubmitDisabled,
+      isDisabled: !state.isSubmitDisabled,
     });
   }
 
@@ -121,7 +112,7 @@ export function FeedbackComponent({ title, onSubmit, controls }) {
   const proxyState = new Proxy(state, {
     set(target, prop, value) {
       target[prop] = value;
-      feedbackHandler[prop]();
+      feedbackHandler[prop]?.();
       return true;
     }
   });

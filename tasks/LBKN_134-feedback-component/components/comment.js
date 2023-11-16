@@ -1,7 +1,7 @@
 import { fixTextareaHeight } from '../utils/textarea.js'
 import UIComponent from '../UI/UIComponent.js';
 
-export default function TextField(options) {
+export function TextField(options) {
   const createCommentContainer = (options) => {
     const handleInput = (e) => {
       fixTextareaHeight(e.target);
