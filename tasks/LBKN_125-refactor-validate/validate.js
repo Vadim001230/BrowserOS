@@ -7,8 +7,7 @@ function isValidate(fullname) {
 
   const isValidCharacter = (char) => (char >= 'a' && char <= 'z') || char === ' ';
 
-  const lovercaseFullname = fullname.toLowerCase();
-  for (const char of lovercaseFullname) {
+  for (const char of fullname.toLowerCase()) {
     if (!isValidCharacter(char)) {
       return false;
     }
