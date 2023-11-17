@@ -1,18 +1,18 @@
 import { useState } from 'react';
-import reactLogo from '/icons/react.svg';
-import viteLogo from '/icons/vite.svg';
-import './App.scss';
+import { Main } from './components/Main';
+import { Header } from './components/Header';
+import { Footer } from './components/Footer';
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <>
-      <div>
-        <img src={viteLogo} className="logo" alt="Vite logo" />
-        <img src={reactLogo} className="logo react" alt="React logo" />
+      <div className="app">
+        <Header />
+        <Main />
+        <Footer />
       </div>
-      <h1>Vite + React</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
