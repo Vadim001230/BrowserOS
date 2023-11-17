@@ -24,7 +24,7 @@ export function FeedbackComponent({ title, onSubmit, controls }) {
 
     get isCommentValid() {
       return (
-        (this.comment.length > 0 && this.currentCommentOptions?.required) ||
+        (this.comment.length && this.currentCommentOptions?.required) ||
         !this.currentCommentOptions?.required
       );
     },
