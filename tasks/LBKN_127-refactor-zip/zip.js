@@ -1,10 +1,12 @@
 function zipArrays(arr1 = [], arr2 = []) {
-  const result = [];
-  const minLength = Math.min(arr1.length, arr2.length);
-
-  for (let i = 0; i < minLength; i++) {
-    result.push([arr1[i], arr2[i]]);
+  let i = 0;
+  for (el of arr2) {
+    arr2[i] = [arr1[i], el];
+    if (arr1[i] === undefined) {
+      arr2.length -= 1;
+    }
+    i++;
   }
 
-  return result;
+  return arr2;
 }
