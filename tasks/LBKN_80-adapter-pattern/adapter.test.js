@@ -1,4 +1,4 @@
-const apiAdapterToCamelCase = require('./adapter');
+const { adapterFromSnakeCase, adapterFromKebabCase } = require('./adapters');
 const { testResponseInSnakeCase, testResponseInKebabCase, testResponseInUpperSnakeCase } = require('./testsResponses');
 
 const expectedResponse = [
@@ -18,12 +18,12 @@ const expectedResponse = [
 
 describe('Трансформация ответа сервера в camelCase', () => {
   test('Трансформация из snake_case', () => {
-    expect(apiAdapterToCamelCase(testResponseInSnakeCase)).toEqual(expectedResponse);
+    expect(adapterFromSnakeCase(testResponseInSnakeCase)).toEqual(expectedResponse);
   });
   test('Трансформация из kebab-case', () => {
-    expect(apiAdapterToCamelCase(testResponseInKebabCase)).toEqual(expectedResponse);
+    expect(adapterFromKebabCase(testResponseInKebabCase)).toEqual(expectedResponse);
   });
   test('Трансформация из UPPER_SNAKE_CASE', () => {
-    expect(apiAdapterToCamelCase(testResponseInUpperSnakeCase)).toEqual(expectedResponse);
+    expect(adapterFromSnakeCase(testResponseInUpperSnakeCase)).toEqual(expectedResponse);
   });
 });
