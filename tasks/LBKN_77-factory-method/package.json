@@ -1,0 +1,10 @@
+{
+  "name": "lbkn_77-factory-method",
+  "version": "1.0.0",
+  "description": "Factory",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {},
+  "author": "",
+  "license": "ISC"
+}
