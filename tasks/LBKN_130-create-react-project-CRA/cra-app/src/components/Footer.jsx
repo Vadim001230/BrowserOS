@@ -2,6 +2,6 @@ import '../styles/style.scss';
 
 export function Footer() {
   return (
-    <footer className='footer'>footer</footer>
+    <footer className='footer'>Footer</footer>
   );
 }
