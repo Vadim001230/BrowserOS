@@ -56,21 +56,26 @@
   margin-right: 0.5rem;
   border-radius: 50%;
   padding: 3px;
-  transition: box-shadow 0.3s;
 }
 
-.feedback__dislike:hover,
-.feedback__dislike.checked {
-  box-shadow: inset 0 0 5px 20px rgba(219, 72, 72, 0.2);
+.feedback__dislike:hover svg,
+.feedback__dislike.checked svg {
+  transition: stroke 0.3s;
+  stroke: rgba(219, 72, 72);
 }
 
-.feedback__like:hover ,
-.feedback__like.checked {
-  box-shadow: inset 0 0 5px 20px rgba(64, 206, 123, 0.2);
+.feedback__like svg,
+.feedback__dislike svg {
+  transition: stroke 0.3s;
+
+}
+.feedback__like:hover svg,
+.feedback__like.checked svg {
+  transition: stroke 0.3s;
+  stroke: rgba(64, 206, 123);
 }
 
 .feedback__submit-btn {
-  display: none;
   background-color: var(--main-color);
   border-radius: 5px;
   padding: 0.6rem 1.8rem;

@@ -1,10 +1,7 @@
+import { SimpleFeedback } from './widgets/SimpleFeedback';
+
 function App() {
-
-  return (
-    <>
-
-    </>
-  );
+  return <SimpleFeedback />;
 }
 
 export default App;
