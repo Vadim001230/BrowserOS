@@ -1,9 +1,16 @@
 import DislikeIcon from '../assets/dislike.svg';
 
-export function DislikeBtn() {
-  return (
-    <button type="button" className="feedback__reaction-btn feedback__dislike">
-      <DislikeIcon />
-    </button>
-  );
+interface DislikeBtnProps {
+  onClick: () => void;
+  checked: boolean;
 }
+
+export const DislikeBtn = ({ onClick, checked }: DislikeBtnProps) => (
+  <button
+    type="button"
+    className={`${checked ? 'checked' : ''} ${'feedback__reaction-btn feedback__dislike'}`}
+    onClick={onClick}
+  >
+    <DislikeIcon />
+  </button>
+);

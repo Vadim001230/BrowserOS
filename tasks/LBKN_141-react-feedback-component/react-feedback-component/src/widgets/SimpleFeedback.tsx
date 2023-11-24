@@ -2,13 +2,28 @@ import { Feedback } from '../components/Feedback';
 import { LikeBtn } from '../components/LikeBtn';
 import { DislikeBtn } from '../components/DislikeBtn';
 import { FormEvent } from 'react';
+import './style.css';
 
+interface Data {
+  reaction: string;
+  comment: string;
+}
+
+const handleSubmit = async (e: FormEvent, data: Data) => {
+  e.preventDefault();
+  const response = await fetch('url', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+  await response.json();
+};
 
 export function SimpleFeedback() {
   const feedbackOptions = {
     title: 'The Rating overview is in beta. Did you find it useful? Let us know!',
-    onSubmit: (e: FormEvent) => {
+    onSubmit: async (e: FormEvent, data: Data) => {
       e.preventDefault();
+      await handleSubmit(e, data);
     },
     controls: [
       {
