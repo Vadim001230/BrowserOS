@@ -36,7 +36,7 @@ export function Feedback({ title, controls, onSubmit }: FeedbackProps) {
 
   const handleCommentInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
-    if(isError) setIsError(false);
+    if (isError) setIsError(false);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
