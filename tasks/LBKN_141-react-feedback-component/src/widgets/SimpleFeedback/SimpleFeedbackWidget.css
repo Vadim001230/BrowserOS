@@ -3,7 +3,7 @@
   --second-color: #A7ACB2;
 }
 
-.feedback-root {
+.feedback-widget {
   margin: 2rem;
   padding: 1.5rem 1rem;
   border: 1px solid var(--second-color);
@@ -17,28 +17,29 @@
   flex-direction: column;
 }
 
-.reaction {
+.feedback__container {
   display: flex;
   justify-content: space-between;
   flex-wrap: nowrap;
 }
 
-.comment-container {
-  margin-top: 1rem;
+.container {
+  margin-top: 0.6rem;
+  min-height: 1.5rem;
 }
 
 .feedback__title {
   color: var(--main-color);
 }
 
-.reaction-btns {
+.feedback__controls {
   margin-left: 1rem;
   display: flex;
   flex-wrap: nowrap;
   justify-self: start;
 }
 
-.feedback__reaction-btn {
+.button {
   background: none;
   cursor: pointer;
   width: 2.7rem;
@@ -48,24 +49,25 @@
   padding: 3px;
 }
 
-.feedback__dislike:hover svg,
-.feedback__dislike.checked svg {
+.dislike-button:hover svg,
+.dislike-button.checked svg {
   transition: stroke 0.3s;
   stroke: rgba(219, 72, 72);
 }
 
-.feedback__like svg,
-.feedback__dislike svg {
+.like-button svg,
+.dislike-button svg {
   transition: stroke 0.3s;
 
 }
-.feedback__like:hover svg,
-.feedback__like.checked svg {
+.like-button:hover svg,
+.like-button.checked svg {
   transition: stroke 0.3s;
   stroke: rgba(64, 206, 123);
 }
 
 .feedback__submit-btn {
+  display: block;
   background-color: var(--main-color);
   border-radius: 5px;
   padding: 0.6rem 1.8rem;
@@ -73,7 +75,7 @@
   cursor: pointer;
   align-self: flex-end;
   transition: background-color .2s;
-  margin-top: 1rem;
+  margin-left: auto;
 }
 
 .feedback__submit-btn:disabled {
@@ -88,6 +90,7 @@
 
 .textarea {
   display: block;
+  flex: 1;
   resize: none;
   overflow: hidden;
   border-radius: 5px;
@@ -104,7 +107,7 @@
 }
 
 @media (max-width: 480px) {
-  .feedback-root {
+  .feedback-widget {
     margin: 1rem;
   }
 
