@@ -1,13 +1,13 @@
 import { useMemo, useState } from 'react';
-import { TextField, CommentOptions } from '../UI/TextField/TextField';
-
-export type OnSubmit = (data: { reaction: string | number, comment: string }) => Promise<unknown>;
+import { TextField, CommentOptions } from '@/components/UI/TextField/TextField';
 
 interface Control {
   id: string | number;
   component: React.ElementType;
   commentOptions?: CommentOptions;
 }
+
+export type OnSubmit = (data: { reaction: Control['id'], comment: string }) => Promise<unknown>;
 
 interface Props {
   title: string;

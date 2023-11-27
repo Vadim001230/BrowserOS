@@ -5,10 +5,10 @@ export interface BaseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
   isChecked: boolean;
 }
 
-export const BaseButton = ({ children, isChecked, ...attributes }: BaseButtonProps) => {
+export const BaseButton = ({ children, isChecked, type = 'button', ...attributes }: BaseButtonProps) => {
   return (
     <button
-      type="button"
+      type={type}
       {...attributes}
       className={`button ${attributes.className || ''} ${isChecked ? 'checked' : ''}`}
     >

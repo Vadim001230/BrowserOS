@@ -1,14 +1,13 @@
 import { FeedbackComponent, OnSubmit } from '@/components/Feedback/Feedback';
 import { LikeButton } from '@/components/UI/LikeButton/LikeButton';
 import { DislikeButton } from '@/components/UI/DislikeButton/DislikeButton';
-
-import './SimpleFeedbackWidget.css';
+import '@/widgets/SimpleFeedback/SimpleFeedbackWidget.css';
 
 const handleSubmit: OnSubmit = (data) => {
-  return fetch('url', {
+  return fetch('https://jsonplaceholder.typicode.com/posts', {
     method: 'POST',
     body: JSON.stringify(data),
-  }).then((response) => response.json());
+  }).then((response) => response.json())
 };
 
 const feedbackOptions = {
