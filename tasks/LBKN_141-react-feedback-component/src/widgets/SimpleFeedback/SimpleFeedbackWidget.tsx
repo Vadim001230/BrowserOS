@@ -4,7 +4,7 @@ import { DislikeButton } from '@/components/UI/DislikeButton/DislikeButton';
 import '@/widgets/SimpleFeedback/SimpleFeedbackWidget.css';
 
 const handleSubmit: OnSubmit = (data) => {
-  return fetch('https://jsonplaceholder.typicode.com/posts', {
+  return fetch('url', {
     method: 'POST',
     body: JSON.stringify(data),
   }).then((response) => response.json())

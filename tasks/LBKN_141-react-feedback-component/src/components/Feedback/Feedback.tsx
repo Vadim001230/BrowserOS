@@ -49,7 +49,7 @@ export function FeedbackComponent({ title, controls, onSubmit }: Props) {
   };
 
   return (
-    <form className="feedback" onSubmit={handleSubmit}>
+    <form className="feedback" onSubmit={handleSubmit} data-testid={"feedback"}>
       <div className="feedback__container">
         <h3 className="feedback__title">{title}</h3>
         <div className="feedback__controls">
@@ -70,7 +70,7 @@ export function FeedbackComponent({ title, controls, onSubmit }: Props) {
         />
       )}
       <div className="container">
-        {isErrorShown && <span className="feedback__error">An error has occurred. Try again</span>}
+        {isErrorShown && <span className="feedback__error" data-testid={"error-text"}>An error has occurred. Try again</span>}
       </div>
       <div className="container">
         {reaction && (
