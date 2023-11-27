@@ -1,23 +1,23 @@
 import { useEffect, useRef } from 'react';
 
-export const useAutoResizeTextarea = () => {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+const fixTextareaHeight = (textarea: HTMLTextAreaElement) => {
+  if (!textarea) {
+    return;
+  }
+  textarea.style.height = textarea.scrollTop > 0 ? textarea.scrollHeight + 'px' : 'auto';
+};
+
+export const useTextareaResize = () => {
+  const ref = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    const currentTextarea = textareaRef.current;
-    const fixTextareaHeight = () => {
-      if (currentTextarea) {
-        currentTextarea.style.height =
-          currentTextarea.scrollTop > 0 ? currentTextarea.scrollHeight + 'px' : 'auto';
-      }
-    };
-
-    currentTextarea?.addEventListener('input', fixTextareaHeight);
+    const currentTextarea = ref.current;
+    currentTextarea?.addEventListener('input', fixTextareaHeight.bind(null, currentTextarea));
 
     return () => {
-      currentTextarea?.removeEventListener('input', fixTextareaHeight);
+      currentTextarea?.removeEventListener('input', fixTextareaHeight.bind(null, currentTextarea));
     };
   }, []);
 
-  return textareaRef;
+  return { ref };
 };

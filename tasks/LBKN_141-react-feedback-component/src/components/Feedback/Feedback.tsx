@@ -1,66 +1,63 @@
 import { useMemo, useState } from 'react';
 import { TextField, CommentOptions } from '../UI/TextField/TextField';
 
+export type OnSubmit = (data: { reaction: string | number, comment: string }) => Promise<unknown>;
+
 interface Control {
   id: string | number;
-  element: React.ElementType;
+  component: React.ElementType;
   commentOptions?: CommentOptions;
 }
 
 interface Props {
   title: string;
   controls: Control[];
-  onSubmit: (data: { reaction: string; comment: string }) => Promise<unknown>;
+  onSubmit: OnSubmit;
 }
 
 export function FeedbackComponent({ title, controls, onSubmit }: Props) {
   const [comment, setComment] = useState('');
-  const [reaction, setReaction] = useState('');
-  const [isShownError, setIsShownError] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [reaction, setReaction] = useState<number | string>('');
+  const [isErrorShown, setIsErrorShown] = useState(false);
   const currentCommentOptions = useMemo(
-    () => controls.find((control) => control.id === reaction)?.commentOptions,
+    () => controls.find(({ id }) => id === reaction)?.commentOptions,
     [reaction, controls]
   );
 
+  const hideError = () => {
+    if (isErrorShown) {
+      setIsErrorShown(false);
+    }
+  };
 
   const handleReactionClick = (controlId: Control['id']) => {
     if (controlId !== reaction) {
-      setReaction(controlId.toString());
+      setReaction(controlId);
       setComment('');
-      if (isShownError) setIsShownError(false);
+      hideError();
     }
   };
 
   const handleCommentInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
-    if (isShownError) setIsShownError(false);
+    hideError();
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await onSubmit({ reaction, comment });
-      setIsSubmitted(true);
-    } catch (error) {
-      setIsShownError(true);
-    }
+    onSubmit({ reaction, comment }).catch(() => setIsErrorShown(true))
   };
-
-  if (isSubmitted) {
-    return null;
-  }
 
   return (
     <form className="feedback" onSubmit={handleSubmit}>
       <div className="feedback__container">
         <h3 className="feedback__title">{title}</h3>
         <div className="feedback__controls">
-          {controls.map(({ id, element: Control }) => (
+          {controls.map(({ id, component: Control }) => (
             <Control
               key={id}
               isChecked={reaction === id}
-              onClick={() => handleReactionClick(id)}
+              onClick={handleReactionClick.bind(null, id)}
             />
           ))}
         </div>
@@ -73,7 +70,7 @@ export function FeedbackComponent({ title, controls, onSubmit }: Props) {
         />
       )}
       <div className="container">
-        {isShownError && <span style={{ color: 'red' }}>An error has occurred. Try again</span>}
+        {isErrorShown && <span className="feedback__error">An error has occurred. Try again</span>}
       </div>
       <div className="container">
         {reaction && (

@@ -66,6 +66,9 @@
   stroke: rgba(64, 206, 123);
 }
 
+.feedback__error {
+  color: red;
+}
 .feedback__submit-btn {
   display: block;
   background-color: var(--main-color);

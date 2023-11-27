@@ -10,7 +10,7 @@ export const BaseButton = ({ children, isChecked, ...attributes }: BaseButtonPro
     <button
       type="button"
       {...attributes}
-      className={`button ${attributes.className || ''} ${isChecked ? 'checked' : ''} `}
+      className={`button ${attributes.className || ''} ${isChecked ? 'checked' : ''}`}
     >
       {children}
     </button>

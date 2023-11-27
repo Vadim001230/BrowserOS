@@ -1,4 +1,5 @@
-import { useAutoResizeTextarea } from '@/hooks/useAutoResizeTextarea';
+import { useTextareaResize } from '@/hooks/useAutoResizeTextarea';
+import { RequireAtLeastOneOfKeys } from '@/types/requireAtLeastOneOfKeys';
 
 export interface CommentOptions extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   title: string;
@@ -10,8 +11,8 @@ interface Props extends CommentOptions {
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-export function TextField({ onInput, onChange, ...props }: Props) {
-  const textareaRef = useAutoResizeTextarea();
+export const TextField = ({ title, onInput, onChange, ...props }: RequireAtLeastOneOfKeys<Props, 'onInput' | 'onChange'>) => {
+  const { ref } = useTextareaResize();
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onInput?.(e);
@@ -23,14 +24,14 @@ export function TextField({ onInput, onChange, ...props }: Props) {
 
   return (
     <div className="container">
-      <p>{props.title}</p>
+      <p>{title}</p>
       <textarea
         className="textarea"
-        ref={textareaRef}
+        ref={ref}
         onInput={handleInput}
         onChange={handleChange}
         {...props}
       />
     </div>
   );
-}
+};
