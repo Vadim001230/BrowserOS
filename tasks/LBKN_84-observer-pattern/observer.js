@@ -1,4 +1,4 @@
-class Observeble {
+class Observable {
   #observers = [];
 
   subscribe(observer) {
@@ -27,16 +27,16 @@ class Observer {
   }
 }
 
-const observeble = new Observeble();
+const observable = new Observable();
 
 const observer1 = new Observer('Name1');
 const observer2 = new Observer('Name2');
 
-observeble.subscribe(observer1);
-observeble.subscribe(observer2);
+observable.subscribe(observer1);
+observable.subscribe(observer2);
 
-observeble.notify('Hello world!');
+observable.notify('Hello world!');
 
-observeble.unsubscribe(observer2);
+observable.unsubscribe(observer2);
 
-observeble.notify('Goodbye world!');
+observable.notify('Goodbye world!');
