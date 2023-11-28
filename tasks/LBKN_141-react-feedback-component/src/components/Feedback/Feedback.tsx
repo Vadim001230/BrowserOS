@@ -13,13 +13,13 @@ interface Props {
   title: string;
   controls: Control[];
   onSubmit: OnSubmit;
-  onSuccess?: () => unknown;
 }
 
-export function FeedbackComponent({ title, controls, onSubmit, onSuccess }: Props) {
+export function FeedbackComponent({ title, controls, onSubmit }: Props) {
   const [comment, setComment] = useState('');
-  const [reaction, setReaction] = useState<number | string>('');
+  const [reaction, setReaction] = useState<Control['id']>('');
   const [isErrorShown, setIsErrorShown] = useState(false);
+
   const currentCommentOptions = useMemo(
     () => controls.find(({ id }) => id === reaction)?.commentOptions,
     [reaction, controls]
@@ -32,11 +32,13 @@ export function FeedbackComponent({ title, controls, onSubmit, onSuccess }: Prop
   };
 
   const handleReactionClick = (controlId: Control['id']) => {
-    if (controlId !== reaction) {
-      setReaction(controlId);
-      setComment('');
-      hideError();
+    if (controlId === reaction) {
+      return
     }
+
+    setReaction(controlId);
+    setComment('');
+    hideError();
   };
 
   const handleCommentInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -46,9 +48,7 @@ export function FeedbackComponent({ title, controls, onSubmit, onSuccess }: Prop
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({ reaction, comment })
-      .then(() => onSuccess?.())
-      .catch(() => setIsErrorShown(true))
+    onSubmit({ reaction, comment }).catch(() => setIsErrorShown(true))
   };
 
   return (

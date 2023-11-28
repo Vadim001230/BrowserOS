@@ -1,12 +1,12 @@
 import '@testing-library/jest-dom';
+import { useState } from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { FeedbackComponent } from '@/components/Feedback/Feedback';
 import { BaseButton, BaseButtonProps } from '@/components/UI/BaseButton/BaseButton';
-import { useState } from 'react';
 
-interface Props extends BaseButtonProps { }
+interface Props extends Omit<BaseButtonProps, 'children'> { }
 
-export const LikeButton = ({ ...args }: Omit<Props, 'children'>) => (
+export const LikeButton = ({ ...args }: Props) => (
   <BaseButton {...args} className={`like-button ${args.className || ''}`} data-testid={'like-button'}>
     <span>Like</span>
   </BaseButton>
@@ -98,9 +98,11 @@ describe('Поведение компонента когда комментар�
       commentOptions: options,
     },
   ];
+
   beforeEach(() => {
     render(<FeedbackComponent title={title} onSubmit={onSubmit} controls={controls} />);
   })
+
   test('Поведение правильности содержимого компонента', () => {
     const likeButton = screen.getByTestId('like-button');
     fireEvent.click(likeButton);
@@ -149,9 +151,11 @@ describe('Поведение компонента когда комментар�
       component: LikeButton,
     },
   ];
+
   beforeEach(() => {
     render(<FeedbackComponent title={title} onSubmit={onSubmit} controls={controls} />);
   })
+
   test('Поведение правильности содержимого компонента', () => {
     const likeButton = screen.getByTestId('like-button');
     fireEvent.click(likeButton);
@@ -180,32 +184,31 @@ describe('Проверка поведения компонента после у
     const successfulSubmit = jest.fn().mockResolvedValue({});
     const WrapperComponent = () => {
       const [isFeedbackSubmitted, setIsFeedbackSubmitted] = useState(false);
-      const handleSuccess = () => setIsFeedbackSubmitted(true);
 
       return (
         <div>
           {!isFeedbackSubmitted && (
-            <FeedbackComponent title={title} onSubmit={successfulSubmit} controls={controls} onSuccess={handleSuccess} />
+            <FeedbackComponent title={title} onSubmit={successfulSubmit} controls={controls} />
           )}
         </div>
       );
     };
-    
+
     render(<WrapperComponent />);
-    
+
     const likeButton = screen.getByTestId('like-button');
     fireEvent.click(likeButton);
-    
+
     const textarea = screen.getByRole('textbox');
     fireEvent.input(textarea, { target: { value: 'test text' } });
-    
+
     const submitButton = screen.getByText('Submit');
     fireEvent.click(submitButton);
-    
+
     await waitFor(() => {
       expect(screen.queryByTestId('feedback')).toBeNull();
     });
-    
+
     expect(successfulSubmit).toHaveBeenCalled();
   });
 });

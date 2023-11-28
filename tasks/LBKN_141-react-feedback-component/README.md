@@ -28,7 +28,7 @@
 
 ---
 
-### Пример использования
+### Пример использования с обработкой успешного завершения отправки фидбэка
 
 ```tsx
 import { useState } from 'react';
@@ -37,58 +37,60 @@ import { LikeButton } from '@/components/UI/LikeButton/LikeButton';
 import { DislikeButton } from '@/components/UI/DislikeButton/DislikeButton';
 import '@/widgets/SimpleFeedback/SimpleFeedbackWidget.css';
 
-const onSubmit: OnSubmit = (data) => {
-  return fetch('https://jsonplaceholder.typicode.com/posts', {
-    method: 'POST',
-    body: JSON.stringify(data),
-  }).then((response) => response.json())
-};
-
-const feedbackOptions = {
-  title: 'The Rating overview is in beta. Did you find it useful? Let us know!',
-  onSubmit: onSubmit,
-  controls: [
-    {
-      id: 'like',
-      component: LikeButton,
-      commentOptions: {
-        required: true,
-        title: 'Why did you selected useful?',
-        placeholder: 'Your feedback...',
-      },
+const feedbackControls = [
+  {
+    id: 'like',
+    component: LikeButton,
+    commentOptions: {
+      required: true,
+      title: 'Why did you selected useful?',
+      placeholder: 'Your feedback...',
     },
-    {
-      id: 'dislike',
-      component: DislikeButton,
-      commentOptions: {
-        required: false,
-        title: 'Why did you selected not useful?',
-        placeholder: 'Write here...',
-      },
+  },
+  {
+    id: 'dislike',
+    component: DislikeButton,
+    commentOptions: {
+      required: false,
+      title: 'Why did you selected not useful?',
+      placeholder: 'Write here...',
     },
-  ]
-};
+  },
+];
 
 export const SimpleFeedbackWidget = () => {
-  const [isFeedbackSubmitted, setIsFeedbackSubmitted] = useState(false);
+  const [isSuccessfulSubmit, setIsSuccessfulSubmit] = useState(false);
 
-  const handleSuccess = () => setIsFeedbackSubmitted(true);
+  const sendFeedbackData: OnSubmit = (data) => {
+    return fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }).then((response) => response.json())
+      .then(() => setIsSuccessfulSubmit(true))
+  };
+
+  const feedbackOptions = {
+    title: 'The Rating overview is in beta. Did you find it useful? Let us know!',
+    onSubmit: sendFeedbackData,
+    controls: feedbackControls,
+  };
 
   return (
-    <div className='feedback-widget'>
-      {!isFeedbackSubmitted && (
-        <FeedbackComponent {...feedbackOptions} onSuccess={handleSuccess} />
+    <div className='simple-feedback'>
+      {!isSuccessfulSubmit && (
+        <FeedbackComponent {...feedbackOptions} />
       )}
     </div>
   );
 };
+
 
 ```
 
 ---
 ### Создание кнопок реакции
 
-Для создания кнопки можно воспользоваться компонентом `<BaseButton />`, в который необходимо передать пропс children и все необходимые аттрибуты:
+Для создания кнопки можно воспользоваться компонентом `<BaseButton />`, в который необходимо передать пропс `children` и все необходимые аттрибуты:
 
 ```tsx
 import LikeIcon from '@/assets/like.svg';
@@ -102,44 +104,6 @@ export const LikeButton = ({ ...btnAttributes }: Props) => (
   </BaseButton>
 );
 
-```
-
----
-### Передача onSuccess
-
-`onSuccess` отработает после успешной отправки фидбэка на сервер. Можно использовать состояние которое изменится после отработки `onSuccess`. Например: удаление компонента фидбэка после его успешной отправки
-
-```tsx
-export const SimpleFeedbackWidget = () => {
-  const [isFeedbackSubmitted, setIsFeedbackSubmitted] = useState(false);
-
-  const handleSuccess = () => setIsFeedbackSubmitted(true);
-
-  return (
-    <div className='simple-feedback'>
-      {!isFeedbackSubmitted && (
-        <FeedbackComponent {...feedbackOptions} onSuccess={handleSuccess} />
-      )}
-    </div>
-  );
-};
-```
-Или показать сообщение что фидбэк успешно отправлен:
-
-```tsx
-export const SimpleFeedbackWidget = () => {
-  const [isFeedbackSubmitted, setIsFeedbackSubmitted] = useState(false);
-
-  const handleSuccess = () => setIsFeedbackSubmitted(true);
-
-  return (
-    <div className='simple-feedback'>
-      {isFeedbackSubmitted ? (
-        <span className='success-message'>Feedback sent successfully!</span>
-      ) : <FeedbackComponent {...feedbackOptions} onSuccess={handleSuccess} />}
-    </div>
-  );
-};
 ```
 ---
 

@@ -1,4 +1,4 @@
-import { useTextareaResize } from '@/hooks/useAutoResizeTextarea';
+import { useTextareaResize } from '@/hooks/useTextareaResize';
 import { RequireAtLeastOneOfKeys } from '@/types/requireAtLeastOneOfKeys';
 
 export interface CommentOptions extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
