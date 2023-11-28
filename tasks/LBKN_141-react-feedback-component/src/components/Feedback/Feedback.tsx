@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { TextField, CommentOptions } from '@/components/UI/TextField/TextField';
 
-interface Control {
+export interface Control {
   id: string | number;
   component: React.ElementType;
   commentOptions?: CommentOptions;
@@ -73,13 +73,14 @@ export function FeedbackComponent({ title, controls, onSubmit }: Props) {
         />
       )}
       <div className="container">
-        {isErrorShown && <span className="feedback__error" data-testid={"error-text"}>An error has occurred. Try again</span>}
+        {isErrorShown && <span className="feedback__error" data-testid="feedback__error">An error has occurred. Try again</span>}
       </div>
       <div className="container">
         {reaction && (
           <button
             type="submit"
             className="feedback__submit-btn"
+            data-testid="feedback__submit-btn"
             disabled={currentCommentOptions?.required && !comment}
           >
             Submit

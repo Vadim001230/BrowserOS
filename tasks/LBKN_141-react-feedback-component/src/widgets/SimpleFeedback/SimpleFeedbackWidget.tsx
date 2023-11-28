@@ -28,8 +28,8 @@ const feedbackControls = [
 export const SimpleFeedbackWidget = () => {
   const [isSuccessfulSubmit, setIsSuccessfulSubmit] = useState(false);
 
-  const sendFeedbackData: OnSubmit = (data) => {
-    return fetch('https://jsonplaceholder.typicode.com/posts', {
+  const handleFeedbackSubmit: OnSubmit = (data) => {
+    return fetch('url', {
       method: 'POST',
       body: JSON.stringify(data),
     }).then((response) => response.json())
@@ -38,7 +38,7 @@ export const SimpleFeedbackWidget = () => {
 
   const feedbackOptions = {
     title: 'The Rating overview is in beta. Did you find it useful? Let us know!',
-    onSubmit: sendFeedbackData,
+    onSubmit: handleFeedbackSubmit,
     controls: feedbackControls,
   };
 
