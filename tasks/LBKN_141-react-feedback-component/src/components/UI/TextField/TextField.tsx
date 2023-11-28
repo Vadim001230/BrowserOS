@@ -5,13 +5,15 @@ export interface CommentOptions extends React.TextareaHTMLAttributes<HTMLTextAre
   title: string;
 }
 
-interface Props extends CommentOptions {
+interface TextFieldProps extends CommentOptions {
   value: string;
   onInput: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-export const TextField = ({ title, onInput, onChange, ...props }: RequireAtLeastOneOfKeys<Props, 'onInput' | 'onChange'>) => {
+type Props = RequireAtLeastOneOfKeys<TextFieldProps, 'onInput' | 'onChange'>;
+
+export const TextField = ({ title, onInput, onChange, ...props }: Props) => {
   const { ref } = useTextareaResize();
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

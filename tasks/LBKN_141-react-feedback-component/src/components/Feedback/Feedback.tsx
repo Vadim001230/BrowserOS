@@ -13,9 +13,10 @@ interface Props {
   title: string;
   controls: Control[];
   onSubmit: OnSubmit;
+  onSuccess?: () => unknown;
 }
 
-export function FeedbackComponent({ title, controls, onSubmit }: Props) {
+export function FeedbackComponent({ title, controls, onSubmit, onSuccess }: Props) {
   const [comment, setComment] = useState('');
   const [reaction, setReaction] = useState<number | string>('');
   const [isErrorShown, setIsErrorShown] = useState(false);
@@ -45,7 +46,9 @@ export function FeedbackComponent({ title, controls, onSubmit }: Props) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({ reaction, comment }).catch(() => setIsErrorShown(true))
+    onSubmit({ reaction, comment })
+      .then(() => onSuccess?.())
+      .catch(() => setIsErrorShown(true))
   };
 
   return (
@@ -57,7 +60,7 @@ export function FeedbackComponent({ title, controls, onSubmit }: Props) {
             <Control
               key={id}
               isChecked={reaction === id}
-              onClick={handleReactionClick.bind(null, id)}
+              onClick={() => handleReactionClick(id)}
             />
           ))}
         </div>

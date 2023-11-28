@@ -12,10 +12,10 @@ export const useTextareaResize = () => {
 
   useEffect(() => {
     const currentTextarea = ref.current;
-    currentTextarea?.addEventListener('input', fixTextareaHeight.bind(null, currentTextarea));
+    currentTextarea?.addEventListener('input', () => fixTextareaHeight(currentTextarea));
 
     return () => {
-      currentTextarea?.removeEventListener('input', fixTextareaHeight.bind(null, currentTextarea));
+      currentTextarea?.removeEventListener('input', () => fixTextareaHeight(currentTextarea));
     };
   }, []);
 

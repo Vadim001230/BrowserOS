@@ -1,10 +1,10 @@
 import LikeIcon from '@/assets/like.svg';
 import { BaseButton, BaseButtonProps } from '@/components/UI/BaseButton/BaseButton';
 
-interface Props extends BaseButtonProps {}
+interface Props extends Omit<BaseButtonProps, 'children'> { }
 
-export const LikeButton = ({ ...args }: Omit<Props, 'children'>) => (
-  <BaseButton {...args} className={`like-button ${args.className || ''}`} >
+export const LikeButton = ({ ...btnAttributes }: Props) => (
+  <BaseButton {...btnAttributes} className={`like-button ${btnAttributes.className || ''}`}>
     <LikeIcon />
   </BaseButton>
 );
