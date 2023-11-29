@@ -27,19 +27,19 @@ const controls = [
 ];
 
 export const SimpleFeedbackWidget = () => {
-  const [isSuccessfulSubmit, setIsSuccessfulSubmit] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit: OnFeedbackSubmit = (data) => {
     return fetch('url', {
       method: 'POST',
       body: JSON.stringify(data),
     }).then((response) => response.json())
-      .then(() => setIsSuccessfulSubmit(true))
+      .then(() => setIsSubmitted(true))
   };
 
   return (
     <div className='simple-feedback'>
-      {!isSuccessfulSubmit && (
+      {!isSubmitted && (
         <FeedbackComponent title={title} controls={controls} onSubmit={handleSubmit} />
       )}
     </div>

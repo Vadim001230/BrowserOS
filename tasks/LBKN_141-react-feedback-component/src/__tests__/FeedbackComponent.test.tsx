@@ -160,12 +160,12 @@ describe('Поведение компонента когда комментар�
 describe('Проверка поведения компонента после успешной отправки фидбэка', () => {
   test('Проверка удаления компонента', async () => {
     const WrapperComponent = () => {
-      const [isSuccessfulSubmit, setIsSuccessfulSubmit] = useState(false);
-      const handleFeedbackSubmit = () => new Promise((resolve) => resolve(true)).then(() => setIsSuccessfulSubmit(true));
+      const [isSubmitted, setIsSubmitted] = useState(false);
+      const handleFeedbackSubmit = () => new Promise((resolve) => resolve(true)).then(() => setIsSubmitted(true));
 
       return (
         <div>
-          {!isSuccessfulSubmit && (
+          {!isSubmitted && (
             <FeedbackComponent title={title} onSubmit={handleFeedbackSubmit} controls={controls} />
           )}
         </div>
