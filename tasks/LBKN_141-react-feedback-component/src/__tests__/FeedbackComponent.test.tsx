@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { useState } from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, RenderResult } from '@testing-library/react';
 import { FeedbackComponent, Control } from '@/components/Feedback/Feedback';
 import { BaseButton, BaseButtonProps } from '@/components/UI/BaseButton/BaseButton';
 
@@ -27,29 +27,31 @@ const controls = [
   },
 ];
 
+let feedback: RenderResult<typeof import("@testing-library/dom/types/queries"), HTMLElement, HTMLElement>;
+
 const renderFeedbackComponent = (controls: Control[]) => {
-  render(<FeedbackComponent title={title} onSubmit={onSubmit} controls={controls} />);
+  return render(<FeedbackComponent title={title} onSubmit={onSubmit} controls={controls} />);
 }
 
-const likeButtonClickEvent = () => fireEvent.click(screen.getByTestId('like-button'));
+const likeButtonClickEvent = () => fireEvent.click(feedback.getByTestId('like-button'));
 
-const textareaInputEvent = () => fireEvent.input(screen.getByRole('textbox'), { target: { value: 'test text' } });
+const textareaInputEvent = () => fireEvent.input(feedback.getByTestId('text__field'), { target: { value: 'test text' } });
 
-const submitEvent = () => fireEvent.click(screen.getByTestId('feedback__submit-btn'));
+const submitEvent = () => fireEvent.click(feedback.getByTestId('feedback__submit-btn'));
 
-const isSubmitBtnEnabled = () => expect(screen.getByTestId('feedback__submit-btn')).not.toBeDisabled();
-const isSubmitBtnDisabled = () => expect(screen.getByTestId('feedback__submit-btn')).toBeDisabled();
+const isSubmitBtnEnabled = () => expect(feedback.getByTestId('feedback__submit-btn')).not.toBeDisabled();
+const isSubmitBtnDisabled = () => expect(feedback.getByTestId('feedback__submit-btn')).toBeDisabled();
 
 const testCheckCommentPlaceholder = () => {
   test('textarea содержит переданный placeholder', () => {
-    const textarea = screen.getByRole('textbox');
+    const textarea = feedback.getByTestId('text__field');
     expect(textarea).toHaveAttribute('placeholder', options.placeholder);
   });
 }
 
 const testCheckCommentTitle = () => {
   test('Текст в заголовке блока комментария соответсвует переданному', () => {
-    const subtitle = screen.getByText(options.title);
+    const subtitle = feedback.getByText(options.title);
     expect(subtitle).toBeInTheDocument();
   });
 }
@@ -58,30 +60,28 @@ const testCheckErrorMessage = () => {
   test('Проверка наличия сообщения об ошибке после завершения отправки фидбэка с ошибкой', async () => {
     submitEvent();
     await waitFor(() => {
-      expect(screen.getByTestId('feedback__error')).toBeInTheDocument();
+      expect(feedback.getByTestId('feedback__error')).toBeInTheDocument();
     })
   });
 }
 
 describe('Тестирование компонента Feedback', () => {
   beforeEach(() => {
-    renderFeedbackComponent(controls);
+    feedback = renderFeedbackComponent(controls);
   })
 
   test('Компонент создан', () => {
-    const feedback = screen.getByTestId('feedback');
-    expect(feedback).toBeInTheDocument();
+    expect(feedback.getByTestId('feedback')).toBeInTheDocument();
   });
 
   test('Текст в заголовке соответсвует переданному', () => {
-    const titleElement = screen.getByText(title);
-    expect(titleElement).toBeInTheDocument();
+    expect(feedback.getByText(title)).toBeInTheDocument();
   });
 });
 
 describe('Поведение компонента когда комментарий обязателен', () => {
   beforeEach(() => {
-    renderFeedbackComponent(controls);
+    feedback = renderFeedbackComponent(controls);
     likeButtonClickEvent();
   })
 
@@ -114,7 +114,7 @@ describe('Поведение компонента когда комментар�
   ];
 
   beforeEach(() => {
-    renderFeedbackComponent(controls);
+    feedback = renderFeedbackComponent(controls);
     likeButtonClickEvent();
   })
 
@@ -142,7 +142,7 @@ describe('Поведение компонента когда комментар�
   ];
 
   beforeEach(() => {
-    renderFeedbackComponent(controls);
+    feedback = renderFeedbackComponent(controls);
     likeButtonClickEvent();
   })
 
@@ -151,7 +151,7 @@ describe('Поведение компонента когда комментар�
   });
 
   test('Поле комментария отсутствует', () => {
-    expect(screen.queryByRole('textbox')).toBeNull();
+    expect(feedback.queryByTestId('text__field')).toBeNull();
   });
 
   testCheckErrorMessage();
@@ -178,11 +178,7 @@ describe('Проверка поведения компонента после у
     submitEvent();
 
     await waitFor(() => {
-      expect(screen.queryByTestId('feedback')).toBeNull();
+      expect(feedback.queryByTestId('feedback')).toBeNull();
     });
   });
 });
-
-
-
-

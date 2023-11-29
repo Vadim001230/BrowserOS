@@ -7,12 +7,12 @@ export interface Control {
   commentOptions?: CommentOptions;
 }
 
-export type OnSubmit = (data: { reaction: Control['id'], comment: string }) => Promise<unknown>;
+export type OnFeedbackSubmit = (data: { reaction: Control['id'], comment: string }) => Promise<unknown>;
 
 interface Props {
   title: string;
   controls: Control[];
-  onSubmit: OnSubmit;
+  onSubmit: OnFeedbackSubmit;
 }
 
 export function FeedbackComponent({ title, controls, onSubmit }: Props) {
@@ -52,7 +52,7 @@ export function FeedbackComponent({ title, controls, onSubmit }: Props) {
   };
 
   return (
-    <form className="feedback" onSubmit={handleSubmit} data-testid={"feedback"}>
+    <form className="feedback" onSubmit={handleSubmit} data-testid="feedback">
       <div className="feedback__container">
         <h3 className="feedback__title">{title}</h3>
         <div className="feedback__controls">
@@ -70,6 +70,7 @@ export function FeedbackComponent({ title, controls, onSubmit }: Props) {
           {...currentCommentOptions}
           onInput={handleCommentInput}
           value={comment}
+          data-testid="text__field"
         />
       )}
       <div className="container">

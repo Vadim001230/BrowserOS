@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { FeedbackComponent, OnSubmit } from '@/components/Feedback/Feedback';
+import { FeedbackComponent, OnFeedbackSubmit } from '@/components/Feedback/Feedback';
 import { LikeButton } from '@/components/UI/LikeButton/LikeButton';
 import { DislikeButton } from '@/components/UI/DislikeButton/DislikeButton';
 import '@/widgets/SimpleFeedback/SimpleFeedbackWidget.css';
 
-const feedbackControls = [
+const title = 'The Rating overview is in beta. Did you find it useful? Let us know!';
+const controls = [
   {
     id: 'like',
     component: LikeButton,
@@ -28,7 +29,7 @@ const feedbackControls = [
 export const SimpleFeedbackWidget = () => {
   const [isSuccessfulSubmit, setIsSuccessfulSubmit] = useState(false);
 
-  const handleFeedbackSubmit: OnSubmit = (data) => {
+  const handleSubmit: OnFeedbackSubmit = (data) => {
     return fetch('url', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -36,16 +37,10 @@ export const SimpleFeedbackWidget = () => {
       .then(() => setIsSuccessfulSubmit(true))
   };
 
-  const feedbackOptions = {
-    title: 'The Rating overview is in beta. Did you find it useful? Let us know!',
-    onSubmit: handleFeedbackSubmit,
-    controls: feedbackControls,
-  };
-
   return (
     <div className='simple-feedback'>
       {!isSuccessfulSubmit && (
-        <FeedbackComponent {...feedbackOptions} />
+        <FeedbackComponent title={title} controls={controls} onSubmit={handleSubmit} />
       )}
     </div>
   );
