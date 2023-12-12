@@ -1,35 +1,37 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface WindowState {
-  id: string;
-  isOpen: boolean;
-  isMinimized: boolean;
-  isFullscreen: boolean;
-  width: number;
-  height: number;
-}
-
-const initialState: WindowState[] = [];
+import { createSlice } from '@reduxjs/toolkit';
+import { IWindowManager } from '@/components/WindowManager/WindowManager';
 
 const windowSlice = createSlice({
   name: 'windows',
-  initialState,
+  initialState: {
+    windows: <IWindowManager[]>[],
+  },
   reducers: {
-    openWindow: (state, action: PayloadAction<string>) => {
-      console.log(state, action);
-
+    openWindow: (state, action) => {
+      state.windows.push({
+        id: +new Date(),
+        isMinimized: false,
+        isFullscreen: true,
+        children: action.payload,
+        zIndex: 1,
+      });
     },
 
-    closeWindow: (state, action: PayloadAction<string>) => {
-      console.log(state, action);
-    },
-    
-    minimizeWindow: (state, action: PayloadAction<string>) => {
-      console.log(state, action);
+    closeWindow: (state, action) => {
+      state.windows = state.windows.filter((window) => window.id !== action.payload.id);
     },
 
+    toggleMinimizeWindow: (state, action) => {
+      const currentWindow = state.windows.find((window) => window.id === action.payload.id)!;
+      currentWindow.isMinimized = !currentWindow.isMinimized;
+    },
+
+    setFullscreenWindow: (state, action) => {
+      const currentWindow = state.windows.find((window) => window.id === action.payload.id)!;
+      currentWindow.isFullscreen = action.payload.isFullscreen;
+    },
   },
 });
 
-export const { openWindow, closeWindow, minimizeWindow } = windowSlice.actions;
+export const { openWindow, closeWindow, toggleMinimizeWindow, setFullscreenWindow } = windowSlice.actions;
 export default windowSlice.reducer;

@@ -5,7 +5,7 @@ export const defineCursorPosition = (e: MouseEvent, element: HTMLElement) => {
   const { left, top, width, height } = container;
 
   const threshold = 10;
-
+  
   if (clientX < left + threshold && clientY < top + threshold) return 'top-left';
   else if (clientX > left + width - threshold && clientY < top + threshold) return 'top-right';
   else if (clientX < left + threshold && clientY > top + height - threshold) return 'bottom-left';

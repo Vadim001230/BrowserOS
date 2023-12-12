@@ -1,9 +1,20 @@
-import { WindowManager } from '@/components/WindowManager/WindowManager';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { IWindowManager, WindowManager } from '@/components/WindowManager/WindowManager';
+import { openWindow } from '@/store/slices/windowSlice';
 
 export const App = () => {
+  const dispatch = useAppDispatch();
+  const windows: IWindowManager[] = useAppSelector((state) => state.windows.windows);
+
   return (
-    <WindowManager>
-      Exercitationem perferendis mollitia quibusdam sint laboriosam alias autem rem animi eligendi tempora nemo quisquam ipsam, facere recusandae explicabo placeat a quos ut nulla magnam? Nobis dignissimos quo maiores voluptas eaque.
-    </WindowManager>
+    <>
+      <button onClick={() => dispatch(openWindow('aaa'))}>create</button>
+      {windows.map((window) => (
+        <WindowManager
+          key={window.id}
+          {...window}
+        />
+      ))}
+    </>
   );
 };
