@@ -11,6 +11,13 @@
 }
 
 body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  user-select: none;
+  background: no-repeat center url(./assets/images/win11-bg.jpg);
+  background-size: cover;
+  color: #fff;
   font-family: 'Segoe UI Variable', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
