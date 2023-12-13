@@ -1,11 +1,11 @@
 .window-manager {
   position: absolute;
-  border: 1px solid rgba($color: #ffffff, $alpha: 0.3);
+  border: 1px solid rgba($color: #ffffff, $alpha: 0.2);
   padding: 1px;
   border-radius: 6px;
   min-height: 10rem;
   min-width: 30rem;
-  max-height: 100vh;
+  max-height: calc(100vh - 3rem);
   max-width: 100vw;
   background-color: #191919;
 
@@ -31,6 +31,21 @@
   background-color: #202020;
   height: 2.2rem;
   cursor: default;
+
+  &__container {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin-left: auto;
+    height: 28px;
+    margin-bottom: auto;
+  }
+
+  &__control {
+    height: 100%;
+    margin-left: 1px;
+    padding: .5rem 1rem;
+  }
 }
 
 .window-content {
@@ -51,21 +66,6 @@
     background-color: #959595;
     border-radius: 5px;
   }
-}
-
-.controls-container {
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  margin-left: auto;
-  height: 28px;
-  margin-bottom: auto;
-}
-
-.window-header__control {
-  height: 100%;
-  margin-left: 1px;
-  padding: .5rem 1rem;
 }
 
 .control-close {

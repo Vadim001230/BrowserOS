@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from '@/hooks/redux';
-import { closeWindow, toggleMinimizeWindow, setFullscreenWindow } from '@/store/slices/windowSlice';
+import { close, toggleMinimize, setFullscreen, focus } from '@/store/slices/windowSlice';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import CloseIcon from '@/assets/icons/close.svg';
 import MaximizeIcon from '@/assets/icons/maximize.svg';
@@ -14,7 +14,6 @@ export interface IWindowManager {
   isMinimized: boolean;
   isFullscreen: boolean;
   children: ReactNode;
-  zIndex: number;
   width?: number;
   height?: number;
   coords?: {
@@ -49,20 +48,21 @@ export const WindowManager = ({ id, isMinimized, isFullscreen, children }: IWind
     lastY: 0
   });
 
-  const startResizing = () => setIsResizing(true);
   const stopResizing = () => setIsResizing(false);
+
+  const handleWindowMouseDown = () => {
+    setIsResizing(true);
+    dispatch(focus({ id }));
+  };
 
   const toggleFullscreen = (e: React.MouseEvent) => {
     e.preventDefault();
-    dispatch(setFullscreenWindow({ id, isFullscreen: !isFullscreen }));
+    dispatch(setFullscreen({ id, isFullscreen: !isFullscreen }));
   };
 
-  const minimizedWindow = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    dispatch(toggleMinimizeWindow({ id }));
-  };
+  const minimizedWindow = () => dispatch(toggleMinimize({ id }));
 
-  const close = () => dispatch(closeWindow({ id }));
+  const closeWindow = () => dispatch(close({ id }));
 
   useEffect(() => {
     if (isFullscreen) {
@@ -77,7 +77,7 @@ export const WindowManager = ({ id, isMinimized, isFullscreen, children }: IWind
       setTimeout(() => windowRef.current?.classList.add('window-manager_none'), ANIMATION_TIME);
     }
   }, [isFullscreen, isMinimized]);
-  
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!windowRef.current) return;
@@ -89,14 +89,16 @@ export const WindowManager = ({ id, isMinimized, isFullscreen, children }: IWind
 
       switch (cursorStyle) {
         case 'ns-resize':
-          setHeight(e.clientY);
+          setHeight(e.clientY - coords.current.lastY);
           break;
         case 'ew-resize':
-          setWidth(e.clientX);
+          setWidth(e.clientX - coords.current.lastX);
+          break;
+        case 'default':
           break;
         default:
-          setWidth(e.clientX);
-          setHeight(e.clientY);
+          setWidth(e.clientX - coords.current.lastX);
+          setHeight(e.clientY - coords.current.lastY);
       }
     };
 
@@ -129,23 +131,22 @@ export const WindowManager = ({ id, isMinimized, isFullscreen, children }: IWind
     const header = headerRef.current;
     const container = windowRef.current;
 
-    const onMouseDown = (e: MouseEvent) => {
-      e.stopPropagation();
+    const handleMouseDown = (e: MouseEvent) => {
       setIsDragging(true);
       coords.current.startX = e.clientX;
       coords.current.startY = e.clientY;
     };
 
-    const onMouseUp = () => {
+    const handleMouseUp = () => {
       setIsDragging(false);
       coords.current.lastX = container.offsetLeft;
       coords.current.lastY = container.offsetTop;
     };
 
-    const onMouseMove = (e: MouseEvent) => {
+    const handleMouseMove = (e: MouseEvent) => {
       if (!isDragging) return;
 
-      dispatch(setFullscreenWindow({ id, isFullscreen: false }));
+      dispatch(setFullscreen({ id, isFullscreen: false }));
 
       const nextX = e.clientX - coords.current.startX + coords.current.lastX;
       const nextY = e.clientY - coords.current.startY + coords.current.lastY;
@@ -154,16 +155,16 @@ export const WindowManager = ({ id, isMinimized, isFullscreen, children }: IWind
       container.style.left = `${nextX}px`;
     };
 
-    header.addEventListener('mousedown', onMouseDown);
-    header.addEventListener('mouseup', onMouseUp);
-    container.addEventListener('mousemove', onMouseMove);
-    container.addEventListener('mouseleave', onMouseUp);
+    header.addEventListener('mousedown', handleMouseDown);
+    header.addEventListener('mouseup', handleMouseUp);
+    container.addEventListener('mousemove', handleMouseMove);
+    container.addEventListener('mouseleave', handleMouseUp);
 
     return () => {
-      header.removeEventListener('mousedown', onMouseDown);
-      header.removeEventListener('mouseup', onMouseUp);
-      container.removeEventListener('mousemove', onMouseMove);
-      container.removeEventListener('mouseleave', onMouseUp);
+      header.removeEventListener('mousedown', handleMouseDown);
+      header.removeEventListener('mouseup', handleMouseUp);
+      container.removeEventListener('mousemove', handleMouseMove);
+      container.removeEventListener('mouseleave', handleMouseUp);
     };
   }, [isDragging]);
 
@@ -171,18 +172,18 @@ export const WindowManager = ({ id, isMinimized, isFullscreen, children }: IWind
     <div
       className='window-manager'
       style={isFullscreen ? { width: '100vw', height: '100vh', top: 0, left: 0 } : { width: `${width}px`, height: `${height}px` }}
-      onMouseDown={startResizing}
+      onMouseDown={handleWindowMouseDown}
       ref={windowRef}
     >
       <div className='window-header' ref={headerRef} onDoubleClick={toggleFullscreen}>
-        <div className="controls-container">
+        <div className="window-header__container">
           <BaseButton className='window-header__control' onClick={minimizedWindow}>
             <MinimizeIcon />
           </BaseButton>
           <BaseButton className='window-header__control' onClick={toggleFullscreen}>
             {isFullscreen ? <MaximizeIcon /> : <MaximizeMinIcon />}
           </BaseButton>
-          <BaseButton className='window-header__control control-close' onClick={close}>
+          <BaseButton className='window-header__control control-close' onClick={closeWindow}>
             <CloseIcon />
           </BaseButton>
         </div>
