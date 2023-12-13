@@ -11,8 +11,16 @@ const windowSlice = createSlice({
       state.windows.push({
         id: +new Date(),
         isMinimized: false,
-        isFullscreen: true,
+        isFullscreen: false,
         children: action.payload,
+        width: 0,
+        height: 0,
+        coords: {
+          startX: 0,
+          startY: 0,
+          lastX: 0,
+          lastY: 0,
+        }
       });
     },
 
@@ -36,6 +44,21 @@ const windowSlice = createSlice({
       const currentWindow = state.windows.find((window) => window.id === action.payload.id)!;
       currentWindow.isFullscreen = action.payload.isFullscreen;
     },
+
+    setWidth: (state, action) => {
+      const currentWindow = state.windows.find((window) => window.id === action.payload.id)!;
+      currentWindow.width = action.payload.width;
+    },
+
+    setHeight: (state, action) => {
+      const currentWindow = state.windows.find((window) => window.id === action.payload.id)!;
+      currentWindow.height = action.payload.height;
+    },
+
+    setCoords: (state, action) => {
+      const currentWindow = state.windows.find((window) => window.id === action.payload.id)!;
+      currentWindow.coords = { ...currentWindow.coords , ...action.payload.coords};
+    },
   },
 });
 
@@ -45,6 +68,9 @@ export const {
   close,
   toggleMinimize,
   setFullscreen,
+  setWidth,
+  setHeight,
+  setCoords,
 } = windowSlice.actions;
 
 export default windowSlice.reducer;

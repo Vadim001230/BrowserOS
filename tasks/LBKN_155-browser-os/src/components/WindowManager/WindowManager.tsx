@@ -1,6 +1,14 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from '@/hooks/redux';
-import { close, toggleMinimize, setFullscreen, focus } from '@/store/slices/windowSlice';
+import {
+  close,
+  toggleMinimize,
+  setFullscreen,
+  focus,
+  setWidth,
+  setHeight,
+  setCoords
+} from '@/store/slices/windowSlice';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import CloseIcon from '@/assets/icons/close.svg';
 import MaximizeIcon from '@/assets/icons/maximize.svg';
@@ -14,39 +22,25 @@ export interface IWindowManager {
   isMinimized: boolean;
   isFullscreen: boolean;
   children: ReactNode;
-  width?: number;
-  height?: number;
-  coords?: {
+  width: number;
+  height: number;
+  coords: {
     startX: number;
     startY: number;
-    lastX: number;
-    lastY: number;
+    lastX: number,
+    lastY: number,
   }
 }
 
 const ANIMATION_TIME = 200;
 
-export const WindowManager = ({ id, isMinimized, isFullscreen, children }: IWindowManager) => {
+export const WindowManager = ({ id, isMinimized, isFullscreen, children, width, height, coords }: IWindowManager) => {
   const [isResizing, setIsResizing] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [width, setWidth] = useState<number>();
-  const [height, setHeight] = useState<number>();
   const headerRef = useRef<HTMLDivElement>(null);
   const windowRef = useRef<HTMLDivElement>(null);
 
   const dispatch = useAppDispatch();
-
-  const coords = useRef<{
-    startX: number,
-    startY: number,
-    lastX: number,
-    lastY: number
-  }>({
-    startX: 0,
-    startY: 0,
-    lastX: 0,
-    lastY: 0
-  });
 
   const stopResizing = () => setIsResizing(false);
 
@@ -55,9 +49,9 @@ export const WindowManager = ({ id, isMinimized, isFullscreen, children }: IWind
     dispatch(focus({ id }));
   };
 
-  const toggleFullscreen = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const toggleFullscreen = () => {
     dispatch(setFullscreen({ id, isFullscreen: !isFullscreen }));
+    console.log(coords);
   };
 
   const minimizedWindow = () => dispatch(toggleMinimize({ id }));
@@ -89,20 +83,21 @@ export const WindowManager = ({ id, isMinimized, isFullscreen, children }: IWind
 
       switch (cursorStyle) {
         case 'ns-resize':
-          setHeight(e.clientY - coords.current.lastY);
+          dispatch(setHeight({ id, height: e.clientY - coords.lastY }));
           break;
         case 'ew-resize':
-          setWidth(e.clientX - coords.current.lastX);
+          dispatch(setWidth({ id, width: e.clientX - coords.lastX }));
           break;
         case 'default':
           break;
         default:
-          setWidth(e.clientX - coords.current.lastX);
-          setHeight(e.clientY - coords.current.lastY);
+          dispatch(setWidth({ id, width: e.clientX - coords.lastX }));
+          dispatch(setHeight({ id, height: e.clientY - coords.lastY }));
       }
     };
 
     const handleMouseDown = (e: MouseEvent) => {
+      e.stopPropagation();
       if (!windowRef.current) return;
       windowRef.current.style.cursor = defineCursorStyle(e, windowRef.current);
     };
@@ -122,7 +117,7 @@ export const WindowManager = ({ id, isMinimized, isFullscreen, children }: IWind
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isResizing]);
+  }, [coords, isResizing]);
 
 
   useEffect(() => {
@@ -133,14 +128,14 @@ export const WindowManager = ({ id, isMinimized, isFullscreen, children }: IWind
 
     const handleMouseDown = (e: MouseEvent) => {
       setIsDragging(true);
-      coords.current.startX = e.clientX;
-      coords.current.startY = e.clientY;
+      dispatch(setCoords({ id, coords: { startX: e.clientX, startY: e.clientY } }));
     };
 
     const handleMouseUp = () => {
       setIsDragging(false);
-      coords.current.lastX = container.offsetLeft;
-      coords.current.lastY = container.offsetTop;
+      if (!isFullscreen) {
+        dispatch(setCoords({ id, coords: { lastX: container.offsetLeft, lastY: container.offsetTop } }));
+      }
     };
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -148,8 +143,8 @@ export const WindowManager = ({ id, isMinimized, isFullscreen, children }: IWind
 
       dispatch(setFullscreen({ id, isFullscreen: false }));
 
-      const nextX = e.clientX - coords.current.startX + coords.current.lastX;
-      const nextY = e.clientY - coords.current.startY + coords.current.lastY;
+      const nextX = e.clientX - coords.startX + coords.lastX;
+      const nextY = e.clientY - coords.startY + coords.lastY;
 
       container.style.top = `${nextY}px`;
       container.style.left = `${nextX}px`;
@@ -166,12 +161,12 @@ export const WindowManager = ({ id, isMinimized, isFullscreen, children }: IWind
       container.removeEventListener('mousemove', handleMouseMove);
       container.removeEventListener('mouseleave', handleMouseUp);
     };
-  }, [isDragging]);
+  }, [coords, isDragging]);
 
   return (
     <div
       className='window-manager'
-      style={isFullscreen ? { width: '100vw', height: '100vh', top: 0, left: 0 } : { width: `${width}px`, height: `${height}px` }}
+      style={isFullscreen ? { width: '100vw', height: '100vh', top: 0, left: 0 } : { width: `${width}px`, height: `${height}px`, top: coords.lastY, left: coords.lastX }}
       onMouseDown={handleWindowMouseDown}
       ref={windowRef}
     >
