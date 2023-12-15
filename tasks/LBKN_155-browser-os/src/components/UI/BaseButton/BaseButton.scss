@@ -5,15 +5,15 @@
   align-items: center;
   justify-content: center;
   cursor: default;
-
-  &:hover {
-    background-color: rgba($color: #fff, $alpha: .2);
-  }
-
+  
   & svg {
     stroke: #fff;
     fill: #fff;
     width: 100%;
     height: 100%;
+  }
+  
+  &:hover, &_checked {
+    background-color: rgba($color: #fff, $alpha: .1);
   }
 }

@@ -7,55 +7,52 @@ const windowSlice = createSlice({
     windows: <IWindowManager[]>[],
   },
   reducers: {
-    open: (state, action) => {
-      state.windows.push({
-        id: +new Date(),
-        isMinimized: false,
-        isFullscreen: false,
-        children: action.payload,
-        width: 0,
-        height: 0,
-        coords: {
-          startX: 0,
-          startY: 0,
-          lastX: 0,
-          lastY: 0,
-        }
-      });
+    openWindow: (state, action) => {
+      state.windows.push(action.payload);
     },
 
-    focus: (state, action) => {
+    focusWindow: (state, action) => {
       const currentWindowIndex = state.windows.findIndex((window) => window.id === action.payload.id)!;
       if (currentWindowIndex === state.windows.length - 1) return;
+      state.windows = state.windows.map((window, index) => ({
+        ...window,
+        isFocused: index === currentWindowIndex,
+      }));
+      
       state.windows.push(state.windows[currentWindowIndex]);
       state.windows = state.windows.filter((_, index) => index !== currentWindowIndex);
     },
 
-    close: (state, action) => {
+    closeWindow: (state, action) => {
       state.windows = state.windows.filter((window) => window.id !== action.payload.id);
     },
 
-    toggleMinimize: (state, action) => {
+    toggleMinimizeWindow: (state, action) => {
+      // const currentWindowIndex = state.windows.findIndex((window) => window.id === action.payload.id)!;
       const currentWindow = state.windows.find((window) => window.id === action.payload.id)!;
       currentWindow.isMinimized = !currentWindow.isMinimized;
+      // if (currentWindow.isMinimized && state.windows[currentWindowIndex - 1]) {
+      //   state.windows[currentWindowIndex - 1].isFocused = true;
+      //   state.windows[currentWindowIndex].isFocused = false;
+      // }
     },
 
-    setFullscreen: (state, action) => {
+    setWindowFullscreen: (state, action) => {
       const currentWindow = state.windows.find((window) => window.id === action.payload.id)!;
       currentWindow.isFullscreen = action.payload.isFullscreen;
     },
 
-    setWidth: (state, action) => {
+    setWindowWidth: (state, action) => {
       const currentWindow = state.windows.find((window) => window.id === action.payload.id)!;
       currentWindow.width = action.payload.width;
     },
 
-    setHeight: (state, action) => {
+    setWindowHeight: (state, action) => {
       const currentWindow = state.windows.find((window) => window.id === action.payload.id)!;
       currentWindow.height = action.payload.height;
     },
 
-    setCoords: (state, action) => {
+    setWindowCoords: (state, action) => {
       const currentWindow = state.windows.find((window) => window.id === action.payload.id)!;
       currentWindow.coords = { ...currentWindow.coords , ...action.payload.coords};
     },
@@ -63,14 +60,14 @@ const windowSlice = createSlice({
 });
 
 export const {
-  open,
-  focus,
-  close,
-  toggleMinimize,
-  setFullscreen,
-  setWidth,
-  setHeight,
-  setCoords,
+  openWindow,
+  focusWindow,
+  closeWindow,
+  toggleMinimizeWindow,
+  setWindowFullscreen,
+  setWindowWidth,
+  setWindowHeight,
+  setWindowCoords,
 } = windowSlice.actions;
 
 export default windowSlice.reducer;
