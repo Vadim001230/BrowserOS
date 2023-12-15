@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from '@/hooks/redux';
 import {
   toggleMinimizeWindow,
@@ -8,36 +8,19 @@ import {
   setWindowHeight,
   setWindowCoords
 } from '@/store/slices/windowSlice';
+import { IApp } from '@/types/IApp';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import CloseIcon from '@/assets/icons/close.svg';
 import MaximizeIcon from '@/assets/icons/maximize.svg';
 import MaximizeMinIcon from '@/assets/icons/maximize-min.svg';
 import MinimizeIcon from '@/assets/icons/minimize.svg';
 import { defineCursorStyle } from '@/utils/cursor';
-import './WindowManager.scss';
 import { closeAppService } from '@/serviсes/appServices';
-
-export interface IWindowManager {
-  id: number;
-  name: string;
-  isMinimized: boolean;
-  isFullscreen: boolean;
-  isFocused: boolean;
-  iconURL: string;
-  children: ReactNode;
-  width: number | string;
-  height: number | string;
-  coords: {
-    startX: number;
-    startY: number;
-    lastX: number,
-    lastY: number,
-  }
-}
+import './WindowManager.scss';
 
 const ANIMATION_TIME = 200;
 
-export const WindowManager = ({ id, name, isMinimized, isFullscreen, children, width, height, coords, iconURL }: IWindowManager) => {
+export const WindowManager = ({ id, name, isMinimized, isFullscreen, children, width, height, coords, iconURL }: IApp) => {
   const [isResizing, setIsResizing] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -54,7 +37,7 @@ export const WindowManager = ({ id, name, isMinimized, isFullscreen, children, w
 
   const toggleFullscreen = () => dispatch(setWindowFullscreen({ id, isFullscreen: !isFullscreen }));
 
-  const minimizedWindow = () => dispatch(toggleMinimizeWindow({ id }));
+  const toggleMinimized = () => dispatch(toggleMinimizeWindow({ id }));
 
   const closeWindow = () => closeAppService(dispatch, { id });
 
@@ -186,7 +169,7 @@ export const WindowManager = ({ id, name, isMinimized, isFullscreen, children, w
           </div>
         </div>
         <div className="window-header__control-container">
-          <BaseButton className='window-header__control' onClick={minimizedWindow} title='Свернуть'>
+          <BaseButton className='window-header__control' onClick={toggleMinimized} title='Свернуть'>
             <MinimizeIcon />
           </BaseButton>
           <BaseButton className='window-header__control' onClick={toggleFullscreen}>

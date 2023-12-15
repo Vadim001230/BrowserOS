@@ -1,11 +1,12 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { IWindowManager, WindowManager } from '@/components/WindowManager/WindowManager';
+import { WindowManager } from '@/components/WindowManager/WindowManager';
 import { TaskBar } from '@/components/TaskBar/TaskBar';
 import { openAppService } from '@/serviсes/appServices';
+import { IApp } from './types/IApp';
 
 export const App = () => {
   const dispatch = useAppDispatch();
-  const windows: IWindowManager[] = useAppSelector((state) => state.windows.windows);
+  const windows: IApp[] = useAppSelector((state) => state.windows.windows);
 
   const explorer = {
     id: +new Date(),

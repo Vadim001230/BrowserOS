@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IWindowManager } from '@/components/WindowManager/WindowManager';
+import { IApp } from '@/types/IApp';
 
 const windowSlice = createSlice({
   name: 'windows',
   initialState: {
-    windows: <IWindowManager[]>[],
+    windows: <IApp[]>[],
   },
   reducers: {
     openWindow: (state, action) => {
@@ -28,13 +28,8 @@ const windowSlice = createSlice({
     },
 
     toggleMinimizeWindow: (state, action) => {
-      // const currentWindowIndex = state.windows.findIndex((window) => window.id === action.payload.id)!;
       const currentWindow = state.windows.find((window) => window.id === action.payload.id)!;
       currentWindow.isMinimized = !currentWindow.isMinimized;
-      // if (currentWindow.isMinimized && state.windows[currentWindowIndex - 1]) {
-      //   state.windows[currentWindowIndex - 1].isFocused = true;
-      //   state.windows[currentWindowIndex].isFocused = false;
-      // }
     },
 
     setWindowFullscreen: (state, action) => {
