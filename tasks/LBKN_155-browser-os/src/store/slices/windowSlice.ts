@@ -4,11 +4,14 @@ import { IApp } from '@/types/IApp';
 const windowSlice = createSlice({
   name: 'windows',
   initialState: {
-    windows: <IApp[]>[],
+    windows: [] as IApp[],
   },
   reducers: {
     openWindow: (state, action) => {
-      state.windows.push(action.payload);
+      const isWindowOpen = state.windows.some((window) => window.id === action.payload.id);
+      if (!isWindowOpen) {
+        state.windows.push(action.payload);
+      }
     },
 
     focusWindow: (state, action) => {

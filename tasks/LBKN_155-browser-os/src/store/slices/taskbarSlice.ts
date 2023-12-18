@@ -1,17 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IApp } from '@/types/IApp';
+import { appsList } from './appsSlice';
 
 const windowSlice = createSlice({
   name: 'taskbar',
   initialState: {
     taskbarApps: {
-      favoritApps: <IApp[]>[],
-      openedApps: <IApp[]>[],
+      favoritApps: appsList as IApp[],
+      openedApps: [] as IApp[],
     }
   },
   reducers: {
     openApp: (state, action) => {
-      state.taskbarApps.openedApps.push(action.payload);
+      const isAppOpen = state.taskbarApps.openedApps.some((window) => window.id === action.payload.id);
+      if (!isAppOpen) {
+        state.taskbarApps.openedApps.push(action.payload);
+      }
     },
 
     closeApp: (state, action) => {

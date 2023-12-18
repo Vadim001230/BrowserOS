@@ -14,11 +14,13 @@
   box-shadow: 3px 3px 10px 5px rgba($color: #000000, $alpha: 0.2);
 
   &_medium {
+    transform: translateX(0);
     width: 26rem;
   }
 
   &_large {
-    width: 40rem;
+    transform: translateX(0);
+    width: 38rem;
   }
 
   & button {

@@ -5,10 +5,7 @@ interface BatteryStatus {
   charging: boolean;
 }
 export const useBattery = () => {
-  const [batteryStatus, setBatteryStatus] = useState<BatteryStatus>({
-    level: 0,
-    charging: false,
-  });
+  const [batteryStatus, setBatteryStatus] = useState<BatteryStatus>();
 
   const updateBattery = (battery: BatteryStatus) => {
     setBatteryStatus({

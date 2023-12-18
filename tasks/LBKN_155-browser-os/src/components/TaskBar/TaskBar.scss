@@ -16,7 +16,7 @@
     justify-content: center;
     align-items: center;
     flex-wrap: nowrap;
-    gap: 5px;
+    gap: 3px;
   }
 
   &__app {
@@ -47,6 +47,10 @@
       transition: width .2s;
     }
   }
+}
+
+.start-button {
+  filter: brightness(1.5);
 }
 
 .button_checked::after {

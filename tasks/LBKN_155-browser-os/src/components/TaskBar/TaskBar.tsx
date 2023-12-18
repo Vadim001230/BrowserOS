@@ -1,17 +1,18 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { IApp } from '@/types/IApp';
-import { closeAppService, focusService, openAppService, toggleMinimizeService } from '@/serviсes/appServices';
+import { closeAppService, focusAppService, openAppService, toggleMinimizeAppService } from '@/serviсes/appServices';
 import { toggleAppToFavorits } from '@/store/slices/taskbarSlice';
-import { StartMenuButton } from '@/components/UI/StartMenuButton/StartMenuButton';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import { PopupMenu } from '@/components/UI/PopapMenu/PopupMenu';
 import { BatteryStatus } from '@/components/UI/Battery/Battery';
 import { Clock } from '@/components/UI/Clock/Clock';
+import SearchIcon from '@/assets/icons/search.svg';
 import './TaskBar.scss';
 
 export const TaskBar = () => {
-  const [isPopapMenuShown, setIsPopapShown] = useState(false);
+  const [isPopapMenuShown, setIsPopapMenuShown] = useState(false);
+  const [isStartMenuShown, setIsStartMenuShown] = useState(false);
   const [selectedId, setSelectedId] = useState<IApp['id']>();
   const [popapLeftCoordinate, setPopapLeftCoordinate] = useState(0);
 
@@ -24,14 +25,14 @@ export const TaskBar = () => {
   const isSelectedAppOpen = openApps.some((app) => app.id === selectedId);
   const isSelectedAppInFavorit = favoritApps.some((app) => app.id === selectedId);
 
-  const closePopapMenu = () => setIsPopapShown(false);
-  const openPopapMenu = () => setIsPopapShown(true);
+  const closePopapMenu = () => setIsPopapMenuShown(false);
 
   const handleAppContextMenu = (e: React.MouseEvent<HTMLButtonElement>, id: IApp['id']) => {
     e.preventDefault();
     setPopapLeftCoordinate(e.currentTarget.offsetLeft);
     setSelectedId(id);
-    openPopapMenu();
+    setIsStartMenuShown(false);
+    setIsPopapMenuShown(true);
   };
 
   const openApp = (app: IApp) => openAppService(dispatch, app);
@@ -52,8 +53,8 @@ export const TaskBar = () => {
     setSelectedId(id);
     const isSelectedAppOpen = openApps.some((app) => app.id === id);
     if (isSelectedAppOpen) {
-      toggleMinimizeService(dispatch, { id });
-      focusService(dispatch, { id });
+      toggleMinimizeAppService(dispatch, { id });
+      focusAppService(dispatch, { id });
     } else if (isSelectedAppInFavorit) {
       const app = favoritApps.find((app) => app.id === id)!;
       openApp(app);
@@ -78,10 +79,38 @@ export const TaskBar = () => {
 
   const renderAppButtons = (apps: IApp[]) => apps.map(renderAppButton);
 
+  const openStartMenu = () => setIsStartMenuShown(true);
+  const closeStartMenu = () => setIsStartMenuShown(false);
+
+  const handleStartMenuClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setPopapLeftCoordinate(e.currentTarget.offsetLeft);
+    setIsPopapMenuShown(false);
+    if (isStartMenuShown) {
+      closeStartMenu();
+    } else {
+      openStartMenu();
+    }
+  };
+
   return (
     <div className="taskbar">
-      <StartMenuButton />
+      <BaseButton
+        className='taskbar__app start-button'
+        title='Пуск'
+        onClick={handleStartMenuClick}
+      >
+        <img src='https://img.icons8.com/fluency/48/windows-11.png' alt="start menu button" />
+      </BaseButton>
+      {isStartMenuShown && (
+        <PopupMenu onClose={closeStartMenu} leftCoordinate={popapLeftCoordinate} size='large'>
+          <button>start</button>
+        </PopupMenu>
+      )}
       <div className="taskbar__container">
+        <BaseButton className='taskbar__app'>
+          <SearchIcon />
+        </BaseButton>
         {!!favoritApps.length && renderAppButtons(favoritApps)}
         {!!openApps.length && renderAppButtons(openApps.filter((app) => !favoritApps.includes(app)))}
       </div>

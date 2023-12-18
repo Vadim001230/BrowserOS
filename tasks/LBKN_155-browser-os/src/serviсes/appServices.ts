@@ -12,10 +12,10 @@ export const closeAppService = (dispatch: Dispatch, action: unknown) => {
   dispatch(closeWindow(action));
 };
 
-export const toggleMinimizeService = (dispatch: Dispatch, action: unknown) => {
+export const toggleMinimizeAppService = (dispatch: Dispatch, action: unknown) => {
   dispatch(toggleMinimizeWindow(action));
 };
 
-export const focusService = (dispatch: Dispatch, action: unknown) => {
+export const focusAppService = (dispatch: Dispatch, action: unknown) => {
   dispatch(focusWindow(action));
 };

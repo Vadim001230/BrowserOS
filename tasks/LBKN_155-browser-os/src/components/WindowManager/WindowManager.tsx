@@ -8,7 +8,7 @@ import MaximizeIcon from '@/assets/icons/maximize.svg';
 import MaximizeMinIcon from '@/assets/icons/maximize-min.svg';
 import MinimizeIcon from '@/assets/icons/minimize.svg';
 import { defineCursorStyle } from '@/utils/cursor';
-import { closeAppService, toggleMinimizeService, focusService } from '@/serviсes/appServices';
+import { closeAppService, toggleMinimizeAppService, focusAppService } from '@/serviсes/appServices';
 import './WindowManager.scss';
 
 const ANIMATION_TIME = 200;
@@ -39,12 +39,12 @@ export const WindowManager = ({
 
   const handleWindowMouseDown = () => {
     setIsResizing(true);
-    focusService(dispatch, { id });
+    focusAppService(dispatch, { id });
   };
 
   const toggleFullscreen = () => dispatch(setWindowFullscreen({ id, isFullscreen: !isFullscreen }));
 
-  const toggleMinimized = () => toggleMinimizeService(dispatch, { id });
+  const toggleMinimized = () => toggleMinimizeAppService(dispatch, { id });
 
   const closeWindow = () => closeAppService(dispatch, { id });
 

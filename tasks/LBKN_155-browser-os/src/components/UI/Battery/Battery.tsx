@@ -4,7 +4,7 @@ import './Battery.scss';
 
 export const BatteryStatus = () => {
   const batteryStatus = useBattery();
-
+  
   if (!batteryStatus) return null;
 
   return (

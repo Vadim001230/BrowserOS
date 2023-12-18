@@ -4,7 +4,7 @@ export const Notebook = () => {
 
   return (
     <div className="notebook">
-      <textarea className="notebook__text"></textarea>
+      <textarea className="notebook__text" autoFocus></textarea>
     </div>
   );
 };
