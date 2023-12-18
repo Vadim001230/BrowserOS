@@ -1,52 +1,34 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { WindowManager } from '@/components/WindowManager/WindowManager';
+import { IApp } from './types/IApp';
 import { TaskBar } from '@/components/TaskBar/TaskBar';
 import { openAppService } from '@/serviсes/appServices';
-import { IApp } from './types/IApp';
+import { Calculator } from '@/components/Apps/Calculator/Calculator';
 
 export const App = () => {
   const dispatch = useAppDispatch();
   const windows: IApp[] = useAppSelector((state) => state.windows.windows);
 
-  const explorer = {
-    id: +new Date(),
-    name: 'Проводник',
-    isMinimized: false,
-    isFullscreen: true,
-    isFocused: true,
-    children: 'Проводник',
-    iconURL: 'https://img.icons8.com/fluency/48/windows-explorer.png',
-    width: 0,
-    height: 0,
-    coords: {
-      startX: 0,
-      startY: 0,
-      lastX: 0,
-      lastY: 0,
-    }
-  };
-  
   const explore = {
     id: +new Date(),
-    name: 'Explorer',
-    isMinimized: false,
-    isFullscreen: true,
-    isFocused: true,
-    children: 'internet explorer',
-    iconURL: 'https://img.icons8.com/color/48/internet-explorer.png',
-    width: 0,
-    height: 0,
-    coords: {
-      startX: 0,
-      startY: 0,
-      lastX: 0,
-      lastY: 0,
-    }
+    name: 'Проводник',
+    children: 'Проводник',
+    iconURL: 'https://img.icons8.com/fluency/48/windows-explorer.png',
+  };
+  
+  const calculator = {
+    id: +new Date(),
+    name: 'Калькулятор',
+    isFullscreen: false,
+    width: 250,
+    height: 400,
+    children: <Calculator />,
+    iconURL: 'https://img.icons8.com/fluency/48/calculator.png',
   };
 
   return (
     <>
-      <button onClick={() => openAppService(dispatch, explorer)}>create</button>
+      <button onClick={() => openAppService(dispatch, calculator)}>create</button>
       <button onClick={() => openAppService(dispatch, explore)}>create</button>
       {windows.map((window) => (
         <WindowManager

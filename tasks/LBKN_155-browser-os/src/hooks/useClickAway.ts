@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 
 export const useClickAway = (ref: React.RefObject<HTMLElement>, callback: () => void) => {
-
   useEffect(() => {
     const listener = () => {
       if (!ref || !ref.current) {

@@ -1,13 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from '@/hooks/redux';
-import {
-  toggleMinimizeWindow,
-  setWindowFullscreen,
-  focusWindow,
-  setWindowWidth,
-  setWindowHeight,
-  setWindowCoords
-} from '@/store/slices/windowSlice';
+import { setWindowFullscreen, setWindowWidth, setWindowHeight, setWindowCoords } from '@/store/slices/windowSlice';
 import { IApp } from '@/types/IApp';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import CloseIcon from '@/assets/icons/close.svg';
@@ -15,29 +8,43 @@ import MaximizeIcon from '@/assets/icons/maximize.svg';
 import MaximizeMinIcon from '@/assets/icons/maximize-min.svg';
 import MinimizeIcon from '@/assets/icons/minimize.svg';
 import { defineCursorStyle } from '@/utils/cursor';
-import { closeAppService } from '@/serviсes/appServices';
+import { closeAppService, toggleMinimizeService, focusService } from '@/serviсes/appServices';
 import './WindowManager.scss';
 
 const ANIMATION_TIME = 200;
 
-export const WindowManager = ({ id, name, isMinimized, isFullscreen, children, width, height, coords, iconURL }: IApp) => {
+export const WindowManager = ({
+  id,
+  name,
+  isMinimized = false,
+  isFullscreen = true,
+  children,
+  width = 0,
+  height = 0,
+  coords = {
+    startX: 0,
+    startY: 0,
+    lastX: 0,
+    lastY: 0,
+  },
+  iconURL,
+}: IApp) => {
   const [isResizing, setIsResizing] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
   const windowRef = useRef<HTMLDivElement>(null);
-
   const dispatch = useAppDispatch();
 
   const stopResizing = () => setIsResizing(false);
 
   const handleWindowMouseDown = () => {
     setIsResizing(true);
-    dispatch(focusWindow({ id }));
+    focusService(dispatch, { id });
   };
 
   const toggleFullscreen = () => dispatch(setWindowFullscreen({ id, isFullscreen: !isFullscreen }));
 
-  const toggleMinimized = () => dispatch(toggleMinimizeWindow({ id }));
+  const toggleMinimized = () => toggleMinimizeService(dispatch, { id });
 
   const closeWindow = () => closeAppService(dispatch, { id });
 
@@ -59,6 +66,18 @@ export const WindowManager = ({ id, name, isMinimized, isFullscreen, children, w
   }, [isFullscreen, isMinimized]);
 
   useEffect(() => {
+    const handleMouseDown = (e: MouseEvent) => {
+      e.stopPropagation();
+      if (!windowRef.current) return;
+      windowRef.current.style.cursor = defineCursorStyle(e, windowRef.current);
+    };
+
+    const handleMouseUp = () => {
+      stopResizing();
+      if (!windowRef.current) return;
+      windowRef.current.style.cursor = 'default';
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
       if (!windowRef.current) return;
 
@@ -80,18 +99,6 @@ export const WindowManager = ({ id, name, isMinimized, isFullscreen, children, w
           dispatch(setWindowWidth({ id, width: e.clientX - coords.lastX }));
           dispatch(setWindowHeight({ id, height: e.clientY - coords.lastY }));
       }
-    };
-
-    const handleMouseDown = (e: MouseEvent) => {
-      e.stopPropagation();
-      if (!windowRef.current) return;
-      windowRef.current.style.cursor = defineCursorStyle(e, windowRef.current);
-    };
-
-    const handleMouseUp = () => {
-      stopResizing();
-      if (!windowRef.current) return;
-      windowRef.current.style.cursor = 'default';
     };
 
     document.addEventListener('mousedown', handleMouseDown);
@@ -153,7 +160,7 @@ export const WindowManager = ({ id, name, isMinimized, isFullscreen, children, w
       className='window-manager'
       style={
         isFullscreen
-          ? { width: '100vw', height: '100vh', top: 0, left: 0 }
+          ? { width: '100vw', height: '100vh', top: 0, left: 0, borderRadius: 0 }
           : { width: `${width}px`, height: `${height}px`, top: coords.lastY, left: coords.lastX }
       }
       onMouseDown={handleWindowMouseDown}
