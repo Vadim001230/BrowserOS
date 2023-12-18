@@ -6,7 +6,10 @@ export const Calculator = () => {
   const [result, setResult] = useState('0');
 
   const handleButtonClick = (value: string) => {
-    if (('+-*/'.includes(value) && '+-*/'.includes(result[result.length - 1]) || result === '0')) {
+    if (
+      ('+-*/'.includes(value) && '+-*/'.includes(result[result.length - 1])) ||
+      (result === '0' && value !== '.')
+    ) {
       setResult((prevValue) => prevValue.slice(0, -1) + value);
     } else {
       setResult((prevValue) => prevValue + value);
