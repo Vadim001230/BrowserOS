@@ -6,7 +6,7 @@ import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import './Clock.scss';
 
 export const Clock = () => {
-  const currentDateTime = useAppSelector((state) => state.clock.currentDateTime);
+  const currentDateTime = useAppSelector((state) => state.clock);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export const Clock = () => {
   }, [dispatch]);
 
   const { time, date } = currentDateTime;
-
+  
   return (
     <BaseButton className="clock">
       <div>{time}</div>

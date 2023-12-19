@@ -3,6 +3,7 @@ import windowReducer from './slices/windowSlice';
 import taskbarReducer from './slices/taskbarSlice';
 import clockReducer from './slices/clockSlice';
 import appsSlice from './slices/appsSlice';
+import brightnessSlice from './slices/brightnessSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     windows: windowReducer,
     taskbar: taskbarReducer,
     clock: clockReducer,
+    brightness: brightnessSlice,
   },
 });
 

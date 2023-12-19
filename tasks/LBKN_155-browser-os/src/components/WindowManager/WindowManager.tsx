@@ -19,8 +19,8 @@ export const WindowManager = ({
   isMinimized = false,
   isFullscreen,
   children,
-  width = 400,
-  height = 400,
+  width = 600,
+  height = 500,
   coords = {
     startX: 0,
     startY: 0,
@@ -41,7 +41,7 @@ export const WindowManager = ({
     setIsResizing(true);
     focusAppService(dispatch, { id });
   };
-
+  
   const toggleFullscreen = () => dispatch(setWindowFullscreen({ id, isFullscreen: !isFullscreen }));
 
   const toggleMinimized = () => toggleMinimizeAppService(dispatch, { id });

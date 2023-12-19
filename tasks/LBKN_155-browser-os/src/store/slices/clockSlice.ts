@@ -8,14 +8,12 @@ interface Clock {
 const clockSlice = createSlice({
   name: 'clock',
   initialState: {
-    currentDateTime: {
       time: '00:00',
       date: '01.01.2024',
     } as Clock,
-  },
   reducers: {
     setCurrentDateTime: (state, action) => {
-      state.currentDateTime = action.payload;
+      return state = action.payload;
     },
   },
 });

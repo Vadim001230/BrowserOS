@@ -29,4 +29,10 @@ const weather = {
   iconURL: 'https://img.icons8.com/fluency/48/weather.png',
 } as IApp;
 
+// const explore = {
+//   id: 4,
+//   name: 'FileExplorer',
+//   iconURL: 'https://img.icons8.com/fluency/48/windows-explorer.png',
+// } as IApp;
+
 export const AppsListConfig = [calculator, notebook, weather] as IApp[];

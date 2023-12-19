@@ -12,7 +12,7 @@ const apiKey = '228478b7106e0d3eb8311cb24df1323b';
 
 export const Weather = () => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
-  const [city, setCity] = useState('Hrodna');
+  const [city, setCity] = useState('Grodno');
 
   const fetchWeather = async () => {
     try {

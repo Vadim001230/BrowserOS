@@ -1,5 +1,5 @@
 export interface IApp {
-  id: number;
+  id: number | number;
   name: string;
   iconURL: string;
   width?: number;

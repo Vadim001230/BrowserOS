@@ -1,12 +1,12 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { IApp } from '@/types/IWindow';
+import { IApp } from '@/types/IApp';
 import { focusAppService, openAppService } from '@/serviсes/appServices';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import './Desktop.scss';
 
 export const Desktop = () => {
   const dispatch = useAppDispatch();
-  const appsList: IApp[] = useAppSelector((state) => state.apps.apps);
+  const appsList: IApp[] = useAppSelector((state) => state.apps);
   const openApps: IApp[] = useAppSelector((state) => state.taskbar.taskbarApps.openedApps);
 
   const handleShortcutDoubleClick = (app: IApp) => {

@@ -3,11 +3,11 @@ import { useEffect } from 'react';
 export const useClickAway = (
   ref: React.RefObject<HTMLElement | null>,
   callback: (e: React.MouseEvent) => void,
-  isIignoreRef: boolean = false
+  isIignoreClickOnRef: boolean = true
 ) => {
   useEffect(() => {
     const listener = (e: MouseEvent) => {
-      if (!ref || !ref.current || (isIignoreRef === false && ref.current.contains(e.target as Node))) {
+      if (!ref || !ref.current || (isIignoreClickOnRef && ref.current.contains(e.target as Node))) {
         return;
       }
       callback(e);
@@ -18,5 +18,5 @@ export const useClickAway = (
     return () => {
       document.removeEventListener('click', listener);
     };
-  }, [ref, callback, isIignoreRef]);
+  }, [ref, callback, isIignoreClickOnRef]);
 };

@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IApp } from '@/types/IWindow';
+import { IWindow } from '@/types/IWindow';
 
 const windowSlice = createSlice({
   name: 'windows',
   initialState: {
-    windows: [] as IApp[],
+    windows: [] as IWindow[],
   },
   reducers: {
     openWindow: (state, action) => {

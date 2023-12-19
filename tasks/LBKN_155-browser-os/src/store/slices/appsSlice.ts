@@ -4,12 +4,11 @@ import { AppsListConfig } from '@/components/Apps/appsConfig';
 
 const appsSlice = createSlice({
   name: 'apps',
-  initialState: {
-    apps: AppsListConfig as IApp[],
-  },
+  initialState: AppsListConfig as IApp[],
+
   reducers: {
     createApp: (state, action) => {
-      state.apps.push(action.payload);
+      state.push(action.payload);
     },
   },
 });
