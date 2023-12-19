@@ -4,6 +4,7 @@ interface BatteryStatus {
   level: number;
   charging: boolean;
 }
+
 export const useBattery = () => {
   const [batteryStatus, setBatteryStatus] = useState<BatteryStatus>();
 
@@ -14,25 +15,35 @@ export const useBattery = () => {
     });
   };
 
-  const hookBattery = (battery: BatteryStatus) => {
-    updateBattery(battery);
-    battery.addEventListener('levelchange', () => updateBattery(battery));
-    battery.addEventListener('chargingchange', () => updateBattery(battery));
+  const subscribeBattery = async () => {
+    try {
+      const battery = await navigator.getBattery();
+      updateBattery(battery);
+      battery.addEventListener('levelchange', () => updateBattery(battery));
+      battery.addEventListener('chargingchange', () => updateBattery(battery));
+    } catch (error) {
+      console.error('Failed to get battery status:', error);
+    }
   };
 
-  const unHookBattery = (battery: BatteryStatus) => {
-    battery.removeEventListener('levelchange', () => updateBattery(battery));
-    battery.removeEventListener('chargingchange', () => updateBattery(battery));
+  const unsubscribeBattery = async () => {
+    try {
+      const battery = await navigator.getBattery();
+      battery.removeEventListener('levelchange', () => updateBattery(battery));
+      battery.removeEventListener('chargingchange', () => updateBattery(battery));
+    } catch (error) {
+      console.error('Failed to get battery status:', error);
+    }
   };
 
   useEffect(() => {
-    if ('getBattery' in window.navigator) {
-      navigator.getBattery().then((battery: BatteryStatus) => hookBattery(battery));
+    if ('getBattery' in navigator) {
+      subscribeBattery();
     }
 
     return () => {
-      if ('getBattery' in window.navigator) {
-        navigator.getBattery().then((battery: BatteryStatus) => unHookBattery(battery));
+      if ('getBattery' in navigator) {
+        unsubscribeBattery();
       }
     };
   }, []);

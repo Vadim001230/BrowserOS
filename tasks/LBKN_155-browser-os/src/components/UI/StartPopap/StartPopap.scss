@@ -1,0 +1,71 @@
+.startpopap {
+  padding: 1rem;
+  transform: translateX(5px);
+  width: 26rem;
+  height: 80vh;
+  background-color: rgba(37, 37, 37, 0.9);
+
+  &__search {
+    padding: 0.5rem 1rem;
+    color: white;
+    background-color: #171717;
+    border-radius: 1rem;
+    border: none;
+    outline: 1px solid rgba($color: #ffffff, $alpha: 0.2);
+
+    &:focus {
+      outline: 1px solid rgba($color: #ffffff, $alpha: 0.3);
+    }
+
+    &::-webkit-search-decoration,
+    &::-webkit-search-cancel-button,
+    &::-webkit-search-results-button,
+    &::-webkit-search-results-decoration {
+      display: none;
+    }
+  }
+
+  &__container {
+    overflow-x: auto;
+    padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #171717;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #959595;
+      border-radius: 5px;
+    }
+  }
+
+  &__shortcut {
+    width: 4.5rem;
+    height: 4.5rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 5px;
+    padding: 0.2rem;
+    font-size: 0.7rem;
+
+    & img {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+
+    & span {
+      word-break: break-all;
+    }
+  }
+}

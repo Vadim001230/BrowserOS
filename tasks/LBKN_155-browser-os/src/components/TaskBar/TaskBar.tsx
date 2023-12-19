@@ -5,9 +5,9 @@ import { closeAppService, focusAppService, openAppService, toggleMinimizeAppServ
 import { toggleAppToFavorits } from '@/store/slices/taskbarSlice';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import { PopupMenu } from '@/components/UI/PopapMenu/PopupMenu';
-import { BatteryStatus } from '@/components/UI/Battery/Battery';
+import { BatteryStatus } from '@/components/UI/Battery/BatteryStatus';
 import { Clock } from '@/components/UI/Clock/Clock';
-import SearchIcon from '@/assets/icons/search.svg';
+import { StartPopap } from '@/components/UI/StartPopap/StartPopap';
 import './TaskBar.scss';
 
 export const TaskBar = () => {
@@ -72,7 +72,7 @@ export const TaskBar = () => {
         onContextMenu={(e) => handleAppContextMenu(e, app.id)}
         title={app.name}
       >
-        <img src={app.iconURL} alt="" />
+        <img src={app.iconURL} alt='' />
       </BaseButton>
     );
   };
@@ -94,7 +94,7 @@ export const TaskBar = () => {
   };
 
   return (
-    <div className="taskbar">
+    <div className='taskbar'>
       <BaseButton
         className='taskbar__app start-button'
         title='Пуск'
@@ -102,22 +102,22 @@ export const TaskBar = () => {
       >
         <img src='https://img.icons8.com/fluency/48/windows-11.png' alt="start menu button" />
       </BaseButton>
-      {isStartMenuShown && (
-        <PopupMenu onClose={closeStartMenu} leftCoordinate={popapLeftCoordinate} size='large'>
-          <button>start</button>
-        </PopupMenu>
-      )}
+      {isStartMenuShown && <StartPopap onClose={closeStartMenu} leftCoordinate={popapLeftCoordinate} />}
       <div className="taskbar__container">
-        <BaseButton className='taskbar__app'>
-          <SearchIcon />
-        </BaseButton>
         {!!favoritApps.length && renderAppButtons(favoritApps)}
         {!!openApps.length && renderAppButtons(openApps.filter((app) => !favoritApps.includes(app)))}
       </div>
       {isPopapMenuShown && (
-        <PopupMenu onClose={closePopapMenu} leftCoordinate={popapLeftCoordinate}>
-          <button onClick={toggleAppToFavorit}>{isSelectedAppInFavorit ? 'Открепить от' : 'Закрепить на'} панели задач</button>
-          <button onClick={toggleOpenSelectedApp}>{isSelectedAppOpen ? 'Закрыть окно' : 'Открыть окно'}</button>
+        <PopupMenu onClose={closePopapMenu} leftCoordinate={popapLeftCoordinate} isIgnoreClickOnRef={true}>
+          <button
+            onClick={toggleAppToFavorit}
+            className='popap-menu__button'>
+            {isSelectedAppInFavorit ? 'Открепить от' : 'Закрепить на'} панели задач
+          </button>
+          <button
+            onClick={toggleOpenSelectedApp}
+            className='popap-menu__button'>{isSelectedAppOpen ? 'Закрыть окно' : 'Открыть окно'}
+          </button>
         </PopupMenu>
       )}
       <div className="taskbar__container">

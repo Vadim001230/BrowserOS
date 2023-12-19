@@ -10,6 +10,7 @@ import MinimizeIcon from '@/assets/icons/minimize.svg';
 import { defineCursorStyle } from '@/utils/cursor';
 import { closeAppService, toggleMinimizeAppService, focusAppService } from '@/serviсes/appServices';
 import './WindowManager.scss';
+import React from 'react';
 
 const ANIMATION_TIME = 200;
 
@@ -18,7 +19,7 @@ export const WindowManager = ({
   name,
   isMinimized = false,
   isFullscreen = true,
-  children,
+  component,
   width = 0,
   height = 0,
   coords = {
@@ -188,7 +189,7 @@ export const WindowManager = ({
         </div>
       </div>
       <div className="window-content">
-        {children}
+      {component && React.createElement(component)}
       </div>
     </div>
   );

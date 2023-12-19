@@ -12,7 +12,7 @@ const windowSlice = createSlice({
   },
   reducers: {
     openApp: (state, action) => {
-      const isAppOpen = state.taskbarApps.openedApps.some((window) => window.id === action.payload.id);
+      const isAppOpen = state.taskbarApps.openedApps.some((app) => app.id === action.payload.id);
       if (!isAppOpen) {
         state.taskbarApps.openedApps.push(action.payload);
       }

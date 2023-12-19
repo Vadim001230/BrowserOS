@@ -1,6 +1,6 @@
 import { useBattery } from '@/hooks/useBattery';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
-import './Battery.scss';
+import './BatteryStatus.scss';
 
 export const BatteryStatus = () => {
   const batteryStatus = useBattery();

@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IApp } from '@/types/IApp';
+import { Weather } from '@/components/Apps/Weather/Weather';
 // import { Calculator } from '@/components/Apps/Calculator/Calculator';
 // import { Notebook } from '@/components/Apps/Notebook/Notebook';
 
 const explore = {
   id: 1,
   name: 'Проводник',
-  children: 'Проводник',
+  component: 'Проводник',
   isFocused: true,
   iconURL: 'https://img.icons8.com/fluency/48/windows-explorer.png',
 };
@@ -19,7 +20,7 @@ const calculator = {
   height: 400,
   isFocused: true,
   children: 'Калькулятор',
-  // children: <Calculator />,
+  // component: Calculator,
   iconURL: 'https://img.icons8.com/fluency/48/calculator.png',
 };
 
@@ -31,11 +32,23 @@ const notebook = {
   height: 400,
   isFocused: true,
   // children: <Notebook />,
-  children: 'Блокнот',
+  component: 'Блокнот',
   iconURL: 'https://img.icons8.com/fluency/48/spiral-bound-booklet.png',
 };
 
-export const appsList = [explore, calculator, notebook];
+const weather = {
+  id: 4,
+  name: 'Погода',
+  isFullscreen: false,
+  width: 500,
+  height: 400,
+  isFocused: true,
+  component: Weather,
+  // children: 'Погода',
+  iconURL: 'https://img.icons8.com/fluency/48/weather.png',
+};
+
+export const appsList = [explore, calculator, notebook, weather];
 
 const appsSlice = createSlice({
   name: 'apps',

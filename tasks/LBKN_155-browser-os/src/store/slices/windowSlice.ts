@@ -31,28 +31,38 @@ const windowSlice = createSlice({
     },
 
     toggleMinimizeWindow: (state, action) => {
-      const currentWindow = state.windows.find((window) => window.id === action.payload.id)!;
-      currentWindow.isMinimized = !currentWindow.isMinimized;
+      const currentWindow = state.windows.find((window) => window.id === action.payload.id);
+      if (currentWindow) {
+        currentWindow.isMinimized = !currentWindow.isMinimized;
+      }
     },
 
     setWindowFullscreen: (state, action) => {
-      const currentWindow = state.windows.find((window) => window.id === action.payload.id)!;
-      currentWindow.isFullscreen = action.payload.isFullscreen;
+      const currentWindow = state.windows.find((window) => window.id === action.payload.id);
+      if (currentWindow) {
+        currentWindow.isFullscreen = action.payload.isFullscreen;
+      }
     },
 
     setWindowWidth: (state, action) => {
-      const currentWindow = state.windows.find((window) => window.id === action.payload.id)!;
-      currentWindow.width = action.payload.width;
+      const currentWindow = state.windows.find((window) => window.id === action.payload.id);
+      if (currentWindow) {
+        currentWindow.width = action.payload.width;
+      }
     },
 
     setWindowHeight: (state, action) => {
-      const currentWindow = state.windows.find((window) => window.id === action.payload.id)!;
-      currentWindow.height = action.payload.height;
+      const currentWindow = state.windows.find((window) => window.id === action.payload.id);
+      if (currentWindow) {
+        currentWindow.height = action.payload.height;
+      }
     },
 
     setWindowCoords: (state, action) => {
-      const currentWindow = state.windows.find((window) => window.id === action.payload.id)!;
-      currentWindow.coords = { ...currentWindow.coords , ...action.payload.coords};
+      const currentWindow = state.windows.find((window) => window.id === action.payload.id);
+      if (currentWindow) {
+        currentWindow.coords = { ...currentWindow.coords , ...action.payload.coords};
+      }
     },
   },
 });

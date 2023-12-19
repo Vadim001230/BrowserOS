@@ -2,7 +2,8 @@ export interface IApp {
   id: number;
   name: string;
   iconURL: string;
-  children: React.ReactNode;
+  component?: React.ComponentType<unknown>; 
+  // children: React.ReactNode;
   isMinimized?: boolean;
   isFullscreen?: boolean;
   isFocused?: boolean;

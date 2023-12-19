@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { IApp } from '@/types/IApp';
 import { focusAppService, openAppService } from '@/serviсes/appServices';
-import { BaseButton } from '../UI/BaseButton/BaseButton';
+import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import './Desktop.scss';
 
 export const Desktop = () => {
@@ -20,16 +20,18 @@ export const Desktop = () => {
 
   return (
     <div className='desktop'>
-      {appsList.length && appsList.map((app) => (
-        <BaseButton
-          key={app.id}
-          className='desktop__shortcut'
-          onDoubleClick={() => handleShortcutDoubleClick(app)}
-        >
-          <img src={app.iconURL} alt="" />
-          <span>{app.name}</span>
-        </BaseButton>
-      ))}
+      <div className='desktop__container'>
+        {appsList.length && appsList.map((app) => (
+          <BaseButton
+            key={app.id}
+            className='desktop__shortcut'
+            onDoubleClick={() => handleShortcutDoubleClick(app)}
+          >
+            <img src={app.iconURL} alt="" />
+            <span>{app.name}</span>
+          </BaseButton>
+        ))}
+      </div>
     </div>
   );
 };
