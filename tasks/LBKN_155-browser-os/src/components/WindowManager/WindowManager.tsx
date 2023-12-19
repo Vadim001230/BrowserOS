@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from '@/hooks/redux';
 import { setWindowFullscreen, setWindowWidth, setWindowHeight, setWindowCoords } from '@/store/slices/windowSlice';
-import { IApp } from '@/types/IApp';
+import { IWindow } from '@/types/IWindow';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import CloseIcon from '@/assets/icons/close.svg';
 import MaximizeIcon from '@/assets/icons/maximize.svg';
@@ -10,7 +10,6 @@ import MinimizeIcon from '@/assets/icons/minimize.svg';
 import { defineCursorStyle } from '@/utils/cursor';
 import { closeAppService, toggleMinimizeAppService, focusAppService } from '@/serviсes/appServices';
 import './WindowManager.scss';
-import React from 'react';
 
 const ANIMATION_TIME = 200;
 
@@ -18,10 +17,10 @@ export const WindowManager = ({
   id,
   name,
   isMinimized = false,
-  isFullscreen = true,
-  component,
-  width = 0,
-  height = 0,
+  isFullscreen,
+  children,
+  width = 400,
+  height = 400,
   coords = {
     startX: 0,
     startY: 0,
@@ -29,7 +28,7 @@ export const WindowManager = ({
     lastY: 0,
   },
   iconURL,
-}: IApp) => {
+}: IWindow) => {
   const [isResizing, setIsResizing] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -189,7 +188,7 @@ export const WindowManager = ({
         </div>
       </div>
       <div className="window-content">
-      {component && React.createElement(component)}
+        {children}
       </div>
     </div>
   );

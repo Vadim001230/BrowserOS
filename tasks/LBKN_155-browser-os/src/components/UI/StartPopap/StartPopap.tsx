@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAppSelector } from '@/hooks/redux';
-import { IApp } from '@/types/IApp';
+import { IApp } from '@/types/IWindow';
 import { PopupMenu, PopupMenuProps } from '@/components/UI/PopapMenu/PopupMenu';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import './StartPopap.scss';

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IApp } from '@/types/IApp';
+import { IApp } from '@/types/IWindow';
 
 const windowSlice = createSlice({
   name: 'windows',

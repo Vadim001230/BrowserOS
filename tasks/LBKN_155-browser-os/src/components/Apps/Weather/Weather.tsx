@@ -47,7 +47,7 @@ export const Weather = () => {
 
   return (
     <div className='weather'>
-      <div className='weather__container'>
+      <div>
         <label>
           Погода в городе:
           <input
@@ -61,11 +61,11 @@ export const Weather = () => {
         <button onClick={fetchWeather} className='weather__update-btn'>Поиск</button>
       </div>
       {weatherData && (
-        <div className='weather__info'>
-          <p className='weather__value'>Температура: {weatherData.temperature}°C</p>
-          <p className='weather__value'>Ощущается как: {weatherData.feelsLike}°C</p>
-          <p className='weather__value'>Скорость ветра: {weatherData.wind} м/с</p>
-          <p className='weather__value'>Влажность: {weatherData.humidity}%</p>
+        <div>
+          <p>Температура: {weatherData.temperature}°C</p>
+          <p>Ощущается как: {weatherData.feelsLike}°C</p>
+          <p>Скорость ветра: {weatherData.wind} м/с</p>
+          <p>Влажность: {weatherData.humidity}%</p>
         </div>
       )}
     </div>

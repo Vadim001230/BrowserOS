@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { IApp } from '@/types/IApp';
+import { IApp } from '@/types/IWindow';
 import { focusAppService, openAppService } from '@/serviсes/appServices';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import './Desktop.scss';

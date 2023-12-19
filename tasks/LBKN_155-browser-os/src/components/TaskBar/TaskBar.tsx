@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { IWindow } from '@/types/IWindow';
 import { IApp } from '@/types/IApp';
 import { closeAppService, focusAppService, openAppService, toggleMinimizeAppService } from '@/serviсes/appServices';
 import { toggleAppToFavorits } from '@/store/slices/taskbarSlice';
@@ -18,7 +19,7 @@ export const TaskBar = () => {
 
   const dispatch = useAppDispatch();
 
-  const windowsList: IApp[] = useAppSelector((state) => state.windows.windows);
+  const windowsList: IWindow[] = useAppSelector((state) => state.windows.windows);
   const openApps: IApp[] = useAppSelector((state) => state.taskbar.taskbarApps.openedApps);
   const favoritApps: IApp[] = useAppSelector((state) => state.taskbar.taskbarApps.favoritApps);
 
