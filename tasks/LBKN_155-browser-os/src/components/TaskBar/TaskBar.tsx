@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { useBattery } from '@/hooks/useBattery';
 import { IWindow } from '@/types/IWindow';
 import { IApp } from '@/types/IApp';
 import { closeAppService, focusAppService, openAppService, toggleMinimizeAppService } from '@/serviсes/appServices';
@@ -18,7 +19,8 @@ export const TaskBar = () => {
   const [isStartMenuShown, setIsStartMenuShown] = useState(false);
   const [selectedId, setSelectedId] = useState<IApp['id']>();
   const [popapLeftCoordinate, setPopapLeftCoordinate] = useState(0);
-
+  const batteryStatus = useBattery();
+  
   const dispatch = useAppDispatch();
 
   const windowsList: IWindow[] = useAppSelector((state) => state.windows.windows);
@@ -66,6 +68,7 @@ export const TaskBar = () => {
 
   const renderAppButton = (app: IApp) => {
     const window = windowsList.find((window) => window.id === app.id);
+    
     return (
       <BaseButton
         key={app.id}
@@ -135,7 +138,7 @@ export const TaskBar = () => {
         </PopupMenu>
       )}
       <div className="taskbar__container">
-        <BatteryStatus onClick={handleBatteryStatus} />
+        {batteryStatus && <BatteryStatus onClick={handleBatteryStatus} level={batteryStatus.level} charging={batteryStatus.charging} />}
         <Clock />
       </div>
       {isBattaryPopapShown && <BatteryPopap onClose={closeBattaryPopap} leftCoordinate={popapLeftCoordinate} />}

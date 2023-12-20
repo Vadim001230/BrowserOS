@@ -2,11 +2,13 @@ import { IApp } from '@/types/IApp';
 import { Calculator } from './Calculator/Calculator';
 import { Weather } from './Weather/Weather';
 import { Notebook } from './Notebook/Notebook';
+import { FileExplorer } from './FileExplorer/FileExplorer';
 
 export const AppsContent = {
   Calculator,
   Weather,
-  Notebook
+  Notebook,
+  'File Explorer': FileExplorer,
 };
 
 const calculator = {
@@ -29,10 +31,10 @@ const weather = {
   iconURL: 'https://img.icons8.com/fluency/48/weather.png',
 } as IApp;
 
-// const explore = {
-//   id: 4,
-//   name: 'FileExplorer',
-//   iconURL: 'https://img.icons8.com/fluency/48/windows-explorer.png',
-// } as IApp;
+const fileExplorer = {
+  id: 4,
+  name: 'File Explorer',
+  iconURL: 'https://img.icons8.com/fluency/48/windows-explorer.png',
+} as IApp;
 
-export const AppsListConfig = [calculator, notebook, weather] as IApp[];
+export const AppsListConfig = [calculator, notebook, weather, fileExplorer] as IApp[];
