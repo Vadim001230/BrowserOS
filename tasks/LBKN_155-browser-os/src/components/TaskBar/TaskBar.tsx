@@ -20,25 +20,19 @@ export const TaskBar = () => {
   const [selectedId, setSelectedId] = useState<IApp['id']>();
   const [popapLeftCoordinate, setPopapLeftCoordinate] = useState(0);
   const batteryStatus = useBattery();
-  
+
   const dispatch = useAppDispatch();
 
   const windowsList: IWindow[] = useAppSelector((state) => state.windows.windows);
-  const openApps: IApp[] = useAppSelector((state) => state.taskbar.taskbarApps.openedApps);
+  const openedApps: IApp[] = useAppSelector((state) => state.taskbar.taskbarApps.openedApps);
   const favoritApps: IApp[] = useAppSelector((state) => state.taskbar.taskbarApps.favoritApps);
 
-  const isSelectedAppOpen = openApps.some((app) => app.id === selectedId);
+  const isSelectedAppOpen = openedApps.some((app) => app.id === selectedId);
   const isSelectedAppInFavorit = favoritApps.some((app) => app.id === selectedId);
 
   const closeAppPopapMenu = () => setIsAppPopapMenuShown(false);
-
-  const handleAppContextMenu = (e: React.MouseEvent<HTMLButtonElement>, id: IApp['id']) => {
-    e.preventDefault();
-    setPopapLeftCoordinate(e.currentTarget.offsetLeft);
-    setSelectedId(id);
-    setIsStartMenuShown(false);
-    setIsAppPopapMenuShown(true);
-  };
+  const closeBattaryPopap = () => setIsBattaryPopapShown(false);
+  const closeStartMenu = () => setIsStartMenuShown(false);
 
   const openApp = (app: IApp) => openAppService(dispatch, app);
   const closeSelectedApp = () => closeAppService(dispatch, { id: selectedId });
@@ -56,7 +50,7 @@ export const TaskBar = () => {
 
   const handleAppClick = (id: IApp['id']) => {
     setSelectedId(id);
-    const isSelectedAppOpen = openApps.some((app) => app.id === id);
+    const isSelectedAppOpen = openedApps.some((app) => app.id === id);
     if (isSelectedAppOpen) {
       toggleMinimizeAppService(dispatch, { id });
       focusAppService(dispatch, { id });
@@ -64,6 +58,35 @@ export const TaskBar = () => {
       const app = favoritApps.find((app) => app.id === id)!;
       openApp(app);
     }
+  };
+
+  const handleAppContextMenu = (e: React.MouseEvent<HTMLButtonElement>, id: IApp['id']) => {
+    e.preventDefault();
+    setPopapLeftCoordinate(e.currentTarget.offsetLeft);
+    setSelectedId(id);
+    closeStartMenu();
+    closeBattaryPopap();
+    setIsAppPopapMenuShown(true);
+  };
+
+  const handleStartMenuClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setPopapLeftCoordinate(e.currentTarget.offsetLeft);
+    closeAppPopapMenu();
+    closeBattaryPopap();
+    if (isStartMenuShown) {
+      closeStartMenu();
+    } else {
+      setIsStartMenuShown(true);
+    }
+  };
+
+  const handleBatteryStatus = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setPopapLeftCoordinate(e.currentTarget.offsetLeft);
+    setIsBattaryPopapShown((prevShown) => !prevShown);
+    closeStartMenu();
+    closeAppPopapMenu();
   };
 
   const renderAppButton = (app: IApp) => {
@@ -84,32 +107,7 @@ export const TaskBar = () => {
   };
 
   const renderAppButtons = (apps: IApp[]) => apps.map(renderAppButton);
-
-  const openStartMenu = () => setIsStartMenuShown(true);
-  const closeStartMenu = () => setIsStartMenuShown(false);
-
-  const handleStartMenuClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    setPopapLeftCoordinate(e.currentTarget.offsetLeft);
-    setIsAppPopapMenuShown(false);
-    setIsBattaryPopapShown(false);
-    if (isStartMenuShown) {
-      closeStartMenu();
-    } else {
-      openStartMenu();
-    }
-  };
-
-  const handleBatteryStatus = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    setPopapLeftCoordinate(e.currentTarget.offsetLeft);
-    setIsBattaryPopapShown(true);
-    closeStartMenu();
-    closeAppPopapMenu();
-  };
-
-  const closeBattaryPopap = () => setIsBattaryPopapShown(false);
-
+  
   return (
     <div className='taskbar'>
       <BaseButton
@@ -122,7 +120,7 @@ export const TaskBar = () => {
       {isStartMenuShown && <StartPopap onClose={closeStartMenu} leftCoordinate={popapLeftCoordinate} />}
       <div className="taskbar__container">
         {!!favoritApps.length && renderAppButtons(favoritApps)}
-        {!!openApps.length && renderAppButtons(openApps.filter((app) => !favoritApps.includes(app)))}
+        {!!openedApps.length && renderAppButtons(openedApps.filter((app) => !favoritApps.includes(app)))}
       </div>
       {isAppPopapMenuShown && (
         <PopupMenu onClose={closeAppPopapMenu} leftCoordinate={popapLeftCoordinate} isIgnoreClickOnRef={false}>

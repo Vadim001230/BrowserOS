@@ -1,0 +1,30 @@
+.shortcuts-container {
+  height: 90vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 0;
+  gap: 4px;
+}
+
+.shortcut__item {
+  width: 5rem;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 5px;
+  padding: 0.3rem;
+  font-size: 0.8rem;
+
+  & img {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+.shortcut-popap {
+  transform: translateX(35%);
+}

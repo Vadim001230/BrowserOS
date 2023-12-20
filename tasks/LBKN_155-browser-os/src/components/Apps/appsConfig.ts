@@ -4,13 +4,6 @@ import { Weather } from './Weather/Weather';
 import { Notebook } from './Notebook/Notebook';
 import { FileExplorer } from './FileExplorer/FileExplorer';
 
-export const AppsContent = {
-  Calculator,
-  Weather,
-  Notebook,
-  'File Explorer': FileExplorer,
-};
-
 const calculator = {
   id: 1,
   name: 'Calculator',
@@ -37,4 +30,16 @@ const fileExplorer = {
   iconURL: 'https://img.icons8.com/fluency/48/windows-explorer.png',
 } as IApp;
 
+export const AppsContent = {
+  Calculator,
+  Weather,
+  Notebook,
+  'File Explorer': FileExplorer,
+};
+
 export const AppsListConfig = [calculator, notebook, weather, fileExplorer] as IApp[];
+
+export const ShortcutsList = [calculator, notebook, weather, fileExplorer];
+
+export const FavoritsAppList = [fileExplorer];
+

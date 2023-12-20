@@ -121,7 +121,7 @@ export const WindowManager = ({
 
     const handleMouseDown = (e: MouseEvent) => {
       setIsDragging(true);
-      dispatch(setWindowCoords({ id, coords: { startX: e.clientX, startY: e.clientY } }));
+      dispatch(setWindowCoords({ id, coords: { startX: e.clientX, startY: e.clientY, lastX: coords.lastX, lastY: coords.lastY } }));
     };
 
     const handleMouseUp = () => {
@@ -132,12 +132,11 @@ export const WindowManager = ({
 
     const handleMouseMove = (e: MouseEvent) => {
       if (!isDragging || isResizing) return;
-
       dispatch(setWindowFullscreen({ id, isFullscreen: false }));
-
+      
       const nextX = e.clientX - coords.startX + coords.lastX;
       const nextY = e.clientY - coords.startY + coords.lastY;
-
+      
       container.style.top = `${nextY}px`;
       container.style.left = `${nextX}px`;
     };

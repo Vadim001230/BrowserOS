@@ -7,10 +7,11 @@ export interface PopupMenuProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   onClose: () => void;
   leftCoordinate?: number;
+  topCoordinate?: number;
   isIgnoreClickOnRef?: boolean;
 }
 
-export const PopupMenu = ({ children, onClose, leftCoordinate, isIgnoreClickOnRef, ...attributes }: PopupMenuProps) => {
+export const PopupMenu = ({ children, onClose, leftCoordinate, topCoordinate, isIgnoreClickOnRef, ...attributes }: PopupMenuProps) => {
   const popupRef = useRef(null);
 
   useClickAway(popupRef, onClose, isIgnoreClickOnRef);
@@ -20,7 +21,7 @@ export const PopupMenu = ({ children, onClose, leftCoordinate, isIgnoreClickOnRe
       <div
         className={`popup-menu ${attributes.className || ''}`}
         ref={popupRef}
-        style={{ left: `${leftCoordinate?.toString()}px` }}
+        style={{ left: `${leftCoordinate?.toString()}px`, top: `${topCoordinate?.toString()}px` }}
       >
         {children}
       </div>

@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IApp } from '@/types/IApp';
-import { AppsListConfig } from '@/components/Apps/appsConfig';
+import { FavoritsAppList } from '@/components/Apps/appsConfig';
 
 const windowSlice = createSlice({
   name: 'taskbar',
   initialState: {
     taskbarApps: {
-      favoritApps: AppsListConfig as IApp[],
+      favoritApps: FavoritsAppList as IApp[],
       openedApps: [] as IApp[],
     }
   },

@@ -2,13 +2,15 @@ import { configureStore } from '@reduxjs/toolkit';
 import windowReducer from './slices/windowSlice';
 import taskbarReducer from './slices/taskbarSlice';
 import clockReducer from './slices/clockSlice';
-import appsSlice from './slices/appsSlice';
+import appsReducer from './slices/appsSlice';
+import shortcutReducer from './slices/shortcutSlice';
 import brightnessSlice from './slices/brightnessSlice';
 
 export const store = configureStore({
   reducer: {
-    apps: appsSlice,
+    apps: appsReducer,
     windows: windowReducer,
+    shortcuts: shortcutReducer,
     taskbar: taskbarReducer,
     clock: clockReducer,
     brightness: brightnessSlice,
