@@ -166,15 +166,15 @@ export const WindowManager = ({
       ref={windowRef}
     >
       <div className='window-header' ref={headerRef} onDoubleClick={toggleFullscreen}>
-        <div className="window-header__info">
-          <div className="window-header__icon">
+        <div className='window-header__info'>
+          <div className='window-header__icon'>
             <img src={iconURL} alt="" />
           </div>
-          <div className="window-header__title">
+          <div className='window-header__title'>
             {name}
           </div>
         </div>
-        <div className="window-header__control-container">
+        <div className='window-header__control-container'>
           <BaseButton className='window-header__control' onClick={toggleMinimized} title='Свернуть'>
             <MinimizeIcon />
           </BaseButton>
@@ -186,7 +186,7 @@ export const WindowManager = ({
           </BaseButton>
         </div>
       </div>
-      <div className="window-content">
+      <div className='window-content'>
         {children}
       </div>
     </div>
