@@ -99,7 +99,7 @@ export const TaskBar = () => {
         isChecked={window?.isFocused && !window?.isMinimized}
         onClick={() => handleAppClick(app.id)}
         onContextMenu={(e) => handleAppContextMenu(e, app.id)}
-        title={app.name}
+        title={app.title}
       >
         <img src={app.iconURL} alt='' />
       </BaseButton>

@@ -8,11 +8,12 @@ import './BatteryPopap.scss';
 interface BatteryPopapProps extends Omit<PopupMenuProps, 'children'> { }
 
 export const BatteryPopap = ({ onClose, leftCoordinate }: BatteryPopapProps) => {
-  const brightness = useAppSelector((state) => state.brightness);
-  const dispatch = useAppDispatch();
   const [isOnNightLight, setIsOnNightLight] = useState(false);
   const [isOnSaveBattery, setIsOnSaveBattery] = useState(false);
-
+  
+  const brightness = useAppSelector((state) => state.brightness);
+  const dispatch = useAppDispatch();
+  
   useEffect(() => {
     document.getElementById('brigtness-overlay')!.style.opacity = `${1 - brightness}`;
   }, [brightness]);

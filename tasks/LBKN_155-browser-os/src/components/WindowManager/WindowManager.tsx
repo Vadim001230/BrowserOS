@@ -15,7 +15,7 @@ const ANIMATION_TIME = 200;
 
 export const WindowManager = ({
   id,
-  name,
+  title,
   isMinimized = false,
   isFullscreen,
   children,
@@ -171,7 +171,7 @@ export const WindowManager = ({
             <img src={iconURL} alt="" />
           </div>
           <div className='window-header__title'>
-            {name}
+            {title}
           </div>
         </div>
         <div className='window-header__control-container'>

@@ -15,7 +15,7 @@ export const StartPopap = ({ onClose, leftCoordinate }: StartPopapProps) => {
   const openApps: IApp[] = useAppSelector((state) => state.taskbar.taskbarApps.openedApps);
 
   const filteredApps = appsList.filter((app) =>
-    app.name.toLowerCase().includes(searchText.toLowerCase())
+    app.title.toLowerCase().includes(searchText.toLowerCase())
   );
 
   const handleShortcutClick = (app: IApp) => {
@@ -46,7 +46,7 @@ export const StartPopap = ({ onClose, leftCoordinate }: StartPopapProps) => {
           filteredApps.map((app) => (
             <BaseButton key={app.id} className='startpopap__shortcut' onClick={() => handleShortcutClick(app)}>
               <img src={app.iconURL} alt='' />
-              <span>{app.name}</span>
+              <span>{app.title}</span>
             </BaseButton>
           ))
         ) : (

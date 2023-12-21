@@ -45,7 +45,7 @@ export const ShortcutManager = ({ shortcut }: Props) => {
         onContextMenu={handleShortcutContextMenu}
       >
         <img src={shortcut.iconURL} alt="" />
-        <span>{shortcut.name}</span>
+        <span>{shortcut.title}</span>
       </BaseButton>
       {isShortcutMenuShown && (
         <PopupMenu

@@ -17,20 +17,49 @@
   width: 100%;
   height: 100%;
   border-top: 1px solid rgba($color: #ffffff, $alpha: 0.2);
-
-  &__path {
-    padding: 5px;
-    border-bottom: 1px solid rgba($color: #ffffff, $alpha: 0.2);
-    height: 2rem;
-  }
-
+  
   &__container {
     display: flex;
+    align-items: center;
     flex-wrap: nowrap;
     width: 100%;
-    height: calc(100% - 2rem);
-
+    border-bottom: 1px solid rgba($color: #ffffff, $alpha: 0.2);
+  
     @include scroll-bar;
+  }
+
+  &__path {
+    border-left: 1px solid rgba($color: #ffffff, $alpha: 0.2);
+    height: 100%;
+    padding: 0.5rem;
+  }
+  
+  &__item {
+    width: 4.5rem;
+    height: max-content;
+    min-height: 4.5rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 5px;
+    padding: 0.2rem;
+    font-size: 0.7rem;
+  }
+  
+  &__buttons {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  &__control-button {
+    padding: 0.5rem;
+    border-radius: 5px;
+    margin: 0 0.5rem;
+    & svg {
+      stroke-width: 20;
+    }
   }
 
   &__items {
@@ -40,13 +69,11 @@
     height: min-content;
   }
 
-  &__sidebar {
-    overflow-y: auto;
-    height: 100%;
-    width: 18rem;
-    border-right: 1px solid rgba($color: #ffffff, $alpha: 0.2);
-    padding: 5px;
+  .__control-button {
 
-    @include scroll-bar;
   }
+}
+
+.next-button svg {
+  transform: rotateY(180deg);
 }
