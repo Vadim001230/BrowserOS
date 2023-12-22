@@ -1,3 +1,5 @@
+@import "../../mixins/scrollbar-mixin.scss";
+
 .window-manager {
   position: absolute;
   top: 0;
@@ -76,18 +78,7 @@
   width: 100%;
   height: calc(100% - 2.2rem);
 
-  &::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: #171717;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #959595;
-    border-radius: 5px;
-  }
+  @include scroll-bar;
 }
 
 .control-close {
