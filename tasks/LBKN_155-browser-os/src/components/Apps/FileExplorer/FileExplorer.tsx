@@ -9,19 +9,19 @@ import ArrowIcon from '@/assets/icons/arrow.svg';
 import './FileExplorer.scss';
 
 export const FileExplorer = () => {
-  const [historyOfDirectories, setHistoryOfDirectories] = useState<string[]>(['/']);
-  const [currentIndex, setCurrentIndex] = useState(0);
-
+  const [historyOfDirectories, setHistoryOfDirectories] = useState<string[]>(['']);
+  const [currentIndexOfHistory, setCurrentIndexOfHistory] = useState(0);
+  
   const dispatch = useAppDispatch();
   const openApps: IApp[] = useAppSelector((state) => state.taskbar.taskbarApps.openedApps);
 
-  const currentPath = historyOfDirectories[currentIndex];
+  const currentPath = historyOfDirectories[currentIndexOfHistory];
   const currentDirectory = getCurrentDirectoryFromPath(systemTree, currentPath);
 
   const handleFolderDoubleClick = (part: string) => {
-    const newDirectory = currentPath === '/' ? `/${part}` : `${currentPath}/${part}`;
-    setHistoryOfDirectories((prevHistory) => [...prevHistory.slice(0, currentIndex + 1), newDirectory]);
-    setCurrentIndex((prevIndex) => prevIndex + 1);
+    const newDirectory = currentPath === '/' ? `${part}/` : `${currentPath}/${part}`;
+    setHistoryOfDirectories((prevHistory) => [...prevHistory.slice(0, currentIndexOfHistory + 1), newDirectory]);
+    setCurrentIndexOfHistory((prevIndex) => prevIndex + 1);
   };
 
   const handleFileDoubleClick = (app: IApp) => {
@@ -32,9 +32,9 @@ export const FileExplorer = () => {
   };
 
   const navigateThroughHistory = (step: number) => {
-    const newIndex = currentIndex + step;
-    if (newIndex >= 0 && newIndex < history.length) {
-      setCurrentIndex(newIndex);
+    const newIndex = currentIndexOfHistory + step;
+    if (newIndex >= 0 && newIndex < historyOfDirectories.length) {
+      setCurrentIndexOfHistory(newIndex);
     }
   };
 
@@ -78,7 +78,7 @@ export const FileExplorer = () => {
             <ArrowIcon />
           </BaseButton>
         </div>
-        <div className='file-explorer__path'>:{currentPath}</div>
+        <div className='file-explorer__path'>:/{currentPath}</div>
       </div>
       <div className='file-explorer__grid'>
         {renderFileSystem(currentDirectory)}
