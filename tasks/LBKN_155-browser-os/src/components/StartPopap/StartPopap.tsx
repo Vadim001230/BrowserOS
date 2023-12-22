@@ -6,15 +6,16 @@ import { PopupMenu, PopupMenuProps } from '@/components/UI/PopapMenu/PopupMenu';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import './StartPopap.scss';
 
-interface StartPopapProps extends Omit<PopupMenuProps, 'children'> { }
+interface Props extends Omit<PopupMenuProps, 'children'> { }
 
-export const StartPopap = ({ onClose, leftCoordinate }: StartPopapProps) => {
+export const StartPopap = ({ onClose, leftCoordinate }: Props) => {
   const [searchText, setSearchText] = useState('');
-  const dispatch = useAppDispatch();
+
   const appsList: IApp[] = useAppSelector((state) => state.apps);
   const openApps: IApp[] = useAppSelector((state) => state.taskbar.taskbarApps.openedApps);
+  const dispatch = useAppDispatch();
 
-  const filteredApps = appsList.filter((app) =>
+  const searchedApps = appsList.filter((app) =>
     app.title.toLowerCase().includes(searchText.toLowerCase())
   );
 
@@ -42,8 +43,8 @@ export const StartPopap = ({ onClose, leftCoordinate }: StartPopapProps) => {
         placeholder='Поиск приложений'
       />
       <div className='startpopap__container'>
-        {filteredApps.length ? (
-          filteredApps.map((app) => (
+        {searchedApps.length ? (
+          searchedApps.map((app) => (
             <BaseButton key={app.id} className='startpopap__shortcut' onClick={() => handleShortcutClick(app)}>
               <img src={app.iconURL} alt='' />
               <span>{app.title}</span>

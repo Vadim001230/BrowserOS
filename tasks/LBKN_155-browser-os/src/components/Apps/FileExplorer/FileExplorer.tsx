@@ -31,15 +31,12 @@ export const FileExplorer = () => {
     }
   };
 
-  const navigate = (step: number) => {
+  const navigateThroughHistory = (step: number) => {
     const newIndex = currentIndex + step;
     if (newIndex >= 0 && newIndex < history.length) {
       setCurrentIndex(newIndex);
     }
   };
-
-  const prevBtnHandler = () => navigate(-1);
-  const nextBtnHandler = () => navigate(1);
 
   const renderFileSystem = (directory: IDirectory[] | IApp[]) => {
     return directory.map((part) => {
@@ -74,10 +71,10 @@ export const FileExplorer = () => {
     <div className='file-explorer'>
       <div className='file-explorer__container'>
         <div className='file-explorer__controls'>
-          <BaseButton className='file-explorer__control-button prev-button' onClick={prevBtnHandler}>
+          <BaseButton className='file-explorer__control-button prev-button' onClick={() => navigateThroughHistory(-1)}>
             <ArrowIcon />
           </BaseButton>
-          <BaseButton className='file-explorer__control-button next-button' onClick={nextBtnHandler}>
+          <BaseButton className='file-explorer__control-button next-button' onClick={() => navigateThroughHistory(1)}>
             <ArrowIcon />
           </BaseButton>
         </div>
