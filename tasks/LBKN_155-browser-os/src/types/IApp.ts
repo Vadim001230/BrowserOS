@@ -1,5 +1,5 @@
 export interface IApp {
-  id: number | string;
+  id: number;
   type: string;
   name: string;
   title: string;

@@ -1,4 +1,4 @@
-import { ShortcutManager } from '@/components/ShortcutManager/ShortcutManager';
+import { Shortcut } from '@/components/Shortcut/Shortcut';
 import { useAppSelector } from '@/hooks/redux';
 import { IApp } from '@/types/IApp';
 import { TaskBar } from '@/components/TaskBar/TaskBar';
@@ -10,7 +10,7 @@ export const Desktop = () => {
   return (
     <div className='desktop'>
       <div className='shortcuts-container'>
-        {!!shortcutsList.length && shortcutsList.map((shortcut) => <ShortcutManager shortcut={shortcut} key={shortcut.id} />)}
+        {!!shortcutsList.length && shortcutsList.map((shortcut) => <Shortcut shortcut={shortcut} key={shortcut.id} />)}
       </div>
       <TaskBar />
     </div>

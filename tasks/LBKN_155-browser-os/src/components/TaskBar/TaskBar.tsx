@@ -9,7 +9,7 @@ import { BatteryStatusButton } from '@/components/BatteryStatusButton/BatterySta
 import { Clock } from '@/components/Clock/Clock';
 import { StartPopup } from '@/components/StartPopup/StartPopup';
 import { BatterySettingPopup } from '@/components/BatteryPopupSettings/BatterySettingPopup';
-import { TaskbarAppPopup } from '@/components/AppPopupMenu/TaskbarAppPopup';
+import { TaskbarShortcutPopup } from '@/components/TaskbarShortcutPopup/TaskbarShortcutPopup';
 import './TaskBar.scss';
 
 export const TaskBar = () => {
@@ -108,7 +108,7 @@ export const TaskBar = () => {
         {!!favoritApps.length && renderAppButtons(favoritApps)}
         {!!openedApps.length && renderAppButtons(openedApps.filter((app) => !favoritApps.includes(app)))}
       </div>
-      {isAppPopupMenuShown && <TaskbarAppPopup id={selectedId} onClose={closeAppPopupMenu} leftCoordinate={popupLeftCoordinate} />}
+      {isAppPopupMenuShown && <TaskbarShortcutPopup id={selectedId} onClose={closeAppPopupMenu} leftCoordinate={popupLeftCoordinate} />}
       <div className="taskbar__container">
         {batteryStatus && <BatteryStatusButton onClick={handleBatteryStatus} level={batteryStatus.level} charging={batteryStatus.charging} />}
         <Clock />
