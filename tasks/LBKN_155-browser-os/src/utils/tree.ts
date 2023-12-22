@@ -1,26 +1,54 @@
 import { IApp } from '@/types/IApp';
 
-interface Tree {
-  [key: string]: Tree | IApp;
+export interface IDirectory {
+  name: string;
+  children?: IDirectory[] | IApp[];
+  type: string;
 }
 
-export const transformArrayToTree = (arr: IApp[]): Tree => {
-  const tree: Tree = {};
+export const createTreeFromArrayOfPaths = (arr: IApp[]) => {
+  const tree: IDirectory[] = [];
 
   arr.forEach((item) => {
     const parts = item.path.split('/');
-    let currentLevel: Tree = tree;
+    let currentLevel = tree;
 
     parts.forEach((part, index) => {
-      currentLevel[part] = currentLevel[part] || {};
+      const existingNode = currentLevel.find((node) => node.name === part);
 
-      if (index === parts.length - 1) {
-        currentLevel[part] = { ...item };
+      if (existingNode) {
+        if (!existingNode.children) {
+          existingNode.children = [];
+        }
+        currentLevel = existingNode.children;
+      } else if (index === parts.length - 1) {
+        currentLevel.push(item);
+      } else {
+        const newNode = {
+          name: part,
+          type: 'dir',
+          children: [],
+        };
+        currentLevel.push(newNode);
+        currentLevel = newNode.children;
       }
-
-      currentLevel = currentLevel[part] as Tree;
     });
   });
 
   return tree;
+};
+
+export const getCurrentDirectoryFromPath = (tree: IDirectory[], path: string) => {
+  const parts = path.split('/');
+  let currentLevel = tree;
+
+  for (const part of parts) {
+    const directory = currentLevel.find((item) => item.name === part);
+ 
+    if (directory && 'children' in directory) {
+      currentLevel = directory.children;
+    }
+  }
+
+  return currentLevel;
 };

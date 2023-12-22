@@ -1,5 +1,5 @@
 import { IApp } from '@/types/IApp';
-import { transformArrayToTree } from '@/utils/tree';
+import { createTreeFromArrayOfPaths } from '@/utils/tree';
 import { Calculator } from './Calculator/Calculator';
 import { Weather } from './Weather/Weather';
 import { Notebook } from './Notebook/Notebook';
@@ -56,4 +56,4 @@ export const ShortcutsList = [calculator, notebook, weather, fileExplorer];
 
 export const FavoritsAppList = [fileExplorer];
 
-export const treeOfPaths = transformArrayToTree(AppsListConfig);
+export const systemTree = createTreeFromArrayOfPaths(AppsListConfig);

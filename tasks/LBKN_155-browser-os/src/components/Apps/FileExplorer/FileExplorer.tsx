@@ -1,25 +1,27 @@
 import { useState } from 'react';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import { IApp } from '@/types/IApp';
+import { IDirectory, getCurrentDirectoryFromPath } from '@/utils/tree';
 import { openAppService } from '@/serviсes/appServices';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { treeOfPaths } from '@/components/Apps/appsConfig';
+import { systemTree } from '@/components/Apps/appsConfig';
 import ArrowIcon from '@/assets/icons/arrow.svg';
 import './FileExplorer.scss';
 
 export const FileExplorer = () => {
-  const [currentParts, setCurrentParts] = useState<string[]>(Object.keys(treeOfPaths));
-  const [currentPath, setCurrentPath] = useState('app');
-  const [currentLevelOfTree, setCurrentLevelOfTree] = useState(treeOfPaths);
+  const [historyOfDirectories, setHistoryOfDirectories] = useState<string[]>(['/']);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const dispatch = useAppDispatch();
-  const apps: IApp[] = useAppSelector((state) => state.apps);
   const openApps: IApp[] = useAppSelector((state) => state.taskbar.taskbarApps.openedApps);
 
+  const currentPath = historyOfDirectories[currentIndex];
+  const currentDirectory = getCurrentDirectoryFromPath(systemTree, currentPath);
+
   const handleFolderDoubleClick = (part: string) => {
-    setCurrentPath((prevPath) => prevPath + '/' + part);
-    setCurrentParts(Object.keys(currentLevelOfTree[part]));
-    setCurrentLevelOfTree((prevLevel) => prevLevel[part]);
+    const newDirectory = currentPath === '/' ? `/${part}` : `${currentPath}/${part}`;
+    setHistoryOfDirectories((prevHistory) => [...prevHistory.slice(0, currentIndex + 1), newDirectory]);
+    setCurrentIndex((prevIndex) => prevIndex + 1);
   };
 
   const handleFileDoubleClick = (app: IApp) => {
@@ -29,18 +31,31 @@ export const FileExplorer = () => {
     }
   };
 
-  const prevBtnHandler = () => {
-
+  const navigate = (step: number) => {
+    const newIndex = currentIndex + step;
+    if (newIndex >= 0 && newIndex < history.length) {
+      setCurrentIndex(newIndex);
+    }
   };
 
-  const nextBtnHandler = () => {
+  const prevBtnHandler = () => navigate(-1);
+  const nextBtnHandler = () => navigate(1);
 
-  };
-
-  const renderFileSystem = (paths: string[]) => {
-    return paths.map((part) => {
-      const app = apps.find((app) => app.name === part);
-      if (app) {
+  const renderFileSystem = (directory: IDirectory[] | IApp[]) => {
+    return directory.map((part) => {
+      if (part.type === 'dir') {
+        return (
+          <BaseButton
+            key={part.name}
+            className='file-explorer__item'
+            onDoubleClick={() => handleFolderDoubleClick(part.name)}
+          >
+            <img src='https://img.icons8.com/fluency/48/folder-invoices--v1.png' alt='' />
+            <span>{part.name}</span>
+          </BaseButton>
+        );
+      } else {
+        const app = part as IApp;
         return (
           <BaseButton
             key={app.id}
@@ -51,17 +66,6 @@ export const FileExplorer = () => {
             <span>{app.title}</span>
           </BaseButton>
         );
-      } else {
-        return (
-          <BaseButton
-            key={part}
-            className='file-explorer__item'
-            onDoubleClick={() => handleFolderDoubleClick(part)}
-          >
-            <img src='https://img.icons8.com/fluency/48/folder-invoices--v1.png' alt='' />
-            <span>{part}</span>
-          </BaseButton>
-        );
       }
     });
   };
@@ -69,7 +73,7 @@ export const FileExplorer = () => {
   return (
     <div className='file-explorer'>
       <div className='file-explorer__container'>
-        <div className='file-explorer__buttons'>
+        <div className='file-explorer__controls'>
           <BaseButton className='file-explorer__control-button prev-button' onClick={prevBtnHandler}>
             <ArrowIcon />
           </BaseButton>
@@ -77,10 +81,10 @@ export const FileExplorer = () => {
             <ArrowIcon />
           </BaseButton>
         </div>
-        <div className='file-explorer__path'>:/{currentPath}</div>
+        <div className='file-explorer__path'>:{currentPath}</div>
       </div>
-      <div className='file-explorer__items'>
-        {renderFileSystem(currentParts)}
+      <div className='file-explorer__grid'>
+        {renderFileSystem(currentDirectory)}
       </div>
     </div>
   );

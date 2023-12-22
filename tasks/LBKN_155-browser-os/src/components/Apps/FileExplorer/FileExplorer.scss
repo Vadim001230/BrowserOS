@@ -17,15 +17,13 @@
   width: 100%;
   height: 100%;
   border-top: 1px solid rgba($color: #ffffff, $alpha: 0.2);
-  
+
   &__container {
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
     width: 100%;
     border-bottom: 1px solid rgba($color: #ffffff, $alpha: 0.2);
-  
-    @include scroll-bar;
   }
 
   &__path {
@@ -33,7 +31,7 @@
     height: 100%;
     padding: 0.5rem;
   }
-  
+
   &__item {
     width: 4.5rem;
     height: max-content;
@@ -46,8 +44,8 @@
     padding: 0.2rem;
     font-size: 0.7rem;
   }
-  
-  &__buttons {
+
+  &__controls {
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
@@ -57,23 +55,22 @@
     padding: 0.5rem;
     border-radius: 5px;
     margin: 0 0.5rem;
+
     & svg {
       stroke-width: 20;
     }
   }
 
-  &__items {
+  &__grid {
     padding: 5px;
     display: flex;
     flex-wrap: wrap;
     height: min-content;
-  }
 
-  .__control-button {
-
+    @include scroll-bar;
   }
 }
 
 .next-button svg {
-  transform: rotateY(180deg);
+  transform: rotate(180deg);
 }
