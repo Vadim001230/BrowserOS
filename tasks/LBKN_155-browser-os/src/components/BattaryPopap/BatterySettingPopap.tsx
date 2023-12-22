@@ -1,19 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { setBrightness } from '@/store/slices/brightnessSlice';
+import { setBrightness, toggleSaveBattery, toggletNightLight } from '@/store/slices/battarySettingsSlice';
 import { PopupMenu, PopupMenuProps } from '@/components/UI/PopapMenu/PopupMenu';
 import BrightnessIcon from '@/assets/icons/brightness.svg';
-import './BatteryPopap.scss';
+import './BatterySettingPopap.scss';
 
-interface BatteryPopapProps extends Omit<PopupMenuProps, 'children'> { }
+interface Props extends Omit<PopupMenuProps, 'children'> { }
 
-export const BatteryPopap = ({ onClose, leftCoordinate }: BatteryPopapProps) => {
-  const [isOnNightLight, setIsOnNightLight] = useState(false);
-  const [isOnSaveBattery, setIsOnSaveBattery] = useState(false);
-  
-  const brightness = useAppSelector((state) => state.brightness);
+export const BatterySettingPopap = ({ onClose, leftCoordinate }: Props) => {
+  const { brightness, isOnNightLight, isOnSaveBattery } = useAppSelector((state) => state.battarySettings);
   const dispatch = useAppDispatch();
-  
+
   useEffect(() => {
     document.getElementById('brigtness-overlay')!.style.opacity = `${1 - brightness}`;
   }, [brightness]);
@@ -26,28 +23,24 @@ export const BatteryPopap = ({ onClose, leftCoordinate }: BatteryPopapProps) => 
     } else {
       dispatch(setBrightness(1));
     }
-  }, [isOnNightLight, isOnSaveBattery]);
+  }, [isOnSaveBattery, isOnNightLight]);
 
-  const handlebBrightnessSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleBrightnessSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setBrightness(+event.target.value));
   };
-
-  const toggleSaveBattery = () => setIsOnSaveBattery((prev) => !prev);
-
-  const toggletNightLight = () => setIsOnNightLight((prev) => !prev);
 
   return (
     <PopupMenu onClose={onClose} leftCoordinate={leftCoordinate} className='battery-popap'>
       <div className="battery-popap__container">
         <button
           className={`battery-popap__button ${isOnSaveBattery ? 'battery-popap__button_active' : ''}`}
-          onClick={toggleSaveBattery}
+          onClick={() => dispatch(toggleSaveBattery())}
         >
           Экономия заряда
         </button>
         <button
           className={`battery-popap__button ${isOnNightLight ? 'battery-popap__button_active' : ''}`}
-          onClick={toggletNightLight}
+          onClick={() => dispatch(toggletNightLight())}
         >
           Ночной свет
         </button>
@@ -60,7 +53,7 @@ export const BatteryPopap = ({ onClose, leftCoordinate }: BatteryPopapProps) => 
           max="1"
           step="0.01"
           value={brightness}
-          onChange={handlebBrightnessSliderChange}
+          onChange={handleBrightnessSliderChange}
           className="battery-popap__brightness-slider"
         />
       </div>

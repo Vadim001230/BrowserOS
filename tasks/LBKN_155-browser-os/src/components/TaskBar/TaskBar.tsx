@@ -10,7 +10,7 @@ import { PopupMenu } from '@/components/UI/PopapMenu/PopupMenu';
 import { BatteryStatus } from '@/components/UI/BatteryStatus/BatteryStatus';
 import { Clock } from '@/components/UI/Clock/Clock';
 import { StartPopap } from '@/components/StartPopap/StartPopap';
-import { BatteryPopap } from '../BattaryPopap/BatteryPopap';
+import { BatterySettingPopap } from '../BattaryPopap/BatterySettingPopap';
 import './TaskBar.scss';
 
 export const TaskBar = () => {
@@ -139,7 +139,7 @@ export const TaskBar = () => {
         {batteryStatus && <BatteryStatus onClick={handleBatteryStatus} level={batteryStatus.level} charging={batteryStatus.charging} />}
         <Clock />
       </div>
-      {isBattaryPopapShown && <BatteryPopap onClose={closeBattaryPopap} leftCoordinate={popapLeftCoordinate} />}
+      {isBattaryPopapShown && <BatterySettingPopap onClose={closeBattaryPopap} leftCoordinate={popapLeftCoordinate} />}
     </div>
   );
 };
