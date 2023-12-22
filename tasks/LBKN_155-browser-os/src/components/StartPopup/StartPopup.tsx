@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { focusAppService, openAppService } from '@/serviсes/appServices';
 import { IApp } from '@/types/IApp';
-import { PopupMenu, PopupMenuProps } from '@/components/UI/PopapMenu/PopupMenu';
+import { PopupMenu, PopupMenuProps } from '@/components/UI/PopupMenu/PopupMenu';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import './StartPopup.scss';
 
@@ -34,18 +34,18 @@ export const StartPopup = ({ onClose, leftCoordinate }: Props) => {
   };
 
   return (
-    <PopupMenu onClose={onClose} leftCoordinate={leftCoordinate} className='startpopap'>
+    <PopupMenu onClose={onClose} leftCoordinate={leftCoordinate} className='startpopup'>
       <input
-        className='startpopap__search'
+        className='startpopup__search'
         type='search'
         onInput={handleSearchText}
         value={searchText}
         placeholder='Поиск приложений'
       />
-      <div className='startpopap__container'>
+      <div className='startpopup__container'>
         {searchedApps.length ? (
           searchedApps.map((app) => (
-            <BaseButton key={app.id} className='startpopap__shortcut' onClick={() => handleShortcutClick(app)}>
+            <BaseButton key={app.id} className='startpopup__shortcut' onClick={() => handleShortcutClick(app)}>
               <img src={app.iconURL} alt='' />
               <span>{app.title}</span>
             </BaseButton>

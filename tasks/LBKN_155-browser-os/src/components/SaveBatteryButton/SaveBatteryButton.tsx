@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { BRIGHTNESS_IN_BATTERY_SAVING_MODE } from '@/constants/constants';
 import { setBrightness, toggleSaveBattery } from '@/store/slices/batterySettingsSlice';
 import { BaseButton, BaseButtonProps } from '../UI/BaseButton/BaseButton';
 
@@ -11,7 +12,7 @@ export const SaveBatteryButton = ({ ...attributes }: Props) => {
 
   useEffect(() => {
     if (isSaveBatteryOn) {
-      dispatch(setBrightness(0.6));
+      dispatch(setBrightness(BRIGHTNESS_IN_BATTERY_SAVING_MODE));
     } else {
       dispatch(setBrightness(1));
     }

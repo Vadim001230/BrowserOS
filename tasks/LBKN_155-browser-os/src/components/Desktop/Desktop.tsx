@@ -1,11 +1,10 @@
-import { memo } from 'react';
 import { ShortcutManager } from '@/components/ShortcutManager/ShortcutManager';
 import { useAppSelector } from '@/hooks/redux';
 import { IApp } from '@/types/IApp';
 import { TaskBar } from '@/components/TaskBar/TaskBar';
 import './Desktop.scss';
 
-export const Desktop = memo(() => {
+export const Desktop = () => {
   const shortcutsList: IApp[] = useAppSelector((state) => state.shortcuts);
 
   return (
@@ -16,4 +15,4 @@ export const Desktop = memo(() => {
       <TaskBar />
     </div>
   );
-});
+};
