@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { useBattery } from '@/hooks/useBattery';
-import { IWindow } from '@/types/IWindow';
 import { IApp } from '@/types/IApp';
 import { focusAppService, openAppService, toggleMinimizeAppService } from '@/serviсes/appServices';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
@@ -11,10 +10,11 @@ import { StartPopup } from '@/components/StartPopup/StartPopup';
 import { BatterySettingPopup } from '@/components/BatteryPopupSettings/BatterySettingPopup';
 import { TaskbarShortcutPopup } from '@/components/TaskbarShortcutPopup/TaskbarShortcutPopup';
 import './TaskBar.scss';
+import { TaskbarAppButton } from '../TaskbarAppButton/TaskbarAppButton';
 
 export const TaskBar = () => {
   const [isAppPopupMenuShown, setIsAppPopupMenuShown] = useState(false);
-  const [isBattaryPopupShown, setIsBattaryPopupShown] = useState(false);
+  const [isBatteryPopupShown, setIsBatteryPopupShown] = useState(false);
   const [isStartMenuShown, setIsStartMenuShown] = useState(false);
   const [selectedId, setSelectedId] = useState<IApp['id']>(0);
   const [popupLeftCoordinate, setPopupLeftCoordinate] = useState(0);
@@ -22,15 +22,20 @@ export const TaskBar = () => {
 
   const dispatch = useAppDispatch();
 
-  const windowsList: IWindow[] = useAppSelector((state) => state.windows.windows);
   const openedApps: IApp[] = useAppSelector((state) => state.taskbar.taskbarApps.openedApps);
   const favoritApps: IApp[] = useAppSelector((state) => state.taskbar.taskbarApps.favoritApps);
 
   const isSelectedAppInFavorit = favoritApps.some((app) => app.id === selectedId);
 
   const closeAppPopupMenu = () => setIsAppPopupMenuShown(false);
-  const closeBattaryPopup = () => setIsBattaryPopupShown(false);
+  const closeBatteryPopup = () => setIsBatteryPopupShown(false);
   const closeStartMenu = () => setIsStartMenuShown(false);
+
+  const closePopups = () => {
+    closeAppPopupMenu();
+    closeBatteryPopup();
+    closeStartMenu();
+  };
 
   const openApp = (app: IApp) => openAppService(dispatch, app);
 
@@ -48,52 +53,39 @@ export const TaskBar = () => {
 
   const handleAppContextMenu = (e: React.MouseEvent<HTMLButtonElement>, id: IApp['id']) => {
     e.preventDefault();
+    closePopups();
     setPopupLeftCoordinate(e.currentTarget.offsetLeft);
     setSelectedId(id);
-    closeStartMenu();
-    closeBattaryPopup();
     setIsAppPopupMenuShown(true);
   };
 
   const handleStartMenuClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
+    closePopups();
     setPopupLeftCoordinate(e.currentTarget.offsetLeft);
-    closeAppPopupMenu();
-    closeBattaryPopup();
-    if (isStartMenuShown) {
-      closeStartMenu();
-    } else {
+    if (!isStartMenuShown) {
       setIsStartMenuShown(true);
     }
   };
 
   const handleBatteryStatus = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
+    closePopups();
     setPopupLeftCoordinate(e.currentTarget.offsetLeft);
-    setIsBattaryPopupShown((prevShown) => !prevShown);
-    closeStartMenu();
-    closeAppPopupMenu();
+    setIsBatteryPopupShown(true);
   };
 
-  const renderAppButton = (app: IApp) => {
-    const window = windowsList.find((window) => window.id === app.id);
-    
+  const renderAppButtons = (apps: IApp[]) => apps.map((app) => {
     return (
-      <BaseButton
+      <TaskbarAppButton
         key={app.id}
-        className={`taskbar__app ${window ? 'taskbar__app_opened' : ''}`}
-        isChecked={window?.isFocused && !window?.isMinimized}
         onClick={() => handleAppClick(app.id)}
         onContextMenu={(e) => handleAppContextMenu(e, app.id)}
-        title={app.title}
-      >
-        <img src={app.iconURL} alt='' />
-      </BaseButton>
+        app={app}
+      />
     );
-  };
+  });
 
-  const renderAppButtons = (apps: IApp[]) => apps.map(renderAppButton);
-  
   return (
     <div className='taskbar'>
       <BaseButton
@@ -113,7 +105,7 @@ export const TaskBar = () => {
         {batteryStatus && <BatteryStatusButton onClick={handleBatteryStatus} level={batteryStatus.level} charging={batteryStatus.charging} />}
         <Clock />
       </div>
-      {isBattaryPopupShown && <BatterySettingPopup onClose={closeBattaryPopup} leftCoordinate={popupLeftCoordinate} />}
+      {isBatteryPopupShown && <BatterySettingPopup onClose={closeBatteryPopup} leftCoordinate={popupLeftCoordinate} />}
     </div>
   );
 };
