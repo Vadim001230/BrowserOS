@@ -1,15 +1,15 @@
 
 import { BaseButton, BaseButtonProps } from '@/components/UI/BaseButton/BaseButton';
-import './BatteryStatus.scss';
+import './BatteryStatusButton.scss';
 
-interface BattaryStatusProps extends Omit<BaseButtonProps, 'children'> {
+interface Props extends Omit<BaseButtonProps, 'children'> {
   level: number;
   charging: boolean;
 }
 
-export const BatteryStatus = ({ level, charging, ...attributes }: BattaryStatusProps) => {
+export const BatteryStatusButton = ({ level, charging, ...attributes }: Props) => {
   return (
-    <BaseButton className={`battery ${attributes.className || ''}`} {...attributes}>
+    <BaseButton className={`battery-status-button ${attributes.className || ''}`} {...attributes}>
       <div className="battery__level">{`${Math.round(level)}%`}</div>
       {charging
         ? <img width="20" height="20" src="https://img.icons8.com/ios-filled/50/ffffff/recharge-battery.png" alt="recharge-battery" />

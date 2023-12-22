@@ -4,7 +4,7 @@ import taskbarReducer from './slices/taskbarSlice';
 import clockReducer from './slices/clockSlice';
 import appsReducer from './slices/appsSlice';
 import shortcutReducer from './slices/shortcutSlice';
-import battarySettingsReducer from './slices/battarySettingsSlice';
+import batterySettingsReducer from './slices/batterySettingsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +13,7 @@ export const store = configureStore({
     shortcuts: shortcutReducer,
     taskbar: taskbarReducer,
     clock: clockReducer,
-    battarySettings: battarySettingsReducer,
+    batterySettings: batterySettingsReducer,
   },
 });
 

@@ -4,11 +4,11 @@ import { focusAppService, openAppService } from '@/serviсes/appServices';
 import { IApp } from '@/types/IApp';
 import { PopupMenu, PopupMenuProps } from '@/components/UI/PopapMenu/PopupMenu';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
-import './StartPopap.scss';
+import './StartPopup.scss';
 
 interface Props extends Omit<PopupMenuProps, 'children'> { }
 
-export const StartPopap = ({ onClose, leftCoordinate }: Props) => {
+export const StartPopup = ({ onClose, leftCoordinate }: Props) => {
   const [searchText, setSearchText] = useState('');
 
   const appsList: IApp[] = useAppSelector((state) => state.apps);

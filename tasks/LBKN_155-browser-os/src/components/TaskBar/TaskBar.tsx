@@ -7,10 +7,10 @@ import { closeAppService, focusAppService, openAppService, toggleMinimizeAppServ
 import { toggleAppToFavorits } from '@/store/slices/taskbarSlice';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import { PopupMenu } from '@/components/UI/PopapMenu/PopupMenu';
-import { BatteryStatus } from '@/components/UI/BatteryStatus/BatteryStatus';
-import { Clock } from '@/components/UI/Clock/Clock';
-import { StartPopap } from '@/components/StartPopap/StartPopap';
-import { BatterySettingPopap } from '../BattaryPopap/BatterySettingPopap';
+import { BatteryStatusButton } from '@/components/BatteryStatusButton/BatteryStatusButton';
+import { Clock } from '@/components/Clock/Clock';
+import { StartPopup } from '@/components/StartPopup/StartPopup';
+import { BatterySettingPopup } from '../BatteryPopupSettings/BatterySettingPopup';
 import './TaskBar.scss';
 
 export const TaskBar = () => {
@@ -117,7 +117,7 @@ export const TaskBar = () => {
       >
         <img src='https://img.icons8.com/fluency/48/windows-11.png' alt="start menu button" />
       </BaseButton>
-      {isStartMenuShown && <StartPopap onClose={closeStartMenu} leftCoordinate={popapLeftCoordinate} />}
+      {isStartMenuShown && <StartPopup onClose={closeStartMenu} leftCoordinate={popapLeftCoordinate} />}
       <div className="taskbar__container">
         {!!favoritApps.length && renderAppButtons(favoritApps)}
         {!!openedApps.length && renderAppButtons(openedApps.filter((app) => !favoritApps.includes(app)))}
@@ -136,10 +136,10 @@ export const TaskBar = () => {
         </PopupMenu>
       )}
       <div className="taskbar__container">
-        {batteryStatus && <BatteryStatus onClick={handleBatteryStatus} level={batteryStatus.level} charging={batteryStatus.charging} />}
+        {batteryStatus && <BatteryStatusButton onClick={handleBatteryStatus} level={batteryStatus.level} charging={batteryStatus.charging} />}
         <Clock />
       </div>
-      {isBattaryPopapShown && <BatterySettingPopap onClose={closeBattaryPopap} leftCoordinate={popapLeftCoordinate} />}
+      {isBattaryPopapShown && <BatterySettingPopup onClose={closeBattaryPopap} leftCoordinate={popapLeftCoordinate} />}
     </div>
   );
 };

@@ -1,0 +1,25 @@
+.brightness-range {
+  width: 100%;
+  margin: 0 10px;
+
+  &::-webkit-slider-runnable-track {
+    height: 5px;
+  }
+
+  &::-webkit-slider-thumb {
+    width: 15px;
+    height: 15px;
+    background: #4CC2FF;
+    border-radius: 50%;
+    margin-top: -5px;
+    transition: transform .2s;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(0.8);
+    }
+  }
+}
