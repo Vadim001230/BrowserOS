@@ -44,20 +44,6 @@ const windowSlice = createSlice({
       }
     },
 
-    setWindowWidth: (state, action) => {
-      const currentWindow = state.windows.find((window) => window.id === action.payload.id);
-      if (currentWindow) {
-        currentWindow.width = action.payload.width;
-      }
-    },
-
-    setWindowHeight: (state, action) => {
-      const currentWindow = state.windows.find((window) => window.id === action.payload.id);
-      if (currentWindow) {
-        currentWindow.height = action.payload.height;
-      }
-    },
-
     setWindowCoords: (state, action) => {
       const currentWindow = state.windows.find((window) => window.id === action.payload.id);
       if (currentWindow) {
@@ -73,8 +59,6 @@ export const {
   closeWindow,
   toggleMinimizeWindow,
   setWindowFullscreen,
-  setWindowWidth,
-  setWindowHeight,
   setWindowCoords,
 } = windowSlice.actions;
 

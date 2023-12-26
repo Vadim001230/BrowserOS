@@ -13,7 +13,7 @@ const calculator = {
   id: 1,
   name: 'Calculator',
   title: 'Калькулятор',
-  width: 250,
+  width: 300,
   height: 400,
   iconURL: 'https://img.icons8.com/fluency/48/calculator.png',
   path: 'apps/system/Calculator',

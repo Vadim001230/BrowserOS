@@ -1,4 +1,3 @@
-import { forwardRef } from 'react';
 import { useAppDispatch } from '@/hooks/redux';
 import { setWindowFullscreen } from '@/store/slices/windowSlice';
 import { IWindow } from '@/types/IWindow';
@@ -15,15 +14,14 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   title: IWindow['title'];
   isFullscreen: IWindow['isFullscreen']; 
   iconURL: IWindow['iconURL'];
-  ref?: React.RefObject<HTMLDivElement>;
 }
 
-export const WindowHeader = forwardRef<HTMLDivElement, Props>(({
+export const WindowHeader = ({
   id,
   title,
   isFullscreen,
   iconURL, 
-}, ref) => {
+}: Props) => {
   const dispatch = useAppDispatch();
 
   const toggleFullscreen = () => dispatch(setWindowFullscreen({ id, isFullscreen: !isFullscreen }));
@@ -32,10 +30,10 @@ export const WindowHeader = forwardRef<HTMLDivElement, Props>(({
   const closeWindow = () => closeAppService(dispatch, { id });
 
   return (
-    <div className='window-header' onDoubleClick={toggleFullscreen} ref={ref}>
+    <div className='window-header' onDoubleClick={toggleFullscreen}>
       <div className='window-header__info'>
         <div className='window-header__icon'>
-          <img src={iconURL} alt="" />
+          <img src={iconURL} alt='' />
         </div>
         <div className='window-header__title'>
           {title}
@@ -54,4 +52,4 @@ export const WindowHeader = forwardRef<HTMLDivElement, Props>(({
       </div>
     </div>
   );
-});
+};

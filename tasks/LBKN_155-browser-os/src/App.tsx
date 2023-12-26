@@ -5,8 +5,8 @@ import { WindowManager } from './components/WindowManager/WindowManager';
 export const App = () => {
   return (
     <BrowserOS>
-      <Desktop />
       <WindowManager />
+      <Desktop />
     </BrowserOS>
   );
 };
