@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './Weather.scss';
 
 interface WeatherData {
+  cityName: string;
   temperature: number;
   feelsLike: number;
   wind: number;
@@ -20,6 +21,7 @@ export const Weather = () => {
       const data = await response.json();
 
       setWeatherData({
+        cityName: data.name,
         temperature: Math.round(data.main.temp),
         feelsLike: Math.round(data.main.feels_like),
         wind: data.wind.speed,
@@ -56,7 +58,8 @@ export const Weather = () => {
         <button onClick={fetchWeather} className='weather__update-btn'>Поиск</button>
       </div>
       {weatherData && (
-        <div>
+        <div className='weather__info'>
+          <p>{weatherData.cityName}</p>
           <p>Температура: {weatherData.temperature}°C</p>
           <p>Ощущается как: {weatherData.feelsLike}°C</p>
           <p>Скорость ветра: {weatherData.wind} м/с</p>

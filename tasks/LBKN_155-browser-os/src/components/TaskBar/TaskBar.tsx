@@ -9,8 +9,8 @@ import { Clock } from '@/components/Clock/Clock';
 import { StartPopup } from '@/components/StartPopup/StartPopup';
 import { BatterySettingPopup } from '@/components/BatteryPopupSettings/BatterySettingPopup';
 import { TaskbarShortcutPopup } from '@/components/TaskbarShortcutPopup/TaskbarShortcutPopup';
+import { TaskbarAppButton } from '@/components/TaskbarAppButton/TaskbarAppButton';
 import './TaskBar.scss';
-import { TaskbarAppButton } from '../TaskbarAppButton/TaskbarAppButton';
 
 export const TaskBar = () => {
   const [isAppPopupMenuShown, setIsAppPopupMenuShown] = useState(false);

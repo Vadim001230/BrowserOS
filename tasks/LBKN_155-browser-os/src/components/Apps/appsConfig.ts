@@ -5,6 +5,10 @@ import { Weather } from './Weather/Weather';
 import { Notebook } from './Notebook/Notebook';
 import { FileExplorer } from './FileExplorer/FileExplorer';
 
+interface AppsContent {
+  [appName: string]: () => JSX.Element;
+}
+
 const calculator = {
   id: 1,
   name: 'Calculator',
@@ -43,7 +47,7 @@ const fileExplorer = {
   type: 'app',
 } as IApp;
 
-export const AppsContent = {
+export const AppsContent: AppsContent = {
   Calculator,
   Weather,
   Notebook,

@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import windowReducer from './slices/windowSlice';
 import taskbarReducer from './slices/taskbarSlice';
-import clockReducer from './slices/clockSlice';
 import appsReducer from './slices/appsSlice';
 import shortcutReducer from './slices/shortcutSlice';
 import batterySettingsReducer from './slices/batterySettingsSlice';
@@ -12,7 +11,6 @@ export const store = configureStore({
     windows: windowReducer,
     shortcuts: shortcutReducer,
     taskbar: taskbarReducer,
-    clock: clockReducer,
     batterySettings: batterySettingsReducer,
   },
 });

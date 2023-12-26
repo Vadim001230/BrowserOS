@@ -1,0 +1,43 @@
+.browser-view {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 0;
+  overflow: hidden;
+  user-select: none;
+  background: no-repeat center url(../../assets/images/win11-bg.jpg);
+  background-size: cover;
+  transition: background-color 0.4s;
+  
+  &::after {
+    position: absolute;
+    z-index: 10;
+    background-color: transparent;
+    content: '';
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    pointer-events: none;
+    transition: background-color 0.4s;
+  }
+
+  &.night-light::after {
+    background-color: rgba($color: #d49446, $alpha: 0.1);
+  }
+}
+
+.brightness-overlay {
+  transition: opacity 0.6s;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  opacity: 0;
+  background-color: #000000;
+  pointer-events: none;
+  z-index: 10;
+}

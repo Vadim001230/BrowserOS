@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { IApp } from '@/types/IApp';
 import { openAppService } from '@/serviсes/appServices';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
-import { DesktopShortcutPopap } from '@/components/DesktopShortcutPopap/DesktopShortcutPopap';
+import { DesktopShortcutPopup } from '@/components/DesktopShortcutPopup/DesktopShortcutPopup';
 import './Shortcut.scss';
 
 interface Props {
@@ -14,7 +14,7 @@ export const Shortcut = ({ shortcut }: Props) => {
   const [isShortcutPopupShown, setIsShortcutPopupShown] = useState(false);
   const [popupCoordinate, setPopupCoordinate] = useState({ left: 0, top: 0 });
 
-  const openedApp: IApp | undefined = useAppSelector((state) => state.taskbar.taskbarApps.openedApps[shortcut.id]);
+  const openedApp = useAppSelector((state) => state.taskbar.taskbarApps.openedApps[shortcut.id]);
 
   const dispatch = useAppDispatch();
 
@@ -44,7 +44,7 @@ export const Shortcut = ({ shortcut }: Props) => {
         <span>{shortcut.title}</span>
       </BaseButton>
       {isShortcutPopupShown && (
-        <DesktopShortcutPopap
+        <DesktopShortcutPopup
           id={shortcut.id}
           onClose={() => setIsShortcutPopupShown(false)}
           leftCoordinate={popupCoordinate.left}

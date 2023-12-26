@@ -1,12 +1,13 @@
 const formatWithLeadingZero = (num: number) => (num < 10 ? `0${num}` : num.toString());
 
-export const formatDateTime = (dateTime: Date) => {
-  const hours = formatWithLeadingZero(dateTime.getHours());
-  const minutes = formatWithLeadingZero(dateTime.getMinutes());
-  const date = `${formatWithLeadingZero(dateTime.getDate())}.${formatWithLeadingZero(dateTime.getMonth() + 1)}.${dateTime.getFullYear()}`;
+export const formatTime = (time: Date) => {
+  const hours = formatWithLeadingZero(time.getHours());
+  const minutes = formatWithLeadingZero(time.getMinutes());
 
-  return {
-    time: `${hours}:${minutes}`,
-    date,
-  };
+  return `${hours}:${minutes}`;
+};
+
+
+export const formatDate = (date: Date) => {
+  return date.toLocaleDateString();
 };

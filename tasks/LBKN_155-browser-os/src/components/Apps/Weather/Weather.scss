@@ -17,6 +17,12 @@
     }
   }
 
+  &__info p:first-child {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+  }
+
   &__update-btn {
     cursor: pointer;
     padding: 0.5rem 1.5rem;

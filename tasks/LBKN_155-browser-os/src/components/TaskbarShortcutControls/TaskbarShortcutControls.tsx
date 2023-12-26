@@ -1,6 +1,6 @@
 import { IApp } from '@/types/IApp';
 import { ToggleAppToFavoritButton } from '@/components/ToggleAppToFavoritButton/ToggleAppToFavoritButton';
-import { ToggleOpenAppButton } from '../ToggleOpenAppButton/ToggleOpenAppButton';
+import { ToggleOpenAppButton } from '@/components/ToggleOpenAppButton/ToggleOpenAppButton';
 
 interface Props { 
   id: IApp['id'];

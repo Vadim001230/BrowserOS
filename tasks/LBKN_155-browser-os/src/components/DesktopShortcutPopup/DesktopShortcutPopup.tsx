@@ -7,7 +7,7 @@ interface Props extends Omit<PopupMenuProps, 'children'> {
   id: IApp['id'];
 }
 
-export const DesktopShortcutPopap = ({ id, onClose, leftCoordinate, topCoordinate }: Props) => {
+export const DesktopShortcutPopup = ({ id, onClose, leftCoordinate, topCoordinate }: Props) => {
   const dispatch = useAppDispatch();
 
   return (
