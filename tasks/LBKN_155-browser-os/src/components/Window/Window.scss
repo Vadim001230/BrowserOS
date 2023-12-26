@@ -34,12 +34,13 @@
   overflow: auto;
   width: 100%;
   height: calc(100% - 2.2rem);
+  border-radius: 0 0 4px 4px;
 
   @include scroll-bar;
 }
 
 .control-close {
-  border-top-right-radius: 6px;
+  border-top-right-radius: 4px;
 
   &:hover {
     background-color: #E81123;
