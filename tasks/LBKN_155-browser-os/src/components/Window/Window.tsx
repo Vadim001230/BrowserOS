@@ -29,8 +29,8 @@ export const Window = ({
     dispatch(setWindowCoords({ id, coords: { lastX: position.x, lastY: position.y } }));
   };
 
-  const handleDragStop = (d: DraggableData)  => {
-    dispatch(setWindowCoords({ id, coords: { lastX: d.x, lastY: d.y } }));
+  const handleDragStop = (data: DraggableData)  => {
+    dispatch(setWindowCoords({ id, coords: { lastX: data.x, lastY: data.y } }));
   };
 
   return (

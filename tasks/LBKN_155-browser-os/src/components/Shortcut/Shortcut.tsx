@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { IShortcut } from '@/types/IShortcut';
-import { getAppById, openShortcutService } from '@/serviсes/appServices';
+import { openShortcutService } from '@/serviсes/appServices';
+import { getAppByShortcutId } from '@/serviсes/shortcutService';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import { DesktopShortcutPopup } from '@/components/DesktopShortcutPopup/DesktopShortcutPopup';
 import './Shortcut.scss';
@@ -13,7 +14,7 @@ export const Shortcut = ({ shortcut }: Props) => {
   const [isShortcutPopupShown, setIsShortcutPopupShown] = useState(false);
   const [popupCoordinate, setPopupCoordinate] = useState({ left: 0, top: 0 });
 
-  const app = getAppById(shortcut.id);
+  const app = getAppByShortcutId(shortcut.id);
   
   const handleShortcutDoubleClick = () => {
     openShortcutService(shortcut.id);

@@ -25,29 +25,29 @@ export const Calculator = () => {
   const calculateResult = () => setResult(calculate(result).toString());
 
   return (
-    <div className="calculator">
-      <div className="calculator__result">{result}</div>
-      <div className="calculator__buttons-container">
-        <button className="calculator__button calculator__button_grey" onClick={handleButtonClick}>(</button>
-        <button className="calculator__button calculator__button_grey" onClick={handleButtonClick}>)</button>
-        <button className="calculator__button calculator__button_grey" onClick={clearExpression}>C</button>
-        <button className="calculator__button calculator__button_grey" onClick={deleteLastSymbol}>Backspace</button>
-        <button className="calculator__button" onClick={handleButtonClick}>7</button>
-        <button className="calculator__button" onClick={handleButtonClick}>8</button>
-        <button className="calculator__button" onClick={handleButtonClick}>9</button>
-        <button className="calculator__button calculator__button_grey" onClick={handleButtonClick}>*</button>
-        <button className="calculator__button" onClick={handleButtonClick}>4</button>
-        <button className="calculator__button" onClick={handleButtonClick}>5</button>
-        <button className="calculator__button" onClick={handleButtonClick}>6</button>
-        <button className="calculator__button calculator__button_grey" onClick={handleButtonClick}>-</button>
-        <button className="calculator__button" onClick={handleButtonClick}>1</button>
-        <button className="calculator__button" onClick={handleButtonClick}>2</button>
-        <button className="calculator__button" onClick={handleButtonClick}>3</button>
-        <button className="calculator__button calculator__button_grey" onClick={handleButtonClick}>+</button>
-        <button className="calculator__button" onClick={handleButtonClick}>/</button>
-        <button className="calculator__button" onClick={handleButtonClick}>0</button>
-        <button className="calculator__button" onClick={handleButtonClick}>.</button>
-        <button className="calculator__button calculator__button_blue" onClick={calculateResult}>=</button>
+    <div className='calculator'>
+      <div className='calculator__result'>{result}</div>
+      <div className='calculator__buttons-container'>
+        <button className='calculator__button calculator__button_grey' onClick={handleButtonClick}>(</button>
+        <button className='calculator__button calculator__button_grey' onClick={handleButtonClick}>)</button>
+        <button className='calculator__button calculator__button_grey' onClick={clearExpression}>C</button>
+        <button className='calculator__button calculator__button_grey' onClick={deleteLastSymbol}>Backspace</button>
+        <button className='calculator__button' onClick={handleButtonClick}>7</button>
+        <button className='calculator__button' onClick={handleButtonClick}>8</button>
+        <button className='calculator__button' onClick={handleButtonClick}>9</button>
+        <button className='calculator__button calculator__button_grey' onClick={handleButtonClick}>*</button>
+        <button className='calculator__button' onClick={handleButtonClick}>4</button>
+        <button className='calculator__button' onClick={handleButtonClick}>5</button>
+        <button className='calculator__button' onClick={handleButtonClick}>6</button>
+        <button className='calculator__button calculator__button_grey' onClick={handleButtonClick}>-</button>
+        <button className='calculator__button' onClick={handleButtonClick}>1</button>
+        <button className='calculator__button' onClick={handleButtonClick}>2</button>
+        <button className='calculator__button' onClick={handleButtonClick}>3</button>
+        <button className='calculator__button calculator__button_grey' onClick={handleButtonClick}>+</button>
+        <button className='calculator__button' onClick={handleButtonClick}>/</button>
+        <button className='calculator__button' onClick={handleButtonClick}>0</button>
+        <button className='calculator__button' onClick={handleButtonClick}>.</button>
+        <button className='calculator__button calculator__button_blue' onClick={calculateResult}>=</button>
       </div>
     </div>
   );

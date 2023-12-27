@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useAppSelector } from '@/hooks/redux';
 import { useBattery } from '@/hooks/useBattery';
-import { getAppsByShortcutsList, openShortcutService } from '@/serviсes/appServices';
+import { openShortcutService } from '@/serviсes/appServices';
+import { getAppsByShortcutsList } from '@/serviсes/shortcutService';
 import { IApp } from '@/types/IApp';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import { BatteryStatusButton } from '@/components/BatteryStatusButton/BatteryStatusButton';
@@ -80,15 +81,15 @@ export const TaskBar = () => {
         title='Пуск'
         onClick={handleStartMenuClick}
       >
-        <img src='https://img.icons8.com/fluency/48/windows-11.png' alt="start menu button" />
+        <img src='https://img.icons8.com/fluency/48/windows-11.png' alt='start menu button' />
       </BaseButton>
       {isStartMenuShown && <StartPopup onClose={closeStartMenu} leftCoordinate={popupLeftCoordinate} />}
-      <div className="taskbar__container">
+      <div className='taskbar__container'>
         {!!favoritApps.length && renderAppButtons(favoritApps)}
         {!!openedApps.length && renderAppButtons(openedApps.filter((app) => !favoritApps.includes(app)))}
       </div>
       {isAppPopupMenuShown && <TaskbarShortcutPopup id={selectedId} onClose={closeAppPopupMenu} leftCoordinate={popupLeftCoordinate} />}
-      <div className="taskbar__container">
+      <div className='taskbar__container'>
         {batteryStatus && <BatteryStatusButton onClick={handleBatteryStatus} level={batteryStatus.level} charging={batteryStatus.charging} />}
         <Clock />
       </div>
