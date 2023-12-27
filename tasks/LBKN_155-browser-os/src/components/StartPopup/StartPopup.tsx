@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { focusAppService, openAppService } from '@/serviсes/appServices';
+import { useAppSelector } from '@/hooks/redux';
+import { openAppService } from '@/serviсes/appServices';
 import { IApp } from '@/types/IApp';
 import { PopupMenu, PopupMenuProps } from '@/components/UI/PopupMenu/PopupMenu';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
@@ -12,20 +12,13 @@ export const StartPopup = ({ onClose, leftCoordinate }: Props) => {
   const [searchText, setSearchText] = useState('');
 
   const appsList: IApp[] = useAppSelector((state) => state.apps);
-  const openApps: IApp[] = useAppSelector((state) => state.taskbar.taskbarApps.openedApps);
-  const dispatch = useAppDispatch();
 
   const searchedApps = appsList.filter((app) =>
     app.title.toLowerCase().includes(searchText.toLowerCase())
   );
 
   const handleShortcutClick = (app: IApp) => {
-    const selectedAppOpen = openApps.find((openApp) => openApp.id === app.id);
-    if (selectedAppOpen) {
-      focusAppService(dispatch, { id: app.id });
-    } else {
-      openAppService(dispatch, app);
-    }
+    openAppService(app);
     onClose();
   };
 

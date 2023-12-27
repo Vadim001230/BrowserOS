@@ -3,7 +3,7 @@ import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import { IApp } from '@/types/IApp';
 import { IDirectory, getCurrentDirectoryFromPath } from '@/utils/tree';
 import { openAppService } from '@/serviсes/appServices';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { useAppSelector } from '@/hooks/redux';
 import { systemTree } from '@/components/Apps/appsConfig';
 import ArrowIcon from '@/assets/icons/arrow.svg';
 import './FileExplorer.scss';
@@ -12,8 +12,7 @@ export const FileExplorer = () => {
   const [historyOfDirectories, setHistoryOfDirectories] = useState<string[]>(['']);
   const [currentIndexOfHistory, setCurrentIndexOfHistory] = useState(0);
   
-  const dispatch = useAppDispatch();
-  const openApps: IApp[] = useAppSelector((state) => state.taskbar.taskbarApps.openedApps);
+  const openApps: IApp[] = useAppSelector((state) => state.taskbar.openedApps);
 
   const currentPath = historyOfDirectories[currentIndexOfHistory];
   const currentDirectory = getCurrentDirectoryFromPath(systemTree, currentPath);
@@ -27,7 +26,7 @@ export const FileExplorer = () => {
   const handleFileDoubleClick = (app: IApp) => {
     const selectedAppOpen = openApps.find((openApp) => openApp.id === app.id);
     if (!selectedAppOpen) {
-      openAppService(dispatch, app);
+      openAppService(app);
     }
   };
 

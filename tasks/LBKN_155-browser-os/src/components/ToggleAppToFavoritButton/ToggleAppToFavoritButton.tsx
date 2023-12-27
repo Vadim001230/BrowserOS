@@ -7,7 +7,7 @@ interface Props {
 }
 
 export const ToggleAppToFavoritButton = ({ id }: Props) => {
-  const isAppInFavorit = useAppSelector((state) => state.taskbar.taskbarApps.favoritApps.some((app) => app.id === id));
+  const isAppInFavorit = useAppSelector((state) => state.taskbar.favoritApps.some((app) => app.id === id));
 
   const dispatch = useAppDispatch();
 

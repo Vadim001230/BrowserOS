@@ -5,31 +5,29 @@ import { FavoritsAppList } from '@/components/Apps/appsConfig';
 const windowSlice = createSlice({
   name: 'taskbar',
   initialState: {
-    taskbarApps: {
       favoritApps: FavoritsAppList as IApp[],
       openedApps: [] as IApp[],
-    }
   },
   reducers: {
     openApp: (state, action) => {
-      const isAppOpen = state.taskbarApps.openedApps.some((app) => app.id === action.payload.id);
+      const isAppOpen = state.openedApps.some((app) => app.id === action.payload.id);
       if (!isAppOpen) {
-        state.taskbarApps.openedApps.push(action.payload);
+        state.openedApps.push(action.payload);
       }
     },
 
     closeApp: (state, action) => {
-      state.taskbarApps.openedApps = state.taskbarApps.openedApps.filter((app) => app.id !== action.payload.id);
+      state.openedApps = state.openedApps.filter((app) => app.id !== action.payload.id);
     },
     
     toggleAppToFavorits: (state, action) => {
-      const isSelectedAppInFavorit = state.taskbarApps.favoritApps.some((app) => app.id === action.payload.id);
+      const isSelectedAppInFavorit = state.favoritApps.some((app) => app.id === action.payload.id);
       
       if (isSelectedAppInFavorit) {
-        state.taskbarApps.favoritApps = state.taskbarApps.favoritApps.filter((app) => app.id !== action.payload.id);
+        state.favoritApps = state.favoritApps.filter((app) => app.id !== action.payload.id);
       } else {
-        const selectedAppInOpen = state.taskbarApps.openedApps.find((app) => app.id === action.payload.id)!;
-        state.taskbarApps.favoritApps.push(selectedAppInOpen);
+        const selectedAppInOpen = state.openedApps.find((app) => app.id === action.payload.id)!;
+        state.favoritApps.push(selectedAppInOpen);
       }
     },
   },

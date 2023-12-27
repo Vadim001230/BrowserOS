@@ -1,8 +1,7 @@
 import { Rnd, Position, DraggableData } from 'react-rnd';
 import { useAppDispatch } from '@/hooks/redux';
-import { setWindowCoords } from '@/store/slices/windowSlice';
+import { focusWindow, setWindowCoords } from '@/store/slices/windowSlice';
 import { IWindow } from '@/types/IWindow';
-import { focusAppService } from '@/serviсes/appServices';
 import { WindowHeader } from '@/components/WindowHeader/WindowHeader';
 import './Window.scss';
 
@@ -23,7 +22,7 @@ export const Window = ({
   const dispatch = useAppDispatch();
 
   const handleWindowMouseDown = () => {
-    focusAppService(dispatch, { id });
+    dispatch(focusWindow({ id }));
   };
 
   const handleResizeStop = (position: Position) => {

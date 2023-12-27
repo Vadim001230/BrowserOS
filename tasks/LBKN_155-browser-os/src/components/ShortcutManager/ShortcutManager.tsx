@@ -1,9 +1,9 @@
-import { Shortcut } from '@/components/Shortcut/Shortcut';
 import { useAppSelector } from '@/hooks/redux';
-import { IApp } from '@/types/IApp';
+import { Shortcut } from '@/components/Shortcut/Shortcut';
+import { IShortcut } from '@/types/IShortcut';
 
 export const ShortcutManager = () => {
-  const shortcutsList: IApp[] = useAppSelector((state) => state.shortcuts);
+  const shortcutsList: IShortcut[] = useAppSelector((state) => state.shortcuts);
 
   return (
     <div className='shortcuts-container'>

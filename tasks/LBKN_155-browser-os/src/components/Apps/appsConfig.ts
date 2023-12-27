@@ -1,4 +1,5 @@
 import { IApp } from '@/types/IApp';
+import { IShortcut } from '@/types/IShortcut';
 import { createTreeFromArrayOfPaths } from '@/utils/tree';
 import { Calculator } from './Calculator/Calculator';
 import { Weather } from './Weather/Weather';
@@ -18,7 +19,7 @@ const calculator = {
   iconURL: 'https://img.icons8.com/fluency/48/calculator.png',
   path: 'apps/system/Calculator',
   type: 'app',
-} as IApp;
+};
 
 const notebook = {
   id: 2,
@@ -27,7 +28,7 @@ const notebook = {
   iconURL: 'https://img.icons8.com/fluency/48/spiral-bound-booklet.png',
   path: 'apps/system/Notebook',
   type: 'app',
-} as IApp;
+};
 
 const weather = {
   id: 3,
@@ -36,16 +37,16 @@ const weather = {
   iconURL: 'https://img.icons8.com/fluency/48/weather.png',
   path: 'apps/Weather',
   type: 'app',
-} as IApp;
+};
 
 const fileExplorer = {
   id: 4,
   name: 'FileExplorer',
   title: 'Проводник',
   iconURL: 'https://img.icons8.com/fluency/48/windows-explorer.png',
-  path: 'FileExplorer',
+  path: 'folder/FileExplorer',
   type: 'app',
-} as IApp;
+};
 
 export const AppsContent: AppsContent = {
   Calculator,
@@ -56,8 +57,8 @@ export const AppsContent: AppsContent = {
 
 export const AppsListConfig = [calculator, notebook, weather, fileExplorer] as IApp[];
 
-export const ShortcutsList = [calculator, notebook, weather, fileExplorer];
+export const ShortcutsList = [{ id: calculator.id }, { id: notebook.id }, { id: weather.id }, { id: fileExplorer.id }] as IShortcut[];
 
-export const FavoritsAppList = [fileExplorer];
+export const FavoritsAppList = [{ id: fileExplorer.id }] as IShortcut[];
 
 export const systemTree = createTreeFromArrayOfPaths(AppsListConfig);

@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { useAppSelector } from '@/hooks/redux';
 import { useBattery } from '@/hooks/useBattery';
+import { getAppsByShortcutsList, openShortcutService } from '@/serviсes/appServices';
 import { IApp } from '@/types/IApp';
-import { focusAppService, openAppService, toggleMinimizeAppService } from '@/serviсes/appServices';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import { BatteryStatusButton } from '@/components/BatteryStatusButton/BatteryStatusButton';
 import { Clock } from '@/components/Clock/Clock';
@@ -20,12 +20,8 @@ export const TaskBar = () => {
   const [popupLeftCoordinate, setPopupLeftCoordinate] = useState(0);
   const batteryStatus = useBattery();
 
-  const dispatch = useAppDispatch();
-
-  const openedApps: IApp[] = useAppSelector((state) => state.taskbar.taskbarApps.openedApps);
-  const favoritApps: IApp[] = useAppSelector((state) => state.taskbar.taskbarApps.favoritApps);
-
-  const isSelectedAppInFavorit = favoritApps.some((app) => app.id === selectedId);
+  const openedApps: IApp[] = getAppsByShortcutsList(useAppSelector((state) => state.taskbar.openedApps));
+  const favoritApps: IApp[] =  getAppsByShortcutsList(useAppSelector((state) => state.taskbar.favoritApps));
 
   const closeAppPopupMenu = () => setIsAppPopupMenuShown(false);
   const closeBatteryPopup = () => setIsBatteryPopupShown(false);
@@ -37,18 +33,9 @@ export const TaskBar = () => {
     closeStartMenu();
   };
 
-  const openApp = (app: IApp) => openAppService(dispatch, app);
-
   const handleAppClick = (id: IApp['id']) => {
     setSelectedId(id);
-    const isSelectedAppOpen = openedApps.some((app) => app.id === id);
-    if (isSelectedAppOpen) {
-      toggleMinimizeAppService(dispatch, { id });
-      focusAppService(dispatch, { id });
-    } else if (isSelectedAppInFavorit) {
-      const app = favoritApps.find((app) => app.id === id)!;
-      openApp(app);
-    }
+    openShortcutService(id);
   };
 
   const handleAppContextMenu = (e: React.MouseEvent<HTMLButtonElement>, id: IApp['id']) => {

@@ -1,12 +1,12 @@
 import { useAppDispatch } from '@/hooks/redux';
-import { setWindowFullscreen } from '@/store/slices/windowSlice';
+import { setWindowFullscreen, toggleMinimizeWindow } from '@/store/slices/windowSlice';
 import { IWindow } from '@/types/IWindow';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import CloseIcon from '@/assets/icons/close.svg';
 import MaximizeIcon from '@/assets/icons/maximize.svg';
 import MaximizeMinIcon from '@/assets/icons/maximize-min.svg';
 import MinimizeIcon from '@/assets/icons/minimize.svg';
-import { closeAppService, toggleMinimizeAppService } from '@/serviсes/appServices';
+import { closeAppService } from '@/serviсes/appServices';
 import './WindowHeader.scss';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
@@ -25,9 +25,9 @@ export const WindowHeader = ({
   const dispatch = useAppDispatch();
 
   const toggleFullscreen = () => dispatch(setWindowFullscreen({ id: windowId, isFullscreen: !isFullscreen }));
-  const toggleMinimized = () => toggleMinimizeAppService(dispatch, { id: windowId });
+  const toggleMinimized = () => dispatch(toggleMinimizeWindow({ id: windowId }));
 
-  const closeWindow = () => closeAppService(dispatch, { id: windowId });
+  const closeWindow = () => closeAppService({ id: windowId });
 
   return (
     <div className='window-header' onDoubleClick={toggleFullscreen}>
