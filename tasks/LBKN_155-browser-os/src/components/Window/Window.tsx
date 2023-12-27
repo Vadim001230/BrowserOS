@@ -3,7 +3,7 @@ import { useAppDispatch } from '@/hooks/redux';
 import { setWindowCoords } from '@/store/slices/windowSlice';
 import { IWindow } from '@/types/IWindow';
 import { focusAppService } from '@/serviсes/appServices';
-import { WindowHeader } from '../WindowHeader/WindowHeader';
+import { WindowHeader } from '@/components/WindowHeader/WindowHeader';
 import './Window.scss';
 
 export const Window = ({
@@ -36,8 +36,10 @@ export const Window = ({
 
   return (
     <Rnd
-      className={`window-manager ${isFullscreen ? 'window-manager_fullscreen window-manager_transition' : ''
-        } ${isMinimized ? 'window-manager_minimazed window-manager_transition' : ''
+      className={`window-manager ${
+          isFullscreen ? 'window-manager_fullscreen window-manager_transition' : ''
+        } ${
+          isMinimized ? 'window-manager_minimazed window-manager_transition' : ''
         }`}
       default={{
         x: coords.lastX,
@@ -53,7 +55,7 @@ export const Window = ({
       onMouseDown={handleWindowMouseDown}
       disableDragging={isFullscreen}
     >
-      <WindowHeader id={id} title={title} isFullscreen={isFullscreen} iconURL={iconURL} />
+      <WindowHeader windowId={id} title={title} isFullscreen={isFullscreen} iconURL={iconURL} />
       <div className='window-content'>
         {children}
       </div>

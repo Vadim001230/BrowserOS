@@ -10,24 +10,24 @@ import { closeAppService, toggleMinimizeAppService } from '@/serviсes/appServic
 import './WindowHeader.scss';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  id: IWindow['id'];
+  windowId: IWindow['id'];
   title: IWindow['title'];
   isFullscreen: IWindow['isFullscreen']; 
   iconURL: IWindow['iconURL'];
 }
 
 export const WindowHeader = ({
-  id,
+  windowId,
   title,
   isFullscreen,
   iconURL, 
 }: Props) => {
   const dispatch = useAppDispatch();
 
-  const toggleFullscreen = () => dispatch(setWindowFullscreen({ id, isFullscreen: !isFullscreen }));
-  const toggleMinimized = () => toggleMinimizeAppService(dispatch, { id });
+  const toggleFullscreen = () => dispatch(setWindowFullscreen({ id: windowId, isFullscreen: !isFullscreen }));
+  const toggleMinimized = () => toggleMinimizeAppService(dispatch, { id: windowId });
 
-  const closeWindow = () => closeAppService(dispatch, { id });
+  const closeWindow = () => closeAppService(dispatch, { id: windowId });
 
   return (
     <div className='window-header' onDoubleClick={toggleFullscreen}>

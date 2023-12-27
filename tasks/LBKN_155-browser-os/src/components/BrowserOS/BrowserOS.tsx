@@ -1,29 +1,22 @@
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { setBrightness } from '@/store/slices/batterySettingsSlice';
-import { BRIGHTNESS_IN_BATTERY_SAVING_MODE } from '@/constants/constants';
+import { useAppSelector } from '@/hooks/redux';
+import defaultBackgroundImage from '@/assets/images/win11-bg.jpg';
 import './BrowserOS.scss';
 
 interface Props {
   children: React.ReactNode;
+  backgroundImage?: string;
 }
 
-export const BrowserOS = ({ children }: Props) => {
-  const { brightness, isNightLightOn, isSaveBatteryOn } = useAppSelector((state) => state.batterySettings);
-
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (isSaveBatteryOn) {
-      dispatch(setBrightness(BRIGHTNESS_IN_BATTERY_SAVING_MODE));
-    } else {
-      dispatch(setBrightness(1));
-    }
-  }, [isSaveBatteryOn]);
+export const BrowserOS = ({ children, backgroundImage = defaultBackgroundImage }: Props) => {
+  const { brightness, isNightLightOn } = useAppSelector((state) => state.batterySettings);
 
   return (
     <>
-      <div className={`browser-view ${isNightLightOn ? 'night-light' : ''}`}>{children}</div>
+      <div
+        className={`browser-view ${isNightLightOn ? 'night-light' : ''}`}
+        style={{ backgroundImage: `url(${backgroundImage})` }}>
+        {children}
+      </div >
       <div className='brightness-overlay' style={{ opacity: `${1 - brightness}` }}></div>
     </>
   );
