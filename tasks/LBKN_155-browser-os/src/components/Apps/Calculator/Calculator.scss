@@ -31,12 +31,15 @@
     background-color: #393A42;
     transition: background-color .2s;
     color: #ffffff;
-    
+
     &:hover {
       background-color: #313238;
     }
 
-    &_grey {
+    &:nth-child(1),
+    &:nth-child(2),
+    &:nth-child(3),
+    &:not(.calculator__button_blue):nth-child(4n) {
       background-color: #313238;
 
       &:hover {
