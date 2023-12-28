@@ -9,12 +9,12 @@ import { BatteryStatusButton } from '@/components/BatteryStatusButton/BatterySta
 import { Clock } from '@/components/Clock/Clock';
 import { StartPopup } from '@/components/StartPopup/StartPopup';
 import { BatterySettingPopup } from '@/components/BatteryPopupSettings/BatterySettingPopup';
-import { TaskbarShortcutPopup } from '@/components/TaskbarShortcutPopup/TaskbarShortcutPopup';
+import { TaskbarShortcutContextMenu } from '@/components/TaskbarShortcutContextMenu/TaskbarShortcutContextMenu';
 import { TaskbarAppButton } from '@/components/TaskbarAppButton/TaskbarAppButton';
 import './TaskBar.scss';
 
 export const TaskBar = () => {
-  const [isAppPopupMenuShown, setIsAppPopupMenuShown] = useState(false);
+  const [isShortcutContextMenuShown, setIsShortcutContextMenuShown] = useState(false);
   const [isBatteryPopupShown, setIsBatteryPopupShown] = useState(false);
   const [isStartMenuShown, setIsStartMenuShown] = useState(false);
   const [selectedId, setSelectedId] = useState<IApp['id']>(0);
@@ -24,15 +24,9 @@ export const TaskBar = () => {
   const openedApps: IApp[] = getAppsByShortcutsList(useAppSelector((state) => state.taskbar.openedApps));
   const favoritApps: IApp[] =  getAppsByShortcutsList(useAppSelector((state) => state.taskbar.favoritApps));
 
-  const closeAppPopupMenu = () => setIsAppPopupMenuShown(false);
+  const closeAppPopupMenu = () => setIsShortcutContextMenuShown(false);
   const closeBatteryPopup = () => setIsBatteryPopupShown(false);
   const closeStartMenu = () => setIsStartMenuShown(false);
-
-  const closePopups = () => {
-    closeAppPopupMenu();
-    closeBatteryPopup();
-    closeStartMenu();
-  };
 
   const handleAppClick = (id: IApp['id']) => {
     setSelectedId(id);
@@ -41,15 +35,12 @@ export const TaskBar = () => {
 
   const handleAppContextMenu = (e: React.MouseEvent<HTMLButtonElement>, id: IApp['id']) => {
     e.preventDefault();
-    closePopups();
     setPopupLeftCoordinate(e.currentTarget.offsetLeft);
     setSelectedId(id);
-    setIsAppPopupMenuShown(true);
+    setIsShortcutContextMenuShown(true);
   };
 
   const handleStartMenuClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    closePopups();
     setPopupLeftCoordinate(e.currentTarget.offsetLeft);
     if (!isStartMenuShown) {
       setIsStartMenuShown(true);
@@ -57,8 +48,6 @@ export const TaskBar = () => {
   };
 
   const handleBatteryStatus = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    closePopups();
     setPopupLeftCoordinate(e.currentTarget.offsetLeft);
     setIsBatteryPopupShown(true);
   };
@@ -88,7 +77,7 @@ export const TaskBar = () => {
         {!!favoritApps.length && renderAppButtons(favoritApps)}
         {!!openedApps.length && renderAppButtons(openedApps.filter((app) => !favoritApps.includes(app)))}
       </div>
-      {isAppPopupMenuShown && <TaskbarShortcutPopup id={selectedId} onClose={closeAppPopupMenu} leftCoordinate={popupLeftCoordinate} />}
+      {isShortcutContextMenuShown && <TaskbarShortcutContextMenu id={selectedId} onClose={closeAppPopupMenu} leftCoordinate={popupLeftCoordinate} />}
       <div className='taskbar__container'>
         {batteryStatus && <BatteryStatusButton onClick={handleBatteryStatus} level={batteryStatus.level} charging={batteryStatus.charging} />}
         <Clock />

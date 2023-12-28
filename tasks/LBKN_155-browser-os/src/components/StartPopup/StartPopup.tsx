@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { useAppSelector } from '@/hooks/redux';
 import { openAppService } from '@/serviсes/appServices';
 import { IApp } from '@/types/IApp';
-import { PopupMenu, PopupMenuProps } from '@/components/UI/PopupMenu/PopupMenu';
+import { Popup, PopupProps } from '@/components/UI/Popup/Popup';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import './StartPopup.scss';
 
-interface Props extends Omit<PopupMenuProps, 'children'> { }
+interface Props extends Omit<PopupProps, 'children'> { }
 
 export const StartPopup = ({ onClose, leftCoordinate }: Props) => {
   const [searchText, setSearchText] = useState('');
@@ -27,7 +27,7 @@ export const StartPopup = ({ onClose, leftCoordinate }: Props) => {
   };
 
   return (
-    <PopupMenu onClose={onClose} leftCoordinate={leftCoordinate} className='startpopup'>
+    <Popup onClose={onClose} leftCoordinate={leftCoordinate} className='startpopup'>
       <input
         className='startpopup__search'
         type='search'
@@ -47,6 +47,6 @@ export const StartPopup = ({ onClose, leftCoordinate }: Props) => {
           <p>Соответсвия не найдены</p>
         )}
       </div>
-    </PopupMenu>
+    </Popup>
   );
 };

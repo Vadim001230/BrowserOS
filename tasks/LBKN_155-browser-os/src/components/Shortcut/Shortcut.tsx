@@ -3,7 +3,7 @@ import { IShortcut } from '@/types/IShortcut';
 import { openShortcutService } from '@/serviсes/appServices';
 import { getAppByShortcutId } from '@/serviсes/shortcutService';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
-import { DesktopShortcutPopup } from '@/components/DesktopShortcutPopup/DesktopShortcutPopup';
+import { DesktopShortcutContextMenu } from '@/components/DesktopShortcutContextMenu/DesktopShortcutContextMenu';
 import './Shortcut.scss';
 
 interface Props {
@@ -11,11 +11,11 @@ interface Props {
 }
 
 export const Shortcut = ({ shortcut }: Props) => {
-  const [isShortcutPopupShown, setIsShortcutPopupShown] = useState(false);
+  const [isContextMenuShown, setIsContextMenuShown] = useState(false);
   const [popupCoordinate, setPopupCoordinate] = useState({ left: 0, top: 0 });
 
   const app = getAppByShortcutId(shortcut.id);
-  
+
   const handleShortcutDoubleClick = () => {
     openShortcutService(shortcut.id);
   };
@@ -23,10 +23,10 @@ export const Shortcut = ({ shortcut }: Props) => {
   const handleShortcutContextMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setPopupCoordinate({
-      left: e.currentTarget.offsetLeft,
+      left: e.clientX,
       top: e.currentTarget.offsetTop,
     });
-    setIsShortcutPopupShown(true);
+    setIsContextMenuShown(true);
   };
 
   return (
@@ -39,10 +39,10 @@ export const Shortcut = ({ shortcut }: Props) => {
         <img src={app.iconURL} alt="" />
         <span>{app.title}</span>
       </BaseButton>
-      {isShortcutPopupShown && (
-        <DesktopShortcutPopup
+      {isContextMenuShown && (
+        <DesktopShortcutContextMenu
           id={app.id}
-          onClose={() => setIsShortcutPopupShown(false)}
+          onClose={() => setIsContextMenuShown(false)}
           leftCoordinate={popupCoordinate.left}
           topCoordinate={popupCoordinate.top}
         />
