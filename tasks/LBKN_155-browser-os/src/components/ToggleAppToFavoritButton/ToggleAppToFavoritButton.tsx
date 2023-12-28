@@ -14,9 +14,7 @@ export const ToggleAppToFavoritButton = ({ id }: Props) => {
   const toggleAppToFavorit = () => dispatch(toggleAppToFavorits({ id }));
 
   return (
-    <button
-      onClick={toggleAppToFavorit}
-      className='popup-menu__button'>
+    <button onClick={toggleAppToFavorit}>
       {isAppInFavorit ? 'Открепить от' : 'Закрепить на'} панели задач
     </button>
   );

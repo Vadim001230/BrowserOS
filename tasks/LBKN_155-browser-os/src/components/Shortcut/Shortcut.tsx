@@ -24,7 +24,7 @@ export const Shortcut = ({ shortcut }: Props) => {
     e.preventDefault();
     setPopupCoordinate({
       left: e.clientX,
-      top: e.currentTarget.offsetTop,
+      top: e.clientY,
     });
     setIsContextMenuShown(true);
   };

@@ -20,9 +20,7 @@ export const ToggleOpenAppButton = ({ id }: Props) => {
   };
 
   return (
-    <button
-      onClick={toggleOpenApp}
-      className='popup-menu__button'>
+    <button onClick={toggleOpenApp}>
       {isAppOpen ? 'Закрыть окно' : 'Открыть окно'}
     </button>
   );

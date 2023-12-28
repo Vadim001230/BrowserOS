@@ -26,7 +26,7 @@ export const openAppService = (action: IApp) => {
   dispatch(openWindow(action));
 };
 
-export const closeAppService = (action: unknown) => {
+export const closeAppService = (action: {id: IApp['id']}) => {
   dispatch(closeApp(action));
   dispatch(closeWindow(action));
 };

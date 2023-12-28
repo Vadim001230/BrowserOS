@@ -13,13 +13,10 @@ export const DesktopShortcutContextMenu = ({ id, onClose, leftCoordinate, topCoo
   return (
     <ContextMenu
       onClose={onClose}
-      className='shortcut-popup'
       leftCoordinate={leftCoordinate}
       topCoordinate={topCoordinate}
     >
-      <button
-        onClick={() => dispatch(deleteShortcut({ id }))}
-        className='popup-menu__button'>
+      <button onClick={() => dispatch(deleteShortcut({ id }))}>
         Удалить ярлык с рабочего стола
       </button>
     </ContextMenu>
