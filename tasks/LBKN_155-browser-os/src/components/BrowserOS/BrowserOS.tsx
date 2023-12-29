@@ -4,17 +4,16 @@ import './BrowserOS.scss';
 
 interface Props {
   children: React.ReactNode;
-  backgroundImage?: string;
 }
 
-export const BrowserOS = ({ children, backgroundImage = defaultBackgroundImage }: Props) => {
+export const BrowserOS = ({ children }: Props) => {
   const { brightness, isNightLightOn } = useAppSelector((state) => state.batterySettings);
 
   return (
     <>
       <div
         className={`browser-view ${isNightLightOn ? 'night-light' : ''}`}
-        style={{ backgroundImage: `url(${backgroundImage})` }}>
+        style={{ backgroundImage: `url(${defaultBackgroundImage})` }}>
         {children}
       </div >
       <div className='brightness-overlay' style={{ opacity: `${1 - brightness}` }}></div>

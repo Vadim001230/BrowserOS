@@ -2,16 +2,17 @@ import { useState } from 'react';
 import { useAppSelector } from '@/hooks/redux';
 import { openAppService } from '@/serviсes/appServices';
 import { IApp } from '@/types/IApp';
-import { Popup, PopupProps } from '@/components/UI/Popup/Popup';
+import { Popup } from '@/components/UI/Popup/Popup';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
-import './StartPopup.scss';
+import './StartMenu.scss';
 
-interface Props extends Omit<PopupProps, 'children'> { }
+interface Props {
+  onClose: () => void;
+}
 
-export const StartPopup = ({ onClose, leftCoordinate }: Props) => {
+export const StartMenu = ({ onClose }: Props) => {
   const [searchText, setSearchText] = useState('');
-
-  const appsList: IApp[] = useAppSelector((state) => state.apps);
+  const appsList = useAppSelector((state) => state.apps);
 
   const searchedApps = appsList.filter((app) =>
     app.title.toLowerCase().includes(searchText.toLowerCase())
@@ -27,7 +28,7 @@ export const StartPopup = ({ onClose, leftCoordinate }: Props) => {
   };
 
   return (
-    <Popup onClose={onClose} leftCoordinate={leftCoordinate} className='startpopup'>
+    <Popup onClose={onClose} className='startpopup'>
       <input
         className='startpopup__search'
         type='search'

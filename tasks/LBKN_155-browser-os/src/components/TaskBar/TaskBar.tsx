@@ -7,7 +7,7 @@ import { IApp } from '@/types/IApp';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import { BatteryStatusButton } from '@/components/BatteryStatusButton/BatteryStatusButton';
 import { Clock } from '@/components/Clock/Clock';
-import { StartPopup } from '@/components/StartPopup/StartPopup';
+import { StartMenu } from '@/components/StartMenu/StartMenu';
 import { BatterySettingPopup } from '@/components/BatteryPopupSettings/BatterySettingPopup';
 import { TaskbarShortcutContextMenu } from '@/components/TaskbarShortcutContextMenu/TaskbarShortcutContextMenu';
 import { TaskbarAppButton } from '@/components/TaskbarAppButton/TaskbarAppButton';
@@ -21,8 +21,8 @@ export const TaskBar = () => {
   const [popupLeftCoordinate, setPopupLeftCoordinate] = useState(0);
   const batteryStatus = useBattery();
 
-  const openedApps: IApp[] = getAppsByShortcutsList(useAppSelector((state) => state.taskbar.openedApps));
-  const favoritApps: IApp[] =  getAppsByShortcutsList(useAppSelector((state) => state.taskbar.favoritApps));
+  const openedApps = getAppsByShortcutsList(useAppSelector((state) => state.taskbar.openedApps));
+  const favoritApps =  getAppsByShortcutsList(useAppSelector((state) => state.taskbar.favoritApps));
 
   const closeAppPopupMenu = () => setIsShortcutContextMenuShown(false);
   const closeBatteryPopup = () => setIsBatteryPopupShown(false);
@@ -72,7 +72,7 @@ export const TaskBar = () => {
       >
         <img src='https://img.icons8.com/fluency/48/windows-11.png' alt='start menu button' />
       </BaseButton>
-      {isStartMenuShown && <StartPopup onClose={closeStartMenu} leftCoordinate={popupLeftCoordinate} />}
+      {isStartMenuShown && <StartMenu onClose={closeStartMenu} />}
       <div className='taskbar__container'>
         {!!favoritApps.length && renderAppButtons(favoritApps)}
         {!!openedApps.length && renderAppButtons(openedApps.filter((app) => !favoritApps.includes(app)))}

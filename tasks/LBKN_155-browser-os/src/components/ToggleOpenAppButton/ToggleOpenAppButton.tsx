@@ -7,7 +7,7 @@ interface Props {
 }
 
 export const ToggleOpenAppButton = ({ id }: Props) => {
-  const openedApps: IApp[] = useAppSelector((state) => state.taskbar.openedApps);
+  const openedApps = useAppSelector((state) => state.taskbar.openedApps);
 
   const isAppOpen = openedApps.some((app) => app.id === id);
 

@@ -1,24 +1,25 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { setBrightness, toggleSaveBattery } from '@/store/slices/batterySettingsSlice';
-import { BaseButton, BaseButtonProps } from '@/components/UI/BaseButton/BaseButton';
+import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import { BRIGHTNESS_IN_BATTERY_SAVING_MODE } from '@/constants/constants';
+import { useEffect } from 'react';
 
-interface Props extends Omit<BaseButtonProps, 'children'> { }
-
-export const SaveBatteryButton = ({ ...attributes }: Props) => {
+export const SaveBatteryButton = () => {
   const { isSaveBatteryOn } = useAppSelector((state) => state.batterySettings);
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    dispatch(setBrightness(isSaveBatteryOn ? BRIGHTNESS_IN_BATTERY_SAVING_MODE : 1));
+  }, [isSaveBatteryOn]);
+
   const handleSaveBatteryButtonClick = () => {
     dispatch(toggleSaveBattery());
-    dispatch(setBrightness(isSaveBatteryOn ? 1 : BRIGHTNESS_IN_BATTERY_SAVING_MODE));
   };
 
   return (
     <BaseButton
-      className={`save-battery-button ${isSaveBatteryOn ? 'save-battery-button_active' : ''} ${attributes.className || ''}`}
+      className={`save-battery-button ${isSaveBatteryOn ? 'save-battery-button_active' : ''}`}
       onClick={handleSaveBatteryButtonClick}
-      {...attributes}
     >
       Экономия заряда
     </BaseButton>

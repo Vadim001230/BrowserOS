@@ -7,12 +7,12 @@ interface Props extends Omit<BaseButtonProps, 'children'> {
 }
 
 export const TaskbarAppButton = ({ app, ...attributes }: Props) => {
-  const window = useAppSelector((state) => state.windows.windows.find((window) => window.id === app.id));
+  const win = useAppSelector((state) => state.windows.windows.find((win) => win.id === app.id));
   
   return (
     <BaseButton
-      className={`taskbar__app ${window ? 'taskbar__app_opened' : ''}`}
-      isChecked={window?.isFocused && !window?.isMinimized}
+      className={`taskbar__app ${win ? 'taskbar__app_opened' : ''}`}
+      isChecked={win?.isFocused && !win?.isMinimized}
       title={app.title}
       {...attributes}
     >
