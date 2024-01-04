@@ -4,9 +4,9 @@ import './BatterySettingPopup.scss';
 
 interface Props extends Omit<PopupProps, 'children'> { }
 
-export const BatterySettingPopup = ({ onClose, leftCoordinate }: Props) => {
+export const BatterySettingPopup = (props: Props) => {
   return (
-    <Popup onClose={onClose} leftCoordinate={leftCoordinate} className='battery-settings-popup'>
+    <Popup {...props} className='battery-settings-popup'>
       <BatterySettings />
     </Popup>
   );

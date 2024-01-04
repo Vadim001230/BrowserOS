@@ -6,12 +6,13 @@ import './Popup.scss';
 export interface PopupProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   onClose: () => void;
-  leftCoordinate?: number;
-  topCoordinate?: number;
+  target?: HTMLElement;
 }
 
-export const Popup = ({ children, onClose, leftCoordinate, topCoordinate, ...attributes }: PopupProps) => {
+export const Popup = ({ children, onClose, target, ...attributes }: PopupProps) => {
   const popupRef = useClickOutside(onClose) as RefObject<HTMLDivElement>;
+
+  const rect = target?.getBoundingClientRect();
 
   return (
     <>
@@ -19,7 +20,7 @@ export const Popup = ({ children, onClose, leftCoordinate, topCoordinate, ...att
         <div
           className={`popup ${attributes.className || ''}`}
           ref={popupRef}
-          style={{ left: `${leftCoordinate?.toString()}px`, top: `${topCoordinate?.toString()}px` }}
+          style={{ left: `${target?.offsetLeft.toString()}px`, top: `${rect?.top.toString() }px` }}
         >
           {children}
         </div>,

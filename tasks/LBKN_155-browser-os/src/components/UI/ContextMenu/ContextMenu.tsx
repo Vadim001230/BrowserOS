@@ -7,21 +7,23 @@ import './ContextMenu.scss';
 export interface ContextMenuProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   onClose: () => void;
-  leftCoordinate?: number;
-  topCoordinate?: number;
+  target?: HTMLElement;
 }
 
-export const ContextMenu = ({ children, onClose, leftCoordinate, topCoordinate, ...attributes }: ContextMenuProps) => {
+export const ContextMenu = ({ children, onClose, target, ...attributes }: ContextMenuProps) => {
   const сontextMenuRef = useClickOutside(onClose) as RefObject<HTMLDivElement>;
   useClickInside(onClose, сontextMenuRef);
+
+  const rect = target?.getBoundingClientRect();
 
   return (
     <>
       {createPortal(
         <div
+          {...attributes}
           className={`context-menu ${attributes.className || ''}`}
           ref={сontextMenuRef}
-          style={{ left: `${leftCoordinate?.toString()}px`, top: `${topCoordinate?.toString()}px` }}
+          style={{ left: `${target?.offsetLeft.toString()}px`, top: `${rect?.top.toString()}px` }}
         >
           {children}
         </div>,

@@ -18,7 +18,7 @@ export const TaskBar = () => {
   const [isBatteryPopupShown, setIsBatteryPopupShown] = useState(false);
   const [isStartMenuShown, setIsStartMenuShown] = useState(false);
   const [selectedId, setSelectedId] = useState<IApp['id']>(0);
-  const [popupLeftCoordinate, setPopupLeftCoordinate] = useState(0);
+  const [targetElement, setTargetElement] = useState<HTMLElement>();
   const batteryStatus = useBattery();
 
   const openedApps = getAppsByShortcutsList(useAppSelector((state) => state.taskbar.openedApps));
@@ -35,20 +35,19 @@ export const TaskBar = () => {
 
   const handleAppContextMenu = (e: React.MouseEvent<HTMLButtonElement>, id: IApp['id']) => {
     e.preventDefault();
-    setPopupLeftCoordinate(e.currentTarget.offsetLeft);
+    setTargetElement(e.currentTarget);
     setSelectedId(id);
     setIsShortcutContextMenuShown(true);
   };
 
-  const handleStartMenuClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setPopupLeftCoordinate(e.currentTarget.offsetLeft);
+  const handleStartMenuClick = () => {
     if (!isStartMenuShown) {
       setIsStartMenuShown(true);
     }
   };
 
   const handleBatteryStatus = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setPopupLeftCoordinate(e.currentTarget.offsetLeft);
+    setTargetElement(e.currentTarget);
     setIsBatteryPopupShown(true);
   };
 
@@ -77,12 +76,12 @@ export const TaskBar = () => {
         {!!favoritApps.length && renderAppButtons(favoritApps)}
         {!!openedApps.length && renderAppButtons(openedApps.filter((app) => !favoritApps.includes(app)))}
       </div>
-      {isShortcutContextMenuShown && <TaskbarShortcutContextMenu id={selectedId} onClose={closeAppPopupMenu} leftCoordinate={popupLeftCoordinate} />}
+      {isShortcutContextMenuShown && <TaskbarShortcutContextMenu id={selectedId} onClose={closeAppPopupMenu} target={targetElement} />}
       <div className='taskbar__container'>
         {batteryStatus && <BatteryStatusButton onClick={handleBatteryStatus} level={batteryStatus.level} charging={batteryStatus.charging} />}
         <Clock />
       </div>
-      {isBatteryPopupShown && <BatterySettingPopup onClose={closeBatteryPopup} leftCoordinate={popupLeftCoordinate} />}
+      {isBatteryPopupShown && <BatterySettingPopup onClose={closeBatteryPopup} target={targetElement} />}
     </div>
   );
 };

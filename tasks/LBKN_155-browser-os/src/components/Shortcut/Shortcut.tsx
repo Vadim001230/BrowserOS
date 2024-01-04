@@ -12,7 +12,7 @@ interface Props {
 
 export const Shortcut = ({ shortcut }: Props) => {
   const [isContextMenuShown, setIsContextMenuShown] = useState(false);
-  const [popupCoordinate, setPopupCoordinate] = useState({ left: 0, top: 0 });
+  const [targetElement, setTargetElement] = useState<HTMLElement>();
 
   const app = getAppByShortcutId(shortcut.id);
 
@@ -22,10 +22,7 @@ export const Shortcut = ({ shortcut }: Props) => {
 
   const handleShortcutContextMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setPopupCoordinate({
-      left: e.clientX,
-      top: e.clientY,
-    });
+    setTargetElement(e.currentTarget);
     setIsContextMenuShown(true);
   };
 
@@ -43,8 +40,7 @@ export const Shortcut = ({ shortcut }: Props) => {
         <DesktopShortcutContextMenu
           id={app.id}
           onClose={() => setIsContextMenuShown(false)}
-          leftCoordinate={popupCoordinate.left}
-          topCoordinate={popupCoordinate.top}
+          target={targetElement}
         />
       )}
     </>
