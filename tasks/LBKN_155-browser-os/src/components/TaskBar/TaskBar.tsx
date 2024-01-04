@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useAppSelector } from '@/hooks/redux';
 import { useBattery } from '@/hooks/useBattery';
-import { openShortcutService } from '@/serviсes/appServices';
-import { getAppsByShortcutsList } from '@/serviсes/shortcutService';
+import { openShortcutService, getAppsByShortcutsList } from '@/serviсes/appServices';
 import { IApp } from '@/types/IApp';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import { BatteryStatusButton } from '@/components/BatteryStatusButton/BatteryStatusButton';

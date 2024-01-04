@@ -1,11 +1,22 @@
 import { store } from '@/store/store';
-import { getAppByShortcutId } from '@/serviсes/shortcutService';
 import { openApp, closeApp } from '@/store/slices/taskbarSlice';
 import { closeWindow, openWindow, toggleMinimizeWindow, focusWindow } from '@/store/slices/windowSlice';
 import { IShortcut } from '@/types/IShortcut';
 import { IApp } from '@/types/IApp';
 
 const dispatch = store.dispatch;
+
+export const getAppsByShortcutsList = (shortcutList: IShortcut[]): IApp[] => {
+  const appsList = store.getState().apps;
+
+  return appsList.filter((app) => shortcutList.some((shortcut) => shortcut.id === app.id));
+};
+
+export const getAppByShortcutId = (id: IShortcut['id']) => {
+  const appsList = store.getState().apps;
+
+  return appsList.find((app) => app.id === id) as IApp;
+};
 
 export const openShortcutService = (action: IShortcut['id']) => {
   const openedApps = store.getState().taskbar.openedApps;

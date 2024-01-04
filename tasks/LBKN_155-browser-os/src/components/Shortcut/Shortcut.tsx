@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { IShortcut } from '@/types/IShortcut';
-import { openShortcutService } from '@/serviсes/appServices';
-import { getAppByShortcutId } from '@/serviсes/shortcutService';
+import { openShortcutService, getAppByShortcutId } from '@/serviсes/appServices';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import { DesktopShortcutContextMenu } from '@/components/DesktopShortcutContextMenu/DesktopShortcutContextMenu';
 import './Shortcut.scss';
