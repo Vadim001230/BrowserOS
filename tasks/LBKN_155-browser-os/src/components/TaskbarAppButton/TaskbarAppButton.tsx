@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { useAppSelector } from '@/hooks/redux';
-import { openShortcutService } from '@/serviсes/appServices';
 import { IApp } from '@/types/IApp';
-import { BaseButton, BaseButtonProps } from '@/components/UI/BaseButton/BaseButton';
+import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import { TaskbarShortcutContextMenu } from '@/components/TaskbarShortcutContextMenu/TaskbarShortcutContextMenu';
+import './TaskbarAppButton.scss';
+import { shortcutService } from '@/serviсes/shortcutService';
 
-interface Props extends Omit<BaseButtonProps, 'children'> {
+interface Props {
   app: IApp;
 }
 
-export const TaskbarAppButton = ({ app, ...attributes }: Props) => {
+export const TaskbarAppButton = ({ app }: Props) => {
   const [isShortcutContextMenuShown, setIsShortcutContextMenuShown] = useState(false);
   const [selectedId, setSelectedId] = useState<IApp['id']>(0);
   const [targetElement, setTargetElement] = useState<HTMLElement>();
@@ -17,9 +18,10 @@ export const TaskbarAppButton = ({ app, ...attributes }: Props) => {
   const win = useAppSelector((state) => state.windows.windows.find((win) => win.id === app.id));
 
   const closeAppPopupMenu = () => setIsShortcutContextMenuShown(false);
+
   const handleAppClick = (id: IApp['id']) => {
     setSelectedId(id);
-    openShortcutService(id);
+    shortcutService.open(id);
   };
 
   const handleAppContextMenu = (e: React.MouseEvent<HTMLButtonElement>, id: IApp['id']) => {
@@ -37,7 +39,6 @@ export const TaskbarAppButton = ({ app, ...attributes }: Props) => {
         onClick={() => handleAppClick(app.id)}
         onContextMenu={(e) => handleAppContextMenu(e, app.id)}
         title={app.title}
-        {...attributes}
       >
         <img src={app.iconURL} alt='' />
       </BaseButton>

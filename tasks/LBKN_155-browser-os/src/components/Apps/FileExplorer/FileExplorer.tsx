@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
-import { FileSystem } from './FileSystem';
+import { FilesGrid } from './FilesGrid';
 import { getCurrentDirectoryFromPath } from '@/utils/tree';
 import { systemTree } from '@/components/Apps/appsConfig';
 import ArrowIcon from '@/assets/icons/arrow.svg';
@@ -48,7 +48,7 @@ export const FileExplorer = () => {
         <div className='file-explorer__path'>:{currentPath}</div>
       </div>
       <div className='file-explorer__grid'>
-        <FileSystem directory={currentDirectory} onFolderDoubleClick={handleFolderDoubleClick} />
+        <FilesGrid directory={currentDirectory} onFolderDoubleClick={handleFolderDoubleClick} />
       </div>
     </div>
   );

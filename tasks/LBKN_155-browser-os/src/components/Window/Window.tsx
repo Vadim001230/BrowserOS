@@ -14,8 +14,8 @@ export const Window = ({
   width = 600,
   height = 500,
   coords = {
-    lastX: 0,
-    lastY: 0,
+    coordX: 0,
+    coordY: 0,
   },
   iconURL,
 }: IWindow) => {
@@ -29,20 +29,22 @@ export const Window = ({
     dispatch(setWindowCoords({ id, coords: { lastX: position.x, lastY: position.y } }));
   };
 
-  const handleDragStop = (data: DraggableData)  => {
+  const handleDragStop = (data: DraggableData) => {
     dispatch(setWindowCoords({ id, coords: { lastX: data.x, lastY: data.y } }));
   };
 
+  const containerClasses = `window-manager ${
+    isFullscreen ? 'window-manager_fullscreen window-manager_transition' : ''
+  } ${
+    isMinimized ? 'window-manager_minimazed window-manager_transition' : ''
+  }`;
+
   return (
     <Rnd
-      className={`window-manager ${
-          isFullscreen ? 'window-manager_fullscreen window-manager_transition' : ''
-        } ${
-          isMinimized ? 'window-manager_minimazed window-manager_transition' : ''
-        }`}
+      className={containerClasses}
       default={{
-        x: coords.lastX,
-        y: coords.lastY,
+        x: coords.coordX,
+        y: coords.coordY,
         width,
         height,
       }}

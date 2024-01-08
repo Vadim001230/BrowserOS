@@ -13,7 +13,8 @@ export interface ContextMenuProps extends HTMLAttributes<HTMLDivElement> {
 export const ContextMenu = ({ children, onClose, target, ...attributes }: ContextMenuProps) => {
   const сontextMenuRef = useClickOutside(onClose) as RefObject<HTMLDivElement>;
   useClickInside(onClose, сontextMenuRef);
-
+  const popupLayer = document.getElementById('popup-layer')!;
+  
   const rect = target?.getBoundingClientRect();
 
   return (
@@ -27,7 +28,7 @@ export const ContextMenu = ({ children, onClose, target, ...attributes }: Contex
         >
           {children}
         </div>,
-        document.body
+        popupLayer
       )}
     </>
   );

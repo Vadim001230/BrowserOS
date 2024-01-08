@@ -7,6 +7,7 @@ export const App = () => {
     <BrowserOS>
       <WindowManager />
       <Desktop />
+      <div id='popup-layer'></div>
     </BrowserOS>
   );
 };

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { weatherApiKey } from '@/components/Apps/appsConfig';
 import './Weather.scss';
 
 interface WeatherData {
@@ -9,24 +10,23 @@ interface WeatherData {
   humidity: number;
 }
 
-const apiKey = '228478b7106e0d3eb8311cb24df1323b';
-
 export const Weather = () => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
-  const [city, setCity] = useState('Grodno');
+  const [city, setCity] = useState('');
 
-  const fetchWeather = async () => {
+  const setWeather = (data: any) => setWeatherData({
+    cityName: data.name,
+    temperature: Math.round(data.main.temp),
+    feelsLike: Math.round(data.main.feels_like),
+    wind: data.wind.speed,
+    humidity: data.main.humidity,
+  });
+
+  const fetchWeatherByCity = async () => {
     try {
-      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherApiKey}&units=metric`);
       const data = await response.json();
-
-      setWeatherData({
-        cityName: data.name,
-        temperature: Math.round(data.main.temp),
-        feelsLike: Math.round(data.main.feels_like),
-        wind: data.wind.speed,
-        humidity: data.main.humidity,
-      });
+      setWeather(data);
     } catch (error) {
       setWeatherData(null);
     }
@@ -34,12 +34,25 @@ export const Weather = () => {
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      fetchWeather();
+      fetchWeatherByCity();
     }
   };
 
   useEffect(() => {
-    fetchWeather();
+    const fetchWeatherByLocation = async () => {
+      try {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+          const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=${weatherApiKey}&units=metric`);
+          const data = await response.json();
+          setWeather(data);
+          setCity(data.name);
+        });
+      } catch (error) {
+        setWeatherData(null);
+      }
+    };
+
+    fetchWeatherByLocation();
   }, []);
 
   return (
@@ -49,13 +62,13 @@ export const Weather = () => {
           Погода в городе:
           <input
             className='weather__search-input'
-            type="text"
+            type='text'
             value={city}
             onChange={(e) => setCity(e.target.value)}
             onKeyDown={handleKeyDown}
           />
         </label>
-        <button onClick={fetchWeather} className='weather__update-btn'>Поиск</button>
+        <button onClick={fetchWeatherByCity} className='weather__update-btn'>Поиск</button>
       </div>
       {weatherData && (
         <div className='weather__info'>

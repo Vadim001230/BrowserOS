@@ -6,7 +6,7 @@ export interface IWindow extends IApp {
   isFullscreen?: boolean;
   isFocused?: boolean;
   coords?: {
-    lastX: number;
-    lastY: number;
+    coordX: number;
+    coordY: number;
   }
 }

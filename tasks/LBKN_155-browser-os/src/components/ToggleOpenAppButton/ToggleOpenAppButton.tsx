@@ -1,6 +1,7 @@
 import { useAppSelector } from '@/hooks/redux';
+import { appService } from '@/serviсes/appService';
+import { shortcutService } from '@/serviсes/shortcutService';
 import { IApp } from '@/types/IApp';
-import { closeAppService, openShortcutService } from '@/serviсes/appServices';
 
 interface Props {
   id: IApp['id'];
@@ -13,9 +14,9 @@ export const ToggleOpenAppButton = ({ id }: Props) => {
 
   const toggleOpenApp = () => {
     if (isAppOpen) {
-      closeAppService({ id });
+      appService.close(id);
     } else {
-      openShortcutService(id);
+      shortcutService.open(id);
     }
   };
 

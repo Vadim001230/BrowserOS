@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { IShortcut } from '@/types/IShortcut';
-import { openShortcutService, getAppByShortcutId } from '@/serviсes/appServices';
+import { shortcutService } from '@/serviсes/shortcutService';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
 import { DesktopShortcutContextMenu } from '@/components/DesktopShortcutContextMenu/DesktopShortcutContextMenu';
 import './Shortcut.scss';
@@ -13,10 +13,10 @@ export const Shortcut = ({ shortcut }: Props) => {
   const [isContextMenuShown, setIsContextMenuShown] = useState(false);
   const [targetElement, setTargetElement] = useState<HTMLElement>();
 
-  const app = getAppByShortcutId(shortcut.id);
+  const app = shortcutService.getAppByShortcutId(shortcut.id);
 
   const handleShortcutDoubleClick = () => {
-    openShortcutService(shortcut.id);
+    shortcutService.open(shortcut.id);
   };
 
   const handleShortcutContextMenu = (e: React.MouseEvent<HTMLButtonElement>) => {

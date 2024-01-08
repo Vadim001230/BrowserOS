@@ -18,42 +18,4 @@
     flex-wrap: nowrap;
     gap: 3px;
   }
-
-  &__app {
-    width: 2.6rem;
-    height: 2.6rem;
-    padding: 0.3rem;
-    border-radius: 5px;
-    transition: scale .4s;
-
-    & img {
-      width: 100%;
-      height: 100%;
-    }
-
-    &:active img {
-      scale: 0.9;
-    }
-
-    &_opened::after {
-      content: "";
-      display: block;
-      bottom: 5px;
-      border-radius: 5px;
-      position: absolute;
-      height: 3px;
-      width: 0.5rem;
-      background-color: #aaaaaa;
-      transition: width .2s;
-    }
-  }
-}
-
-.start-button {
-  filter: brightness(1.5);
-}
-
-.button_checked::after {
-  background-color: #11a1e9;
-  width: 1rem;
 }

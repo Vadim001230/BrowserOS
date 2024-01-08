@@ -11,20 +11,22 @@ export interface PopupProps extends HTMLAttributes<HTMLDivElement> {
 
 export const Popup = ({ children, onClose, target, ...attributes }: PopupProps) => {
   const popupRef = useClickOutside(onClose) as RefObject<HTMLDivElement>;
-
+  const popupLayer = document.getElementById('popup-layer')!;
+  
   const rect = target?.getBoundingClientRect();
 
   return (
     <>
       {createPortal(
         <div
+          {...attributes}
           className={`popup ${attributes.className || ''}`}
           ref={popupRef}
-          style={{ left: `${target?.offsetLeft.toString()}px`, top: `${rect?.top.toString() }px` }}
+          style={{ left: `${target?.offsetLeft.toString()}px`, top: `${rect?.top.toString()}px` }}
         >
           {children}
         </div>,
-        document.body
+        popupLayer
       )}
     </>
   );

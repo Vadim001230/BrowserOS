@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAppSelector } from '@/hooks/redux';
-import { openAppService } from '@/serviсes/appServices';
+import { appService } from '@/serviсes/appService';
 import { IApp } from '@/types/IApp';
 import { Popup } from '@/components/UI/Popup/Popup';
 import { BaseButton } from '@/components/UI/BaseButton/BaseButton';
@@ -19,7 +19,7 @@ export const StartMenu = ({ onClose }: Props) => {
   );
 
   const handleShortcutClick = (app: IApp) => {
-    openAppService(app);
+    appService.open(app);
     onClose();
   };
 

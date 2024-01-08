@@ -48,6 +48,7 @@ const fileExplorer = {
   type: 'app',
 };
 
+
 export const AppsContent: AppsContent = {
   Calculator,
   Weather,
@@ -62,3 +63,5 @@ export const ShortcutsList = [{ id: calculator.id }, { id: notebook.id }, { id: 
 export const FavoritsAppList = [{ id: fileExplorer.id }] as IShortcut[];
 
 export const systemTree = createTreeFromArrayOfPaths(AppsListConfig);
+
+export const weatherApiKey = '228478b7106e0d3eb8311cb24df1323b';
